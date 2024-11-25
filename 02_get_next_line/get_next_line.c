@@ -6,11 +6,51 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 10:47:20 by layang            #+#    #+#             */
-/*   Updated: 2024/11/25 13:36:21 by layang           ###   ########.fr       */
+/*   Updated: 2024/11/25 20:03:00 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+static char buffer[BUFFER_SIZE];
+
+static char	*process_buffer(char	*line, size_t *len, ssize_t *bytes_read)
+{
+	size_t	index;
+
+	if (find_newline(buffer, *bytes_read, &index))
+	{
+		line = alloc_copy(line, *len, buffer, index + 1);
+		if (!line)
+			return (NULL);
+		ft_memmove(buffer, buffer + index + 1, *bytes_read - index - 1);
+		buffer[*bytes_read - index - 1] = '\0';
+		return (line);
+	}
+	line = alloc_copy(line, *len, buffer, *bytes_read);
+	if (!line)
+		return (NULL);
+	*len += *bytes_read;
+	return (line);
+}
+
+static char *read_and_process(int fd, char *line, size_t *len)
+{
+	ssize_t bytes_read;
+
+	bytes_read = ft_strlen(buffer);
+	while (bytes_read > 0 || (bytes_read = read(fd, buffer, BUFFER_SIZE)) > 0)
+	{
+		line = process_buffer(line, len, &bytes_read);
+		if (line)
+			return (line);
+		bytes_read = read(fd, buffer, BUFFER_SIZE);
+	}
+	if (bytes_read == 0 && *len > 0)
+		return (line);
+	free(line);
+	return (NULL);
+}
 
 char	*get_next_line(int fd)
 {

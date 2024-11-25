@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 10:53:22 by layang            #+#    #+#             */
-/*   Updated: 2024/11/24 12:39:15 by layang           ###   ########.fr       */
+/*   Updated: 2024/11/25 13:39:44 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,7 @@
 # define BUFFER_SIZE 1024
 #endif
 
+char	*read_and_process(int fd, char	*line, size_t *len);
+char	*get_next_line(int fd);
 
 #endif

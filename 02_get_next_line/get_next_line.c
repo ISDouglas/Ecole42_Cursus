@@ -6,64 +6,21 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 10:47:20 by layang            #+#    #+#             */
-/*   Updated: 2024/11/24 12:40:15 by layang           ###   ########.fr       */
+/*   Updated: 2024/11/25 13:36:21 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char *read_line(int fd)
+char	*get_next_line(int fd)
 {
-	char buffer[BUFFER_SIZE];
-	char *line = NULL;
-	size_t len = 0;
-	ssize_t bytes_read;
+	char	*line;
+	size_t	len;
 
-	while ((bytes_read = read(fd, buffer, BUFFER_SIZE)) > 0)
-	{
-		for (ssize_t i = 0; i < bytes_read; i++)
-		{
-			if (buffer[i] == '\n')
-			{
-				char *new_line = malloc(len + i + 2);
-				if (!new_line)
-				{
-					free(line);
-					return NULL;
-				}
-				if (line)
-				{
-					memcpy(new_line, line, len);
-					free(line);
-				}
-				memcpy(new_line + len, buffer, i + 1);
-				new_line[len + i + 1] = '\0';
-				lseek(fd, -(bytes_read - i - 1), SEEK_CUR);
-				return new_line;
-			}
-		}
-		char *new_line = malloc(len + bytes_read);
-		if (!new_line)
-		{
-			free(line);
-			return NULL;
-		}
-		if (line)
-		{
-			memcpy(new_line, line, len);
-			free(line);
-		}
-		memcpy(new_line + len, buffer, bytes_read);
-		len += bytes_read;
-		line = new_line;
-	}
-	if (bytes_read == 0 && len > 0)
-	{
-		line[len] = '\0';
-		return line;
-	}
-	free(line);
-	return NULL;
+	line = NULL;
+	len = 0;
+	line = read_and_process(fd, line, &len);
+	return (line);
 }
 
 /* int main()

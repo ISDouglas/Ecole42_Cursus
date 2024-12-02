@@ -6,89 +6,15 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 10:47:20 by layang            #+#    #+#             */
-/*   Updated: 2024/12/02 11:23:16 by layang           ###   ########.fr       */
+/*   Updated: 2024/12/02 14:40:34 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-/* static char	*get_line(char	*res)
-{
-	char	*line;
-	int		len;
-	int		i;
-
-	if (ft_strchr(res, '\n'))
-		len = ft_strchr(res, '\n') - res + 1;
-	else
-		len = ft_strlen(res);
-	line = (char *)malloc(len + 1);
-	if (!line)
-		return (NULL);
-	i = 0;
-	while (i < len)
-	{
-		line[i] = res[i];
-		i++;
-	}
-	line[i] = '\0';
-	return (line);
-}
-
-static char	*res_afterline(char	*res)
-{
-	char	*for_free;
-	char	*new_res;
-
-	for_free = res;
-	if (ft_strchr(res, '\n'))
-		new_res = ft_strdup(ft_strchr(res, '\n') + 1);
-	else
-		new_res = ft_strdup("");
-	free(for_free);
-	for_free = NULL;
-	return (new_res);
-}
-
-static char	*read_line(int fd, char	*res, char	*buffer)
-{
-	ssize_t	bytes;
-	char	*for_free;
-	char	*line;
-	
-	bytes = 1;
-	while (bytes > 0)
-	{
-		bytes = read(fd, buffer, BUFFER_SIZE);
-		if (bytes == -1)
-			return (NULL);
-		buffer[bytes] = '\0';
-		for_free = res;
-		res = ft_strjoin(for_free, buffer);
-		free(for_free);
-		for_free = NULL;
-		if (ft_strchr(buffer, '\n'))
-			break;
-	}
-	line = get_line(res);
-	res = res_afterline(res);
-	return (line);
-}
-
-char	*get_next_line(int fd)
-{
-	char	*line;
-	static char	buffer[BUFFER_SIZE];
-	char	*res;
-	
-	line = NULL;
-	res = NULL;
-	line = read_line(fd, res, buffer);
-	if (!line)
-		return (NULL);
-	return (line);
-} */
-
+/* if (!res || *res == '\0')
+	return (NULL);
+ */
 static char	*get_line(char *res)
 {
 	char	*line;
@@ -124,25 +50,26 @@ static char	*res_afterline(char *res)
 	return (new_res);
 }
 
-static char	*read_line(int fd, char **res)
+static char	*read_line(int fd, char	**res, char	*buffer)
 {
 	ssize_t	bytes;
-	char	buffer[BUFFER_SIZE + 1];
 	char	*for_free;
 
 	while (1)
 	{
 		if (ft_strchr(*res, '\n'))
-			break;
+			break ;
 		bytes = read(fd, buffer, BUFFER_SIZE);
 		if (bytes == -1)
 			return (NULL);
 		if (bytes == 0)
-			break;
+			break ;
 		buffer[bytes] = '\0';
 		for_free = *res;
 		*res = ft_strjoin(for_free, buffer);
 		free(for_free);
+		if (!*res)
+			return (NULL);
 	}
 	if (**res == '\0')
 		return (NULL);
@@ -153,15 +80,21 @@ char	*get_next_line(int fd)
 {
 	static char	*res;
 	char		*line;
+	char		*buffer;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
+	buffer = (char *)malloc(BUFFER_SIZE + 1);
+	if (!buffer)
+		return (NULL);
 	if (!res)
 		res = ft_strdup("");
-	line = read_line(fd, &res);
+	line = read_line(fd, &res, buffer);
+	free(buffer);
 	if (!line)
 	{
-		free(res);
+		if (res)
+			free(res);
 		res = NULL;
 		return (NULL);
 	}
@@ -169,6 +102,7 @@ char	*get_next_line(int fd)
 	return (line);
 }
 
+/* 
 #include <fcntl.h>
 #include <stdio.h>
 
@@ -199,8 +133,8 @@ int main(int argc, char **argv)
 	// Close the file when done
 	close(fd);
 	return (0);
-}
+} */
 /* 
-cc get_next_line.c get_next_line_utils.c -Wall -Wextra -Werror 
+cc get_next_line.c get_next_line_utils.c -Wall -Wextra -Werror -D BUFFER_SIZE=1 
 ./a.out test.txt 
  */

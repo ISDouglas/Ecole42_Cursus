@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 10:47:20 by layang            #+#    #+#             */
-/*   Updated: 2024/12/02 14:40:34 by layang           ###   ########.fr       */
+/*   Updated: 2024/12/03 14:16:29 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,11 @@ int main(int argc, char **argv)
 	close(fd);
 	return (0);
 } */
-/* 
-cc get_next_line.c get_next_line_utils.c -Wall -Wextra -Werror -D BUFFER_SIZE=1 
-./a.out test.txt 
+/*
+cc get_next_line.c get_next_line_utils.c -Wall -Wextra -Werror -D BUFFER_SIZE=1
+./a.out test.txt
+cc -g -Wall -Wextra -Werror -o program get_next_line.c get_next_line_utils.c
+cc -g -Wall -Wextra -Werror -o program get_next_line_bonus.c
+ get_next_line_utils_bonus.c
+./program
  */

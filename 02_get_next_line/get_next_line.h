@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 10:53:22 by layang            #+#    #+#             */
-/*   Updated: 2024/12/02 12:52:52 by layang           ###   ########.fr       */
+/*   Updated: 2024/12/03 13:12:28 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
 # include <unistd.h>
 # include <stdlib.h>
 
-/* #ifndef BUFFER_SIZE
-# define BUFFER_SIZE 1000
-#endif */
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 1000
+# endif
 
 size_t	ft_strlen(const char	*str);
 char	*ft_strdup(const char	*src);

@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 14:52:03 by layang            #+#    #+#             */
-/*   Updated: 2024/12/03 14:16:48 by layang           ###   ########.fr       */
+/*   Updated: 2024/12/04 13:25:53 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,16 +87,26 @@ char	*ft_strchr(const char	*s, int c)
 		return ((char *)s);
 	return (NULL);
 }
-
-void	free_list(t_fd	*head)
+/* 
+t_fd	*delete_fd_state(t_fd	*list, int fd)
 {
-	t_fd	*temp;
+	t_fd	*current = list;
+	t_fd	*prev = NULL;
 
-	while (head)
+	while (current)
 	{
-		temp = head;
-		head = head->next;
-		free(temp->res);
-		free(temp);
+		if (current->fd == fd)
+		{
+			if (prev)
+				prev->next = current->next;
+			else
+				head = current->next;
+			free(current->res);
+			free(current);
+			return (list);
+		}
+		prev = current;
+		current = current->next;
 	}
-}
+	return (list);
+} */

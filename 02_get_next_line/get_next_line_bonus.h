@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 14:51:50 by layang            #+#    #+#             */
-/*   Updated: 2024/12/03 14:15:37 by layang           ###   ########.fr       */
+/*   Updated: 2024/12/04 13:25:44 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,12 @@ typedef struct s_fd
 {
 	int			fd;
 	char		*res;
-	struct s_fd	*next;
 }	t_fd;
 
 size_t	ft_strlen(const char	*str);
 char	*ft_strdup(const char	*src);
 char	*ft_strjoin(char const	*s1, char const	*s2);
 char	*ft_strchr(const char	*s, int c);
-void	free_list(t_fd	*head);
 
 char	*get_next_line(int fd);
 

@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 14:51:31 by layang            #+#    #+#             */
-/*   Updated: 2024/12/04 15:07:10 by layang           ###   ########.fr       */
+/*   Updated: 2024/12/05 10:38:36 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static char	*read_line(int fd, char	**res, char	*buffer)
 		if (!*res)
 			return (NULL);
 	}
-	if (**res == '\0')
+	if (!*res || **res == '\0')
 		return (NULL);
 	return (get_line(*res));
 }

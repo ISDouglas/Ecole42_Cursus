@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 14:51:31 by layang            #+#    #+#             */
-/*   Updated: 2024/12/05 10:38:36 by layang           ###   ########.fr       */
+/*   Updated: 2024/12/05 14:46:03 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static char	*read_line(int fd, char	**res, char	*buffer)
 
 char	*get_next_line(int fd)
 {
-	static t_fd	state[4096];
+	static char	*res[4096];
 	char		*line;
 	char		*buffer;
 
@@ -87,16 +87,16 @@ char	*get_next_line(int fd)
 	buffer = (char *)malloc(BUFFER_SIZE + 1);
 	if (!buffer)
 		return (NULL);
-	if (!state[fd].res)
-		state[fd].res = ft_strdup("");
-	line = read_line(fd, &state[fd].res, buffer);
+	if (!res[fd])
+		res[fd] = ft_strdup("");
+	line = read_line(fd, &res[fd], buffer);
 	free(buffer);
 	if (!line)
 	{
-		free(state[fd].res);
-		state[fd].res = NULL;
+		free(res[fd]);
+		res[fd] = NULL;
 		return (NULL);
 	}
-	state[fd].res = res_afterline(state[fd].res);
+	res[fd] = res_afterline(res[fd]);
 	return (line);
 }

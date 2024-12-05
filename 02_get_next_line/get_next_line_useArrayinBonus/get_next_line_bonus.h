@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 14:51:50 by layang            #+#    #+#             */
-/*   Updated: 2024/12/04 13:25:44 by layang           ###   ########.fr       */
+/*   Updated: 2024/12/05 14:44:59 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,6 @@
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1000
 # endif
-
-typedef struct s_fd
-{
-	int			fd;
-	char		*res;
-}	t_fd;
 
 size_t	ft_strlen(const char	*str);
 char	*ft_strdup(const char	*src);

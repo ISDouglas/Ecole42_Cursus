@@ -1,35 +1,62 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   index.c                                            :+:      :+:    :+:   */
+/*   put_a_index.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/13 21:24:52 by layang            #+#    #+#             */
-/*   Updated: 2025/01/13 21:34:41 by layang           ###   ########.fr       */
+/*   Created: 2025/01/14 10:35:41 by layang            #+#    #+#             */
+/*   Updated: 2025/01/14 11:13:27 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../push_swap.h"
 
+int min_nbr(t_list *a)
+{
+	t_list	*tmp;
+	int	min;
 
-void put_index(int *sort_a, t_list	*res)
+	tmp = a;
+	min = tmp->content;
+	while (tmp)
+	{
+		if (tmp->index == -1 && tmp->content < min)
+			min = tmp->content;
+		tmp = tmp->next;
+	}
+	return (min);
+}
+
+void put_index(t_list *a, int min, int	index)
+{
+	t_list	*tmp;
+
+	tmp = a;
+	while (tmp)
+	{
+		if (tmp->index == -1 && tmp->content == min)
+			break ;
+		tmp = tmp->next;
+	}
+	tmp->index = index;
+}
+
+void	index_a(t_list	*a, int len)
 {
 	int	i;
+	int	min;
 
-	while (res)
+	i = 0;
+	while (i < len)
 	{
-		i = 0;
-		while (sort_a[i])
-		{
-			if (res->content == sort_a[i])
-				res->index = i;
-			i++;
-		}
-		res = res->next;
+		min = min_nbr(a);
+		put_index(a, min, i);
+		i++;
 	}
 }
-void	index(char	**av, int nb)
+
+t_list	*put_a(char	**av, int nb)
 {
 	t_list	*t;
 	t_list	*res;
@@ -44,6 +71,6 @@ void	index(char	**av, int nb)
 		t->index = -1;
 		i++;
 	}
-	sort_int_tab(sort_a, nb);
-	put_index(sort_a, &res);
+	return (res);
 }
+

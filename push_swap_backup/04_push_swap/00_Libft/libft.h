@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 17:20:46 by layang            #+#    #+#             */
-/*   Updated: 2025/01/13 21:07:24 by layang           ###   ########.fr       */
+/*   Updated: 2024/11/12 12:10:22 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,9 @@
 
 typedef struct s_list
 {
-	long int *content;
-	int flag;
-	int index;
-	struct s_list *next;
-} t_list;
+	void			*content;
+	struct s_list	*next;
+}	t_list;
 
 // functions mandatory
 int		ft_atoi(const char *str);

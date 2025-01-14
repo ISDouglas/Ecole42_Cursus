@@ -6,22 +6,36 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 14:04:14 by layang            #+#    #+#             */
-/*   Updated: 2024/12/25 14:31:04 by layang           ###   ########.fr       */
+/*   Updated: 2025/01/14 10:45:42 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 
-typedef struct s_stacks
+# include "./00_Libft/libft.h"
+# include "./01_ft_printf/ft_printf.h"
+
+typedef struct s_stack
 {
-	int	*a;
-	int	*b;
-	int	size_a;
+	t_list *a;
+	t_list *b;
+	int size_a;
 	int size_b;
-}	t_stacks;
+} t_stack;
+
+typedef struct s_push
+{
+	int next;
+	int max;
+	int mid;
+	int flag;
+} t_push;
+
+void index(char **av, int nb);
 
 # include <unistd.h>
 # include <stdlib.h>
+# include <limits.h>
 
 #endif

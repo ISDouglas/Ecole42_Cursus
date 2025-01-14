@@ -6,14 +6,15 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 14:03:35 by layang            #+#    #+#             */
-/*   Updated: 2025/01/13 22:09:02 by layang           ###   ########.fr       */
+/*   Updated: 2024/12/26 10:13:16 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+#include "./00_Libft/libft.h"
+#include "./01_ft_printf/ft_printf.h"
 
-
-/* static char **free_array(char **ptr, int i)
+static char **free_array(char **ptr, int i)
 {
 	while (i > 0)
 	{
@@ -102,7 +103,7 @@ char **ft_split(char const *s, char c)
 		return (0);
 	s2 = split_words(s, c, s2, num_words);
 	return (s2);
-} */
+}
 
 int ft_atoi_ctl(const char *str)
 {
@@ -132,6 +133,32 @@ int ft_atoi_ctl(const char *str)
 	return (num * sign);
 }
 
+void	push_swap(char **av, int nb)
+{
+	t_stacks t;
+	int	i;
+
+	i = -1;
+	t.a = malloc(nb * sizeof(int));
+	if (!t.a)
+		return ;
+	t.size_a = nb;
+	t.b = malloc(nb * sizeof(int));
+	if (!t.b)
+	{
+		free(t.a);
+		return ;
+	}
+	t.size_b = 0;
+	while (++i < nb)
+	{
+		t.a[i] = ft_atoi_ctl(av[i]);
+		//ft_printf("%d\n", t.a[i]);
+	}
+	sort(&t, nb);
+	free(t.a);
+	free(t.b);
+}
 
 int check_repeat(char **av, int nb)
 {
@@ -145,21 +172,20 @@ int check_repeat(char **av, int nb)
 		while (j < nb)
 		{
 			if (ft_atoi_ctl(av[i]) == ft_atoi_ctl(av[j]))
+			{
+				write(1, "Error\n", 6);
 				return (1);
+			}
 			j++;
 		}
 		i++;
 	}
-	//write(1, "Ok\n", 3);
+	write(1, "Ok\n", 3);
+	push_swap(av, nb);
 	return (0);
 }
 
-void	push_swap(char	**av,int nb)
-{
-	t_stack 
-}
-
-int main(int ac, char **av)
+int	main(int ac, char	**av)
 {
 	int	nb;
 
@@ -175,16 +201,13 @@ int main(int ac, char **av)
 		{
 			if (ft_atoi_ctl(av[nb]) == 0 && av[nb][0] != '0')
 			{
-				ft_putstr_fd("Error\n", 2);
-				return (0);
+				write(1, "Error\n", 6);
+				return (1);
 			}
 			nb++;
 		}
 	}
-	if (check_repeat(av, nb))
-		ft_putstr_fd("Error\n", 2);
-	else
-		push_swap(av, nb);
+	check_repeat(av, nb);
 	return (0);
 }
 /*

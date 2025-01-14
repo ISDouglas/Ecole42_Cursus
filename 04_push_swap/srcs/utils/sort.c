@@ -6,21 +6,49 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 16:19:52 by layang            #+#    #+#             */
-/*   Updated: 2024/12/26 11:11:34 by layang           ###   ########.fr       */
+/*   Updated: 2025/01/14 12:03:57 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "../push_swap.h"
 
-void	free_stacks(t_stacks	t)
+void free_stacks(t_stack **t)
 {
-	free(t.a);
-	free(t.b);
+	t_list *tmp;
+	t_list *next;
+	
+	tmp = (*t)->a;
+	while (tmp)
+	{
+		next = tmp->next;
+		free(tmp);
+		tmp = next;
+	}
+	tmp = (*t)->b;
+	while (tmp)
+	{
+		next = tmp->next;
+		free(tmp);
+		tmp = next;
+	}
+	free(*t);
 }
 
-void	sort(t_stacks	t, int nb)
+void	is_sort(t_list	**t)
 {
-	if (is_sorted(t.a, t.size_a))
-		free_stacks(t);
+	t_list	*tmp;
+
+	tmp = *t;
+	while (tmp && tmp->next)
+	{
+		if (tmp->content > tmp->next->content)
+			return (0);
+		tmp = tmp->next;
+	}
+	return (1);	
+}
+
+void	sort_2_or_3_nbr(t_stack *tab, int nb)
+{
 	
 }

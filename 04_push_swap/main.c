@@ -6,15 +6,14 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 14:03:35 by layang            #+#    #+#             */
-/*   Updated: 2024/12/26 10:13:16 by layang           ###   ########.fr       */
+/*   Updated: 2025/01/14 12:03:44 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-#include "./00_Libft/libft.h"
-#include "./01_ft_printf/ft_printf.h"
 
-static char **free_array(char **ptr, int i)
+
+/* static char **free_array(char **ptr, int i)
 {
 	while (i > 0)
 	{
@@ -103,7 +102,7 @@ char **ft_split(char const *s, char c)
 		return (0);
 	s2 = split_words(s, c, s2, num_words);
 	return (s2);
-}
+} */
 
 int ft_atoi_ctl(const char *str)
 {
@@ -133,32 +132,6 @@ int ft_atoi_ctl(const char *str)
 	return (num * sign);
 }
 
-void	push_swap(char **av, int nb)
-{
-	t_stacks t;
-	int	i;
-
-	i = -1;
-	t.a = malloc(nb * sizeof(int));
-	if (!t.a)
-		return ;
-	t.size_a = nb;
-	t.b = malloc(nb * sizeof(int));
-	if (!t.b)
-	{
-		free(t.a);
-		return ;
-	}
-	t.size_b = 0;
-	while (++i < nb)
-	{
-		t.a[i] = ft_atoi_ctl(av[i]);
-		//ft_printf("%d\n", t.a[i]);
-	}
-	sort(&t, nb);
-	free(t.a);
-	free(t.b);
-}
 
 int check_repeat(char **av, int nb)
 {
@@ -172,20 +145,43 @@ int check_repeat(char **av, int nb)
 		while (j < nb)
 		{
 			if (ft_atoi_ctl(av[i]) == ft_atoi_ctl(av[j]))
-			{
-				write(1, "Error\n", 6);
 				return (1);
-			}
 			j++;
 		}
 		i++;
 	}
-	write(1, "Ok\n", 3);
-	push_swap(av, nb);
+	//write(1, "Ok\n", 3);
 	return (0);
 }
 
-int	main(int ac, char	**av)
+void	push_swap(char	**av,int nb)
+{
+	t_stack	*tab;
+
+	tab->a = put_a(av, nb);
+	if (tab->a == NULL)
+	{
+		ft_putstr_fd("Error\n", 2);
+		return (NULL);
+	}
+	tab->b = NULL;
+	tab->size_a = nb;
+	tab->size_a = ft_lstsize(tab->b);
+	index_a(tab->a, tab->size_a);
+	if (is_sorted(tab->a))
+	{
+		free_stacks(&tab);
+		return ;
+	}
+	if (nb == 2 || nb == 3)
+		sort_2_or_3_nbr(tab, nb);
+	else if (nb == 5)
+		sort_5_nbr(tab, nb);
+	else
+		quick_sort(&tab->a, &tab->b, nb);
+}
+
+int main(int ac, char **av)
 {
 	int	nb;
 
@@ -201,13 +197,16 @@ int	main(int ac, char	**av)
 		{
 			if (ft_atoi_ctl(av[nb]) == 0 && av[nb][0] != '0')
 			{
-				write(1, "Error\n", 6);
-				return (1);
+				ft_putstr_fd("Error\n", 2);
+				return (0);
 			}
 			nb++;
 		}
 	}
-	check_repeat(av, nb);
+	if (check_repeat(av, nb))
+		ft_putstr_fd("Error\n", 2);
+	else
+		push_swap(av, nb);
 	return (0);
 }
 /*

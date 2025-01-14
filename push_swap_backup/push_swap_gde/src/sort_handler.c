@@ -3,14 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   sort_handler.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jdecorte <jdecorte@student.42.fr>          +#+  +:+       +#+        */
+/*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 16:00:59 by decortejohn       #+#    #+#             */
-/*   Updated: 2022/02/27 16:42:13 by jdecorte         ###   ########.fr       */
+/*   Updated: 2025/01/14 11:27:23 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pushswap.h"
+
+void free_stacks(t_swap **t)
+{
+	t_list *tmp;
+	t_list *next;
+
+	tmp = (*t)->stack_a;
+	while (tmp)
+	{
+		next = tmp->next;
+		free(tmp);
+		tmp = next;
+	}
+	tmp = (*t)->stack_b;
+	while (tmp)
+	{
+		next = tmp->next;
+		free(tmp);
+		tmp = next;
+	}
+	free(*t);
+}
 
 void	sort_3nbr(t_swap *tab)
 {
@@ -66,7 +88,10 @@ void	check_sort(t_swap	*tab)
 
 	len = ft_lstsize(tab->stack_a);
 	if (check_sorting(&tab->stack_a))
+	{
+		free_stacks(&tab);
 		return ;
+	}
 	if (len == 2)
 	{
 		if (tab->stack_a->content > tab->stack_a->next->content)

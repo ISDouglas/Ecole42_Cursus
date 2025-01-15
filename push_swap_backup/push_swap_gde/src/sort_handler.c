@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 16:00:59 by decortejohn       #+#    #+#             */
-/*   Updated: 2025/01/14 11:27:23 by layang           ###   ########.fr       */
+/*   Updated: 2025/01/15 13:34:22 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,4 +103,5 @@ void	check_sort(t_swap	*tab)
 		sort_5nbr(tab);
 	else
 		quick_sort(&tab->stack_a, &tab->stack_b, ft_lstsize(tab->stack_a));
+	free_stacks(&tab);
 }

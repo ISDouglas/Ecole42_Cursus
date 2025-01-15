@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 14:03:35 by layang            #+#    #+#             */
-/*   Updated: 2025/01/14 12:03:44 by layang           ###   ########.fr       */
+/*   Updated: 2025/01/15 13:13:05 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,8 +123,7 @@ int ft_atoi_ctl(const char *str)
 	}
 	while (str[i] >= '0' && str[i] <= '9')
 	{
-		if ((num * 10 + (str[i] - '0')) > 2147483647 ||
-			(num * 10 + (str[i] - '0')) < -2147483648)
+		if (num > (2147483647 - (str[i] - '0')) / 10)
 			return (0);
 		num = num * 10 + (str[i] - '0');
 		i++;
@@ -167,12 +166,12 @@ void	push_swap(char	**av,int nb)
 	tab->b = NULL;
 	tab->size_a = nb;
 	tab->size_a = ft_lstsize(tab->b);
-	index_a(tab->a, tab->size_a);
-	if (is_sorted(tab->a))
+	if (is_sorted(&tab->a))
 	{
 		free_stacks(&tab);
 		return ;
 	}
+	index_a(tab->a, tab->size_a);
 	if (nb == 2 || nb == 3)
 		sort_2_or_3_nbr(tab, nb);
 	else if (nb == 5)

@@ -6,11 +6,27 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 10:35:41 by layang            #+#    #+#             */
-/*   Updated: 2025/01/14 11:13:27 by layang           ###   ########.fr       */
+/*   Updated: 2025/01/15 13:29:25 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../push_swap.h"
+
+int	find_max_index(t_list	**lst)
+{
+	t_list	*tmp;
+	int	max_index;
+	
+	tmp = *lst;
+	max_index = tmp->index;
+	while (tmp)
+	{
+		if (tmp->index > max_index)
+			max_index = tmp->index;
+		tmp = tmp->next;
+	}
+	return (max_index);
+}
 
 int min_nbr(t_list *a)
 {

@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 14:03:35 by layang            #+#    #+#             */
-/*   Updated: 2025/01/20 20:42:39 by layang           ###   ########.fr       */
+/*   Updated: 2025/01/22 15:25:58 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,26 +131,32 @@ int ft_atoi_ctl(const char *str)
 	return (num * sign);
 }
 
-static int check_repeat(char **av, int nb)
+static int check_repeat(char **av, int nb, int ac)
 {
 	int i;
 	int j;
 
 	i = 0;
 	if (nb == 1)
+	{
+		free_array(av, nb);
 		return (1);
+	}
 	while (i < nb)
 	{
 		j = i + 1;
 		while (j < nb)
 		{
 			if (ft_atoi_ctl(av[i]) == ft_atoi_ctl(av[j]))
+			{
+				if (ac == 2)
+					free_array(av, nb);
 				return (1);
+			}	
 			j++;
 		}
 		i++;
 	}
-	//write(1, "Ok\n", 3);
 	return (0);
 }
 
@@ -294,9 +300,7 @@ int	main(int ac, char **av)
 			nb++;
 		}
 	}
-	if (nb == 1)
-		free_array(av, 1);
-	if (check_repeat(av, nb))
+	if (check_repeat(av, nb, ac))
 		ft_putstr_fd("Error\n", 2);
 	else
 		push_swap(av, nb, ac);

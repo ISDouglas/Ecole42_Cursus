@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 12:15:14 by layang            #+#    #+#             */
-/*   Updated: 2025/02/02 12:15:20 by layang           ###   ########.fr       */
+/*   Updated: 2025/02/03 17:15:40 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,15 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-void	exec_cmd(char *cmd, char **envp)
+/* void	exec_cmd(char *cmd, char **envp)
+{
+	char *args[] = {"/bin/sh", "-c", cmd, NULL};
+	execve("/bin/sh", args, envp);
+	perror("execve");
+	exit(1);
+} */
+
+void exec_cmd(char *cmd, char **envp)
 {
 	char *args[] = {"/bin/sh", "-c", cmd, NULL};
 	execve("/bin/sh", args, envp);
@@ -94,3 +102,7 @@ int	main(int argc, char **argv, char **envp)
 	close(outfile);
 	return (0);
 }
+
+/*
+< input.txt ls -l | wc -l > output.txt
+*/

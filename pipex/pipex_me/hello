@@ -1,0 +1,2 @@
+#!/bin/bash
+echo -e "Hello, you are using Lena's computer! \U1F60A"

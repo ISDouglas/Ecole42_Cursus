@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 16:48:42 by layang            #+#    #+#             */
-/*   Updated: 2025/02/03 17:10:13 by layang           ###   ########.fr       */
+/*   Updated: 2025/02/04 18:21:41 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <unistd.h>
 # include <sys/types.h>
+# include <fcntl.h>
 # include "libft/libft.h"
 
 

@@ -6,7 +6,7 @@
 #    By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/07 17:08:57 by layang            #+#    #+#              #
-#    Updated: 2024/11/13 12:05:08 by layang           ###   ########.fr        #
+#    Updated: 2025/02/05 12:11:42 by layang           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,7 @@ all: $(NAME)
 
 # Bonus rule
 bonus: $(OBJS) $(OBJSBONUS)
-	$(AR) $(NAME) $(OBJSBONUS)
+	$(AR) $(NAME) $(OBJS) $(OBJSBONUS) 
 	$(RANLIB) $(NAME)
 
 # Compile source files to object files

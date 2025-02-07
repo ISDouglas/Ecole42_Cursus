@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 17:20:46 by layang            #+#    #+#             */
-/*   Updated: 2024/11/12 12:10:22 by layang           ###   ########.fr       */
+/*   Updated: 2025/02/07 12:23:37 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,12 @@ void	ft_lstdelone(t_list	*lst, void (*del)(void	*));
 void	ft_lstclear(t_list	**lst, void (*del)(void	*));
 void	ft_lstiter(t_list	*lst, void (*f)(void	*));
 t_list	*ft_lstmap(t_list	*lst, void	*(*f)(void	*), void	(*del)(void	*));
+
+
+// source of get next line
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 1000
+# endif
+char	*get_next_line(int fd);
 
 #endif

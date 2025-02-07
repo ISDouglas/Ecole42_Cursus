@@ -6,7 +6,7 @@
 #    By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/05 11:53:48 by layang            #+#    #+#              #
-#    Updated: 2025/02/05 13:39:24 by layang           ###   ########.fr        #
+#    Updated: 2025/02/07 15:19:20 by layang           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,12 +23,11 @@ RM = rm -rf
 SRCS = 	./pipex.c\
 		pipex_utils.c
 
-#SRCS_BONUS = srcs_bonus/checker.c\
-			srcs_bonus/checker_utils.c
-			
-#OBJS = $(SRCS:.c=.o)
+SRCS_BONUS = ./pipex_bonus.c\
+			pipex_utils.c\
+			pipex_utils_bonus.c
 
-$(NAME) : $(SRCS)
+$(NAME) : 
 	make bonus -C libft
 	cc $(CFLAGS) $(SRCS) -o $(NAME) -Llibft -lft
 
@@ -43,7 +42,10 @@ clean :
 
 re : fclean all
 
-#bonus : 
-#	gcc $(CFLAGS) $(SRCS_BONUS) -Llibft -lft -o checker
+bonus :
+	$(RM) $(NAME)
+	make fclean
+	make bonus -C libft
+	cc $(CFLAGS) $(SRCS_BONUS) -o $(NAME) -Llibft -lft
 	
 .PHONY: all bonus clean fclean re

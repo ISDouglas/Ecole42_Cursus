@@ -6,7 +6,7 @@
 #    By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/07 17:08:57 by layang            #+#    #+#              #
-#    Updated: 2025/02/05 12:11:42 by layang           ###   ########.fr        #
+#    Updated: 2025/02/07 12:26:23 by layang           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,9 @@ SRCS = ./ft_atoi.c ./ft_itoa.c ./ft_putnbr_fd.c ./ft_strlcpy.c ./ft_tolower.c \
        ./ft_isalpha.c ./ft_memmove.c ./ft_strdup.c ./ft_strnstr.c \
        ./ft_isascii.c ./ft_memset.c  ./ft_strrchr.c ./ft_strmapi.c\
        ./ft_isdigit.c ./ft_putchar_fd.c ./ft_strjoin.c ./ft_strtrim.c \
-       ./ft_isprint.c ./ft_putendl_fd.c ./ft_strlcat.c ./ft_substr.c
+       ./ft_isprint.c ./ft_putendl_fd.c ./ft_strlcat.c ./ft_substr.c\
+       ./get_next_line.c
+       
 SRCSBONUS = ./ft_lstnew_bonus.c ./ft_lstadd_front_bonus.c \
             ./ft_lstsize_bonus.c ./ft_lstlast_bonus.c \
             ./ft_lstadd_back_bonus.c ./ft_lstdelone_bonus.c \

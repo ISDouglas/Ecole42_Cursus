@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 16:48:42 by layang            #+#    #+#             */
-/*   Updated: 2025/02/05 14:06:43 by layang           ###   ########.fr       */
+/*   Updated: 2025/02/07 15:06:36 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,7 @@ void	child(char	*cmd, char	*file, int *pipe, char	**env);
 void	parent(char	*cmd, char	*file, int *pipe, char	**env);
 
 // Bonus part
+void	error_bonus(int sign);
+int		open_mode(char	*file, int mode);
 
 #endif

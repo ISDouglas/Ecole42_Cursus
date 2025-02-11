@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+         #
+#    By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/08 11:07:37 by gcollet           #+#    #+#              #
-#    Updated: 2022/02/06 10:24:56 by gcollet          ###   ########.fr        #
+#    Updated: 2025/02/09 12:57:20 by layang           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,7 @@ ${PROG_B}:	${OBJS_B}
 					@$(CC) ${OBJS_B} -Llibft -lft -o ${PROG_B}
 					@echo "\033[32mPipex Bonus Compiled! ᕦ(\033[31m♥\033[32m_\033[31m♥\033[32m)ᕤ\n"
 
-clean:
+clean:	
 					@make clean -C ./libft
 					@rm -f ${OBJS} ${OBJS_B}
 

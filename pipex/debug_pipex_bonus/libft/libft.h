@@ -6,9 +6,12 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 17:20:46 by layang            #+#    #+#             */
-/*   Updated: 2025/02/09 13:07:17 by layang           ###   ########.fr       */
+/*   Updated: 2025/02/13 11:05:13 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+// this version of libft solved the boundary control problem in strncmp.
+// and the included an update version of get next line.
 
 #ifndef LIBFT_H
 # define LIBFT_H

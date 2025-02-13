@@ -6,14 +6,15 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 10:47:20 by layang            #+#    #+#             */
-/*   Updated: 2025/02/07 12:26:04 by layang           ###   ########.fr       */
+/*   Updated: 2025/02/13 11:03:27 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/* if (!res || *res == '\0')
-	return (NULL);
+/* 
+This version of get next line solved the problem of 1 byte still rechable
+in res.
  */
 static char	*get_line(char *res)
 {
@@ -76,12 +77,49 @@ static char	*read_line(int fd, char	**res, char	*buffer)
 	return (get_line(*res));
 }
 
+/* char	*get_next_line(int fd)
+{
+	static char	*res;
+	char		*line;
+	char		*buffer;
+
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
+	buffer = (char *)malloc(BUFFER_SIZE + 1);
+	if (!buffer)
+		return (NULL);
+	if (!res)
+		res = ft_strdup("");
+	line = read_line(fd, &res, buffer);
+	free(buffer);
+	if (!line)
+	{
+		if (res)
+			free(res);
+		res = NULL;
+		return (NULL);
+	}
+	res = res_afterline(res);
+	return (line);
+} */
+
+void	free_res(int fd, char	**res)
+{
+	if (fd == -1 && *res)
+	{
+		if (*res)
+			free(*res);
+		*res = NULL;
+	}
+}
+
 char	*get_next_line(int fd)
 {
 	static char	*res;
 	char		*line;
 	char		*buffer;
 
+	free_res(fd, &res);
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	buffer = (char *)malloc(BUFFER_SIZE + 1);

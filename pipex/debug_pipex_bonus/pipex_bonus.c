@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 14:05:33 by layang            #+#    #+#             */
-/*   Updated: 2025/02/11 20:09:16 by layang           ###   ########.fr       */
+/*   Updated: 2025/02/13 11:00:07 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ static void	input_here_doc(char *limiter, int *pipe_fd)
 		{
 			free(compare);
 			free(line);
+			get_next_line(-1);
 			exit(0);
 		}
 		ft_putstr_fd(line, pipe_fd[1]);
@@ -44,10 +45,10 @@ static void	do_here_doc(char	*limiter)
 	pid_t	pid;
 
 	if (pipe(pipe_fd) == -1)
-		error_bonus(1);
+		error(1);
 	pid = fork();
 	if (pid == -1)
-		error_bonus(1);
+		error(1);
 	if (pid == 0)
 		input_here_doc(limiter, pipe_fd);
 	else
@@ -64,10 +65,10 @@ static void	do_multi_pipe(char *cmd, char **env)
 	pid_t	pid;
 
 	if (pipe(pipe_fd) == -1)
-		error_bonus(1);
+		error(1);
 	pid = fork();
 	if (pid == -1)
-		error_bonus(1);
+		error(1);
 	if (pid == 0)
 	{
 		close(pipe_fd[0]);
@@ -78,11 +79,38 @@ static void	do_multi_pipe(char *cmd, char **env)
 	{
 		close(pipe_fd[1]);
 		dup2(pipe_fd[0], 0);
-		waitpid(pid, NULL, 0);
+		if (ft_strncmp(cmd, "sleep", 5) == 0)
+			waitpid(pid, NULL, 0);
 	}
 }
 
-int	main(int ac, char **av, char **env)
+static void	do_pipex_bonus(int ac, char **av, char **env)
+{
+	int	i;
+	int	input;
+	int	output;
+
+	if (ft_strncmp(av[1], "here_doc", 8) == 0)
+	{
+		i = 3;
+		output = open_mode(av[5], 2);
+		do_here_doc(av[2]);
+	}
+	else
+	{
+		i = 2;
+		input = open_mode(av[1], 0);
+		output = open_mode(av[ac - 1], 1);
+		dup2(input, 0);
+	}
+	while (i < ac - 2)
+		do_multi_pipe(av[i++], env);
+	if (dup2(output, 1) == -1)
+		exit(1);
+	execute(av[ac - 2], env);
+}
+
+/* int	main(int ac, char **av, char **env)
 {
 	int	i;
 	int	input;
@@ -105,10 +133,23 @@ int	main(int ac, char **av, char **env)
 		}
 		while (i < ac - 2)
 			do_multi_pipe(av[i++], env);
-		dup2(output, 1);
+		if (dup2(output, 1) == -1)
+			exit(1);
 		execute(av[ac - 2], env);
 	}
-	error_bonus(0);
+	error(0);
+} */
+
+int	main(int ac, char **av, char **env)
+{
+	if (ac >= 5 && check_args(av, ac))
+		do_pipex_bonus(ac, av, env);
+	error(0);
 }
 
-// ./pipex "42_pipex_tester/infiles/basic.txt" "cat" "head -2" "outfiles" 
+// ./pipex "42_pipex_tester/infiles/basic.txt" "cat" "head -2" "outfiles"
+// ./pipex "42_pipex_tester/infiles/big_text.txt" "cat" "head -2" "outfiles" 
+// ./pipex "nonexistingfile" "cat -e" "ls" "outfiles"  
+// ./pipex "nonexistingfile" "cat" "sleep 3" "outfiles"
+// ./pipex "42_pipex_tester/infiles/infile_without_permissions" 
+// "cat -e" "cat -e" "outfiles"

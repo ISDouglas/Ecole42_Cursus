@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 14:06:03 by layang            #+#    #+#             */
-/*   Updated: 2025/02/11 20:10:15 by layang           ###   ########.fr       */
+/*   Updated: 2025/02/13 09:59:11 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,22 +26,6 @@ int	check_args(char **av, int ac)
 	return (1);
 }
 
-void	error_bonus(int sign)
-{
-	if (sign == 0)
-	{
-		ft_putstr_fd("./pipex <file1> cmd1 cmd2 cmd3 cmd4... <file2>\n", 2);
-		ft_putstr_fd("or\n", 2);
-		ft_putstr_fd("./pipex here_doc LIMITER cmd cmd1 <file>\n", 2);
-		exit(0);
-	}
-	else if (sign == 1)
-	{
-		perror("\033[31mError");
-		exit(EXIT_FAILURE);
-	}
-}
-
 int	open_mode(char	*file, int mode)
 {
 	int	fd;
@@ -54,6 +38,14 @@ int	open_mode(char	*file, int mode)
 	else if (mode == 2)
 		fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0777);
 	if (fd == -1)
-		error_bonus(1);
+	{
+		if (mode == 2)
+			error(1);
+		if (mode == 0 && access(file, F_OK) == 0
+			&& access(file, R_OK) == -1)
+			fd = open("/dev/null", O_RDONLY);
+		else
+			error(3);
+	}
 	return (fd);
 }

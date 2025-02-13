@@ -6,7 +6,7 @@
 #    By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/05 11:53:48 by layang            #+#    #+#              #
-#    Updated: 2025/02/09 13:02:52 by layang           ###   ########.fr        #
+#    Updated: 2025/02/13 11:10:26 by layang           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,8 @@ CFLAGS = -Werror -Wall -Wextra
 RM = rm -rf
 
 SRCS = 	./pipex.c\
-		pipex_utils.c
+		pipex_utils.c\
+		pipex_utils_bonus.c
 
 SRCS_BONUS = ./pipex_bonus.c\
 			pipex_utils.c\

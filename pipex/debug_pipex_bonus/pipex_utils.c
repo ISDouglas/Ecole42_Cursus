@@ -6,16 +6,33 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 12:21:50 by layang            #+#    #+#             */
-/*   Updated: 2025/02/11 19:14:10 by layang           ###   ########.fr       */
+/*   Updated: 2025/02/13 09:50:05 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	error(void)
+void	error(int sign)
 {
-	perror("\033[31mError");
-	exit(EXIT_FAILURE);
+	if (sign == 0)
+	{
+		ft_putstr_fd("./pipex <file1> cmd1 cmd2 cmd3 cmd4... <file2>\n", 2);
+		ft_putstr_fd("or\n", 2);
+		ft_putstr_fd("./pipex here_doc LIMITER cmd cmd1 <file>\n", 2);
+		exit(0);
+	}
+	else if (sign == 1)
+	{
+		perror("\033[31mError\n");
+		exit(EXIT_FAILURE);
+	}
+	else if (sign == 2)
+	{
+		perror("\033[31mError\n");
+		exit(0);
+	}
+	else if (sign == 3)
+		perror("\033[31mError\n");
 }
 
 void	ft_free_array(char **ptr)
@@ -53,23 +70,6 @@ char	*get_path(char	*cmd, char	**env)
 	return (0);
 }
 
-/* void	execute(char	*cmd, char	**env)
-{
-	char	*path;
-	char	**cmd_line;
-
-	cmd_line = ft_split(cmd, ' ');
-	path = get_path(cmd_line[0], env);
-	if (execve(path, cmd_line, env) == -1)
-	{
-		ft_putstr_fd("pipex: command not found: ", 2);
-		ft_putendl_fd(cmd_line[0], 2);
-		ft_free_array(cmd_line);
-		free(path);
-		exit(0);
-	}
-} */
-
 void	execute(char	*cmd, char	**env)
 {
 	char	*path;
@@ -88,6 +88,6 @@ void	execute(char	*cmd, char	**env)
 	{
 		ft_free_array(cmd_line);
 		free(path);
-		error();
+		error(1);
 	}
 }

@@ -6,13 +6,13 @@
 #    By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/05 11:53:48 by layang            #+#    #+#              #
-#    Updated: 2025/02/14 10:42:38 by layang           ###   ########.fr        #
+#    Updated: 2025/02/14 15:41:43 by layang           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = pipex
 
-CFLAGS = -Werror -Wall -Wextra -fsanitize=address -fPIC
+CFLAGS = -Werror -Wall -Wextra
 
 #CFLAGS_B = -Werror -Wall -Wextra -fsanitize=address -fPIC
 
@@ -26,25 +26,21 @@ SRCS_BONUS = ./pipex_bonus.c\
 			pipex_utils_bonus.c
 
 $(NAME) : 
-	$(RM) $(NAME)
-	$(MAKE) fclean
 	$(MAKE) bonus -C libft
 	cc $(CFLAGS) $(SRCS) -o $(NAME) -Llibft -lft
 
 all : $(NAME)
 
 fclean : clean
-	make fclean -C libft
+	$(MAKE) fclean -C libft
 
 clean :
 	$(RM) $(NAME)
-	make clean -C libft
+	$(MAKE) clean -C libft
 
 re : fclean all
 
 bonus :
-	$(RM) $(NAME)
-	$(MAKE) clean
 	$(MAKE) bonus -C libft
 	cc $(CFLAGS) $(SRCS_BONUS) -o $(NAME) -Llibft -lft
 

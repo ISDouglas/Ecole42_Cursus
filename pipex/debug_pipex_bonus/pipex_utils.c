@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 12:21:50 by layang            #+#    #+#             */
-/*   Updated: 2025/02/13 09:50:05 by layang           ###   ########.fr       */
+/*   Updated: 2025/02/14 16:12:58 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,11 @@ void	error(int sign)
 		ft_putstr_fd("./pipex here_doc LIMITER cmd cmd1 <file>\n", 2);
 		exit(0);
 	}
-	else if (sign == 1)
-	{
-		perror("\033[31mError\n");
+	perror("pipex");
+	if (sign == 1)
 		exit(EXIT_FAILURE);
-	}
-	else if (sign == 2)
-	{
-		perror("\033[31mError\n");
-		exit(0);
-	}
-	else if (sign == 3)
-		perror("\033[31mError\n");
+	if (sign == 2)
+		exit(0);		
 }
 
 void	ft_free_array(char **ptr)

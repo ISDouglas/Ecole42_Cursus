@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 14:05:33 by layang            #+#    #+#             */
-/*   Updated: 2025/02/13 11:00:07 by layang           ###   ########.fr       */
+/*   Updated: 2025/02/14 16:22:24 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,34 +110,51 @@ static void	do_pipex_bonus(int ac, char **av, char **env)
 	execute(av[ac - 2], env);
 }
 
-/* int	main(int ac, char **av, char **env)
+/* static void do_pipex_bonus(int ac, char **av, char **env)
 {
-	int	i;
-	int	input;
-	int	output;
+	int i;
+	int input;
+	int output;
 
-	if (ac >= 5 && check_args(av, ac))
+	if (ft_strncmp(av[1], "here_doc", 8) == 0)
 	{
-		if (ft_strncmp(av[1], "here_doc", 8) == 0)
+		i = 3;
+		output = open_mode(av[ac - 1], 2);
+		if (output == -1) // 检测输出文件是否无法打开
 		{
-			i = 3;
-			output = open_mode(av[5], 2);
-			do_here_doc(av[2]);
-		}
-		else
-		{
-			i = 2;
-			input = open_mode(av[1], 0);
-			output = open_mode(av[ac - 1], 1);
-			dup2(input, 0);
-		}
-		while (i < ac - 2)
-			do_multi_pipe(av[i++], env);
-		if (dup2(output, 1) == -1)
+			perror("pipex: cannot write to output file");
 			exit(1);
-		execute(av[ac - 2], env);
+		}
+		do_here_doc(av[2]);
 	}
-	error(0);
+	else
+	{
+		i = 2;
+		input = open_mode(av[1], 0);
+		output = open_mode(av[ac - 1], 1);
+		if (input == -1) // 检测输入文件是否无法打开
+		{
+			perror("pipex: cannot open input file");
+			exit(1);
+		}
+		if (output == -1) // 检测输出文件是否无法打开
+		{
+			perror("pipex: cannot write to output file");
+			exit(1);
+		}
+		dup2(input, 0);
+		close(input);
+	}
+	while (i < ac - 2)
+		do_multi_pipe(av[i++], env);
+	if (dup2(output, 1) == -1)
+	{
+		perror("pipex: dup2 failed");
+		close(output);
+		exit(1);
+	}
+	close(output);
+	execute(av[ac - 2], env);
 } */
 
 int	main(int ac, char **av, char **env)

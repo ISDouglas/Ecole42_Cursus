@@ -6,13 +6,13 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 14:05:33 by layang            #+#    #+#             */
-/*   Updated: 2025/02/14 16:22:24 by layang           ###   ########.fr       */
+/*   Updated: 2025/02/21 15:29:39 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static void	input_here_doc(char *limiter, int *pipe_fd)
+/* static void	input_here_doc(char *limiter, int *pipe_fd)
 {
 	char	*line;
 	char	*compare;
@@ -36,6 +36,30 @@ static void	input_here_doc(char *limiter, int *pipe_fd)
 		ft_putstr_fd(line, pipe_fd[1]);
 		free(line);
 		free(compare);
+	}
+} */
+
+// here_doc use no ft_strdup (get next line = str + '\n' + '\0', 
+// while limiter = str + '\0')
+
+static void	input_here_doc(char *limiter, int *pipe_fd)
+{
+	char	*line;
+	size_t	len;
+
+	close(pipe_fd[0]);
+	while (1)
+	{
+		line = get_next_line(0);
+		len = ft_strlen(limiter);
+		if (ft_strncmp(line, limiter, len) == 0 && line[len] == '\n')
+		{
+			free(line);
+			get_next_line(-1);
+			exit(0);
+		}
+		ft_putstr_fd(line, pipe_fd[1]);
+		free(line);
 	}
 }
 

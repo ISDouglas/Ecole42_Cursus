@@ -6,11 +6,12 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 11:12:49 by layang            #+#    #+#             */
-/*   Updated: 2025/02/17 19:33:50 by layang           ###   ########.fr       */
+/*   Updated: 2025/02/21 14:24:37 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mlx.h"
+#include "mlx_int.h"
 
 /* int main(void)
 {
@@ -27,6 +28,9 @@
 } */
 
 /*
+sudo apt-get update && sudo apt-get install xorg libxext-dev zlib1g-dev libbsd-dev
+
+
 cc -o my_fdf main.c -L. -lmlx -lm -lpthread -lX11 -lXext
 ./my_fdf
 
@@ -43,6 +47,36 @@ typedef struct s_data
 	int endian;
 } t_data;
 
+
+typedef struct s_vars
+{
+	void	*win;
+	void	*mlx;
+}	t_vars;
+
+int	key_hook(int keycode, t_vars *vars)
+{
+	printf("Hello from key_hook!\n");
+	return (0);
+}
+
+int	close_win(int	keycode, t_vars	*vars)
+{
+	if (keycode == 65307)
+	{
+		mlx_destroy_window(vars->mlx, vars->win);
+		exit(0);
+	}
+	return (0);
+}
+
+int	close_win_x(t_vars	*vars)
+{
+	mlx_destroy_window(vars->mlx, vars->win);
+	exit(0);
+	return (0);
+}
+
 void my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
 	char *dst;
@@ -53,15 +87,14 @@ void my_mlx_pixel_put(t_data *data, int x, int y, int color)
 
 int main(void)
 {
-	void	*mlx;
-	void	*mlx_win;
-	t_data	img;
+	t_vars	vars;
+/* 	t_data	img;
 	int		x;
-	int		y;
+	int		y; */
 
-	mlx = mlx_init();
-	mlx_win = mlx_new_window(mlx, 1920, 1080, "Hello FDF world!");
-	img.img = mlx_new_image(mlx, 1920, 1080);
+	vars.mlx = mlx_init();
+	vars.win = mlx_new_window(vars.mlx, 1920, 1080, "Hello FDF world!");
+/* 	img.img = mlx_new_image(vars.mlx, 1920, 1080);
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
 								 &img.endian);
 	x = 100;
@@ -86,6 +119,13 @@ int main(void)
 		}
 		x++;
 	}
-	mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
-	mlx_loop(mlx);
+	mlx_put_image_to_window(vars.mlx, vars.win, img.img, 0, 0); */
+	mlx_hook(vars.win, 2, 1L<<0, close_win, &vars);
+	mlx_hook(vars.win, 17, 0, close_win_x, &vars);
+//	mlx_expose_hook(vars.win, );
+	mlx_key_hook(vars.win, key_hook, &vars);
+//	mlx_mouse_hook();
+//	mlx_mouse_get_pos();
+	mlx_loop(vars.mlx);
+	return (0);
 }

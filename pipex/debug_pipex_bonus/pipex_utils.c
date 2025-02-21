@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 12:21:50 by layang            #+#    #+#             */
-/*   Updated: 2025/02/14 16:12:58 by layang           ###   ########.fr       */
+/*   Updated: 2025/02/21 15:31:28 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	error(int sign)
 	if (sign == 1)
 		exit(EXIT_FAILURE);
 	if (sign == 2)
-		exit(0);		
+		exit(0);
 }
 
 void	ft_free_array(char **ptr)

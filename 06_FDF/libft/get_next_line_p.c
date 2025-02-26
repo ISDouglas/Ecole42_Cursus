@@ -1,22 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_p.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/21 10:47:20 by layang            #+#    #+#             */
-/*   Updated: 2025/02/13 11:03:27 by layang           ###   ########.fr       */
+/*   Created: 2025/02/26 10:48:44 by layang            #+#    #+#             */
+/*   Updated: 2025/02/26 11:16:26 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/* 
+/*
+
 This version of get next line solved the problem of 1 byte still rechable
-in res.
+in res. to add 1st line :free_res(fd, &res) in function:
+get_next_line(int fd, int print).
+
+In get_next_line_p.c, print == 0 means no print, no '\n' in the line.
+
  */
-static char	*get_line(char *res)
+static char	*get_line(char *res, int print)
 {
 	char	*line;
 	int		len;
@@ -26,6 +31,8 @@ static char	*get_line(char *res)
 		len = ft_strchr(res, '\n') - res + 1;
 	else
 		len = ft_strlen(res);
+	if (ft_strchr(res, '\n') && print == 0)
+		len--;
 	line = (char *)malloc(len + 1);
 	if (!line)
 		return (NULL);
@@ -51,7 +58,7 @@ static char	*res_afterline(char *res)
 	return (new_res);
 }
 
-static char	*read_line(int fd, char	**res, char	*buffer)
+static char	*read_line(int fd, char	**res, char	*buffer, int print)
 {
 	ssize_t	bytes;
 	char	*for_free;
@@ -74,34 +81,8 @@ static char	*read_line(int fd, char	**res, char	*buffer)
 	}
 	if (**res == '\0')
 		return (NULL);
-	return (get_line(*res));
+	return (get_line(*res, print));
 }
-
-/* char	*get_next_line(int fd)
-{
-	static char	*res;
-	char		*line;
-	char		*buffer;
-
-	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (NULL);
-	buffer = (char *)malloc(BUFFER_SIZE + 1);
-	if (!buffer)
-		return (NULL);
-	if (!res)
-		res = ft_strdup("");
-	line = read_line(fd, &res, buffer);
-	free(buffer);
-	if (!line)
-	{
-		if (res)
-			free(res);
-		res = NULL;
-		return (NULL);
-	}
-	res = res_afterline(res);
-	return (line);
-} */
 
 void	free_res(int fd, char	**res)
 {
@@ -113,7 +94,7 @@ void	free_res(int fd, char	**res)
 	}
 }
 
-char	*get_next_line(int fd)
+char	*get_next_line(int fd, int print)
 {
 	static char	*res;
 	char		*line;
@@ -127,7 +108,7 @@ char	*get_next_line(int fd)
 		return (NULL);
 	if (!res)
 		res = ft_strdup("");
-	line = read_line(fd, &res, buffer);
+	line = read_line(fd, &res, buffer, print);
 	free(buffer);
 	if (!line)
 	{

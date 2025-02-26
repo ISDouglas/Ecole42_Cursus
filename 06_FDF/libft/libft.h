@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 17:20:46 by layang            #+#    #+#             */
-/*   Updated: 2025/02/13 11:05:13 by layang           ###   ########.fr       */
+/*   Updated: 2025/02/26 11:11:47 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,6 @@ t_list	*ft_lstmap(t_list	*lst, void	*(*f)(void	*), void	(*del)(void	*));
 #  define BUFFER_SIZE 1000
 # endif
 
-char	*get_next_line(int fd);
+char	*get_next_line(int fd, int print);
 
 #endif

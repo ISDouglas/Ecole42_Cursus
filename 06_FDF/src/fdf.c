@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 09:00:58 by layang            #+#    #+#             */
-/*   Updated: 2025/02/26 19:41:05 by layang           ###   ########.fr       */
+/*   Updated: 2025/02/27 12:02:50 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void mlx_pixel_put(t_pic *pic, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
+
 int	main(int argc, char	**argv)
 {
 	t_vars	all;
@@ -53,6 +54,7 @@ int	main(int argc, char	**argv)
 		return (-1);
 	}
 	// collect pic
+	all.file = read_file01();
 	
 	// transform points and fit window
 	// put into window

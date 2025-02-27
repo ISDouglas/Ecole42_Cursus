@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 12:42:58 by layang            #+#    #+#             */
-/*   Updated: 2025/02/26 18:50:14 by layang           ###   ########.fr       */
+/*   Updated: 2025/02/27 12:01:00 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,18 +33,23 @@
 
 typedef struct s_vars
 {
-	void	*win;
 	void	*mlx;
+	void	*win;
+	t_img	img;
+	t_map	*map;
+	t_map	*orig_map;
+	char	**file;
+	int		animate;
 }	t_vars;
 
-typedef struct s_pic
+typedef struct s_img
 {
 	void	*mlx_img;
 	void	*addr;
 	int		bits_per_pixel;
 	int		line_len;
 	int		endian;
-}	t_pic;
+}	t_img;
 
 typedef struct s_point
 {
@@ -54,10 +59,19 @@ typedef struct s_point
 	int	color;
 }	t_point;
 
-typedef struct	s_img
+typedef struct	s_map
 {
-	t_point	*map;
-	int	cell_size;
-}	t_img;
+	t_point	*grid;
+	int		cell_size;
+	int		dim_x;
+	int		dim_y;
+	int		max_x;
+	int		min_x;
+	int		max_y;
+	int		min_y;
+	int		max_z;
+	int		min_z;
+	float_t	mat_b[3][3];	
+}	t_map;
 
 #endif

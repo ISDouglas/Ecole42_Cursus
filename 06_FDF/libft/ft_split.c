@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 12:00:00 by layang            #+#    #+#             */
-/*   Updated: 2024/11/12 12:00:49 by layang           ###   ########.fr       */
+/*   Updated: 2025/02/27 17:21:38 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static char	**free_array(char	**ptr, int i)
 	return (0);
 }
 
-static int	ft_count_words(char const	*str, char c)
+int	ft_count_words(char const	*str, char c)
 {
 	int	i;
 	int	count;

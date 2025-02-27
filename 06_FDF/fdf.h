@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 12:42:58 by layang            #+#    #+#             */
-/*   Updated: 2025/02/27 12:01:00 by layang           ###   ########.fr       */
+/*   Updated: 2025/02/27 18:57:16 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,10 @@ typedef struct	s_map
 	int		cell_size;
 	int		dim_x;
 	int		dim_y;
-	int		max_x;
-	int		min_x;
-	int		max_y;
-	int		min_y;
+	int		max_xp;
+	int		min_xp;
+	int		max_yp;
+	int		min_yp;
 	int		max_z;
 	int		min_z;
 	float_t	mat_b[3][3];	

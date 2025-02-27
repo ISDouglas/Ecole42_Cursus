@@ -6,12 +6,18 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 17:20:46 by layang            #+#    #+#             */
-/*   Updated: 2025/02/26 11:11:47 by layang           ###   ########.fr       */
+/*   Updated: 2025/02/27 17:23:31 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// this version of libft solved the boundary control problem in strncmp.
-// and the included an update version of get next line.
+/* ************************************************************************** */
+/* ************************          NITICE          ************************ */
+/*                                                                            */
+/* 1. This version of libft solved the boundary control problem in strncmp.   */
+/*    and the included an update version of get next line(get_next_line_p).   */
+/*                                                                            */
+/* 2. Free the ft_count_words in ft_split as a public function.               */
+/* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
@@ -20,7 +26,7 @@
 # include <unistd.h>
 # include <stddef.h>
 
-typedef struct s_list
+	typedef struct s_list
 {
 	void			*content;
 	struct s_list	*next;
@@ -77,6 +83,8 @@ t_list	*ft_lstmap(t_list	*lst, void	*(*f)(void	*), void	(*del)(void	*));
 #  define BUFFER_SIZE 1000
 # endif
 
+// for FDF project
 char	*get_next_line(int fd, int print);
+int		ft_count_words(char const *str, char c);
 
 #endif

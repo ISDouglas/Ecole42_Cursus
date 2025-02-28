@@ -21,8 +21,10 @@
 # include <stdio.h>
 # include <unistd.h>
 
-# define WIDTH 1920
-# define HEIGHT 1080
+//# define WIDTH 1920
+//# define HEIGHT 1080
+# define WIDTH 1000
+# define HEIGHT 562
 
 #define ARROW_LEFT 123
 #define ARROW_RIGHT 124

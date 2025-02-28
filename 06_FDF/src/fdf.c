@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 09:00:58 by layang            #+#    #+#             */
-/*   Updated: 2025/02/27 20:18:29 by layang           ###   ########.fr       */
+/*   Updated: 2025/02/28 17:27:03 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,28 +72,74 @@ int	read_file_01(t_vars	*all, char	*file)
 	return (cols);
 }
 
-int fill_map_02(t_vars *all, char *file)
+void	renew_range_z_04(t_map	*map, t_point	*cur)
+{
+	if (cur->z < map->min_z)
+		map->min_z = cur->z;
+	if (cur->z > map->max_z)
+		map->max_z = cur->z;
+}
+
+void	fill_row_03(t_map	*map, char	**row, int	*j)
+{
+	t_point	*cur;
+	t_point	p;
+	int		col;
+	
+	p.x = -map->cell_size * map->dim_x / 2;
+	p.y = map->cell_size * map->dim_y / 2 + map->cell_size * (*j);
+	if (*j == 0 && ft_strchr(*row, ','))
+		map->with_color = 1;
+	col = 0;
+	while (col < map->dim_x)
+	{
+		cur = map->grid + col + map->dim_x * (*j);
+		*cur = p;
+		cur->z = ft_atoi(row[col]);
+		renew_range_z_04(map, cur);
+		if (map->with_color == 1)
+			cur->color = ft_atoi_base((ft_strchr(row[col], 'x') 
+				+ 1), "0123456789abcdef");
+		else
+			cur->color = GROUND_COLOR;
+		p.x += map->cell_size;
+		col++;
+	}
+	*j++;
+}
+
+void	color_backup_05(t_vars	*all)
+{
+	
+}
+
+t_map	*fill_map_02(t_vars *all, char *file)
 {
 	int		fd;
 	char	*line;
 	char	**row;
+	t_map	*map;
+	int		j;
 
 	fd = open(file, O_RDONLY);
+	map = all->map;
+	map->cell_size = (WIDTH / map->dim_x + HEIGHT / map->dim_y) / 4;
+	map->grid = malloc(map->dim_x * map->dim_y * sizeof(t_point));
+	if (map->grid == NULL)
+		return (NULL);
+	map->min_z = 0;
+	map->max_z = 0;
+	map->with_color = 0;
+	j = 0;
 	while ((line = get_next_line(fd, 0)) != NULL)
 	{
 		row = ft_split(line, ' ');
-		// get grid(x, y, z and color) with cell_size, and max z and min z
-		if (all->map->dim_y != 0 && all->map->dim_x != cols)
-		{
-			ft_putstr_fd("FDF: file error: Found wrong line length.\n", 2);
-			return (0);
-		}
-
+		fill_row_03(map, row, &j);
+		free(row);
 		free(line);
-
 	}
 	close(fd);
-	return ();
+	return (map);
 }
 
 int main(int argc, char **argv)
@@ -108,6 +154,9 @@ int main(int argc, char **argv)
 	if (read_file_01(&all, argv[1]) == 0)
 		return (-1);
 	fill_map_02(&all, argv[1]);
+	color_backup_05(&all);
+	
+	
 }
 
 /*
@@ -127,6 +176,7 @@ int main(int argc, char **argv)
 	print_matrix(matrix);
 	// argv control   *
 	// collect pic    *
+		// get grid(x, y, z and color) with cell_size, and max z and min 
 	// transform points and fit window
 	// put into window
 	// hook and bonus(extra projection, zoom, translate and rotate)

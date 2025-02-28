@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 17:20:46 by layang            #+#    #+#             */
-/*   Updated: 2025/02/27 17:23:31 by layang           ###   ########.fr       */
+/*   Updated: 2025/02/28 13:33:12 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,5 +86,6 @@ t_list	*ft_lstmap(t_list	*lst, void	*(*f)(void	*), void	(*del)(void	*));
 // for FDF project
 char	*get_next_line(int fd, int print);
 int		ft_count_words(char const *str, char c);
+int		ft_atoi_base(char *str, char *base);
 
 #endif

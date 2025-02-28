@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 12:42:58 by layang            #+#    #+#             */
-/*   Updated: 2025/02/27 18:57:16 by layang           ###   ########.fr       */
+/*   Updated: 2025/02/28 16:59:12 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,14 @@
 #  define HEIGHT 1080
 # endif
 
-# define ISO_MATRIX ((float_t[3][3]){            \
+# define WHITE	0x00FFFFFF
+# define PURPLE	0x00B491C8
+# define BLUE	0x00000066
+# define GROUND_COLOR	WHITE
+# define HIGH_COLOR		PURPLE
+# define LOW_COLOR		BLUE
+
+# define ISO_MATRIX ((float_t[3][3]){          \
 	{sqrt(3) / 3, -sqrt(6) / 6, -sqrt(6) / 6}, \
 	{sqrt(3) / 3,  sqrt(6) / 6,  sqrt(6) / 6}, \
 	{sqrt(3) / 3,  sqrt(3) / 3, -sqrt(3) / 3}})
@@ -38,7 +45,6 @@ typedef struct s_vars
 	t_img	img;
 	t_map	*map;
 	t_map	*orig_map;
-	char	**file;
 	int		animate;
 }	t_vars;
 
@@ -71,6 +77,7 @@ typedef struct	s_map
 	int		min_yp;
 	int		max_z;
 	int		min_z;
+	int		with_color;
 	float_t	mat_b[3][3];	
 }	t_map;
 

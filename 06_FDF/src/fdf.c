@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 09:00:58 by layang            #+#    #+#             */
-/*   Updated: 2025/02/28 17:27:03 by layang           ###   ########.fr       */
+/*   Updated: 2025/03/01 20:06:02 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,14 @@ void	fill_row_03(t_map	*map, char	**row, int	*j)
 	*j++;
 }
 
-void	color_backup_05(t_vars	*all)
+void color_points_06(t_map *map, int color_on)
 {
+	
+}
+
+void color_and_save_05(t_vars *all)
+{
+	color_points_06(all->map, all->map->with_color);
 	
 }
 
@@ -154,9 +160,70 @@ int main(int argc, char **argv)
 	if (read_file_01(&all, argv[1]) == 0)
 		return (-1);
 	fill_map_02(&all, argv[1]);
-	color_backup_05(&all);
+	color_and_save_05(&all);
+	projection_scale_(all.map);
+	all.animate = 0;
+	if (start_win_img_(&all) == -1)
+		return (-1);
+	return (0);
+	//bresenham_line_();
+}
+
+
+int	draw_low_line(t_img	*img, t_point s, t_point e)
+{
+	double	err;
+	double	slope;
+	double	step;
+	t_point	cur;
 	
-	
+	slope = (double)(e.y - s.y) / (e.x - s.x);
+	err = -0.5;
+	step = fabs(slope);
+	cur = s;
+	while (cur.x < e.x)
+	{
+		put_pixel(img, cur);
+		err += step;
+		if (err >= 0)
+		{
+			if (slope > 0)
+				cur.y++;
+			else
+				cur.y--;
+			err--;
+		}
+		cur.color = get_pix_color(cur, s, e);
+		cur.x++;
+	}
+}
+
+int	draw_high_line(t_img	*img, t_point	s, t_point	e)
+{
+	double	err;
+	double	slope;
+	double	step;
+	t_point	cur;
+
+	slope = (double)(e.y - s.y) / (e.x - s.x);
+	err = -0.5;
+	step = fabs(slope);
+	cur = s;
+	while (cur.y < e.y)
+	{
+		put_pixel(img, cur);
+		err += step;
+		if (err >= 0)
+		{
+			if (slope > 0)
+				cur.x++;
+			else
+				cur.x--;
+			err--;
+		}
+		cur.color = get_pix_color(cur, s, e);
+		cur.y++;
+	}
 }
 
 /*
@@ -176,8 +243,10 @@ int main(int argc, char **argv)
 	print_matrix(matrix);
 	// argv control   *
 	// collect pic    *
-		// get grid(x, y, z and color) with cell_size, and max z and min 
+		// get grid(x, y, z and color) with cell_size, and max z and min
 	// transform points and fit window
+	// put pixel: x-step (draw low line, x++), y-step (draw high line, y++)
+	//            slope positive (++), slope negative (--) when err > 0
 	// put into window
 	// hook and bonus(extra projection, zoom, translate and rotate)
  */

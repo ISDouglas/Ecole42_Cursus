@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 09:00:58 by layang            #+#    #+#             */
-/*   Updated: 2025/03/02 12:05:13 by layang           ###   ########.fr       */
+/*   Updated: 2025/03/02 13:14:08 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,12 +151,28 @@ void color_points_06(t_map *map)
 			cur->color = rgb[0] << 16 | rgb[1] << 8 | rgb[2];
 		} */
 
-void color_and_save_05(t_vars *all)
+int color_and_save_05(t_vars *all)
 {
+	int		i;
+	t_point	*cur;
+	
 	if (all->map->max_z != 0 && all->map->with_color == 0)
 		color_points_06(all->map);
-	
-	
+	all->orig_map = malloc(sizeof(t_map));
+	if (all->orig_map == NULL)
+		return (-1);
+	all->orig_map->grid = malloc(all->map->dim_x 
+		* all->map->dim_y * sizeof(t_point));
+	if (all->orig_map->grid == NULL)
+		return (-1);
+	i = 0;
+	while (i < all->map->dim_x * all->map->dim_y)
+	{
+		cur = all->map->grid + i;
+		*(all->orig_map->grid + i) = *cur;
+		i++;
+	}
+	return (0);
 }
 
 t_map	*fill_map_02(t_vars *all, char *file)
@@ -200,8 +216,9 @@ int main(int argc, char **argv)
 	if (read_file_01(&all, argv[1]) == 0)
 		return (-1);
 	fill_map_02(&all, argv[1]);
-	color_and_save_05(&all);
-	projection_scale_(all.map);
+	if (color_and_save_05(&all) == -1)
+		return (-1);
+	projection_scale_07(all.map);
 	all.animate = 0;
 	if (start_win_img_(&all) == -1)
 		return (-1);

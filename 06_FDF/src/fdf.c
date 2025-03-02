@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 09:00:58 by layang            #+#    #+#             */
-/*   Updated: 2025/03/01 20:06:02 by layang           ###   ########.fr       */
+/*   Updated: 2025/03/02 12:05:13 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,14 +108,54 @@ void	fill_row_03(t_map	*map, char	**row, int	*j)
 	*j++;
 }
 
-void color_points_06(t_map *map, int color_on)
+void gradient_color_07(float_t r, int *rgb[3], int s, int e)
 {
-	
+	rgb[0] = (int)roundf((1 - r) * ((s >> 16) & 0xFF) + r * ((e >> 16) & 0xFF));
+	rgb[1] = (int)roundf((1 - r) * ((s >> 8) & 0xFF) + r * ((e >> 8) & 0xFF));
+	rgb[2] = (int)roundf((1 - r) * (s & 0xFF) + r * (e & 0xFF));
 }
+
+void color_points_06(t_map *map)
+{
+	float_t ratio;
+	int		rgb[3];
+	int		i;
+	t_point	*cur;
+
+	i = 0;
+	while (i < map->dim_x * map->dim_y)
+	{
+		cur = map->grid + i;
+		if (cur->z > 0)
+		{
+			ratio = cur->z / map->max_z;
+			gradient_color_07(ratio, &rgb, GROUND_COLOR, HIGH_COLOR);
+			cur->color = rgb[0] << 16 | rgb[1] << 8 | rgb[2];
+		}
+		if (cur->z < 0)
+		{
+			ratio = (map->min_z - cur->z) / map->min_z;
+			gradient_color_07(ratio, &rgb, LOW_COLOR, GROUND_COLOR);
+			cur->color = rgb[0] << 16 | rgb[1] << 8 | rgb[2];
+		}
+		i++;
+	}
+}
+
+/* 		if (cur->z != 0)
+		{
+			if (cur->z > 0)
+				gradient_color_07(ratio, &rgb, GROUND_COLOR, HIGH_COLOR);
+			else
+				gradient_color_07(ratio, &rgb, LOW_COLOR, GROUND_COLOR);
+			cur->color = rgb[0] << 16 | rgb[1] << 8 | rgb[2];
+		} */
 
 void color_and_save_05(t_vars *all)
 {
-	color_points_06(all->map, all->map->with_color);
+	if (all->map->max_z != 0 && all->map->with_color == 0)
+		color_points_06(all->map);
+	
 	
 }
 

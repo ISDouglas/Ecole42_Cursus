@@ -1,0 +1,7 @@
+*.swp
+fdf
+fdf_bonus
+*.o
+obj/
+libft/libft.a
+.vscode

@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 12:42:58 by layang            #+#    #+#             */
-/*   Updated: 2025/02/28 16:59:12 by layang           ###   ########.fr       */
+/*   Updated: 2025/03/02 18:29:46 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,25 @@ typedef struct s_img
 
 typedef struct s_point
 {
-	int x;
-	int y;
-	int	z;
-	int	color;
+	float_t x;
+	float_t y;
+	float_t z;
+	int		color;
 }	t_point;
+
+typedef	struct s_mat
+{
+	float_t	x1y1;
+	float_t x1y2;
+	float_t x1y3;
+	float_t x2y1;
+	float_t x2y2;
+	float_t x2y3;
+	float_t x3y1;
+	float_t x3y2;
+	float_t x3y3;
+}	t_mat;
+
 
 typedef struct	s_map
 {
@@ -71,14 +85,10 @@ typedef struct	s_map
 	int		cell_size;
 	int		dim_x;
 	int		dim_y;
-	int		max_xp;
-	int		min_xp;
-	int		max_yp;
-	int		min_yp;
 	int		max_z;
 	int		min_z;
 	int		with_color;
-	float_t	mat_b[3][3];	
+	t_mat	b_mat;
 }	t_map;
 
 #endif

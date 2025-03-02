@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 09:00:58 by layang            #+#    #+#             */
-/*   Updated: 2025/03/02 14:07:34 by layang           ###   ########.fr       */
+/*   Updated: 2025/03/02 18:37:09 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,10 +172,7 @@ int color_and_save_05(t_vars *all)
 		*(all->orig_map->grid + i) = *cur;
 		i++;
 	}
-	all->map->mat_b = { 1, 0, 0,
-	0, 1, 0,
-	0, 0, 1
-	}
+	all->map->b_mat = (t_mat){1, 0, 0, 0, 1, 0, 0, 0, 1};
 	return (0);
 }
 
@@ -208,9 +205,27 @@ t_map	*fill_map_02(t_vars *all, char *file)
 	return (map);
 }
 
-void	projection_scale_07(t_map	*map)
+t_point	multip_mat_08(t_point	p, t_mat	mat)
 {
 	
+}
+
+
+void	projection_scale_07(t_map	*map)
+{
+	int		i;
+	t_point	*cur;
+
+	i = 0;
+	while (i < map->dim_x * map->dim_y)
+	{
+		cur = map->grid + i;
+		*cur = multip_mat_08(*cur, (t_mat){
+			ISO_MATRIX[0][0], ISO_MATRIX[0][1], ISO_MATRIX[0][2],
+			ISO_MATRIX[1][0], ISO_MATRIX[1][1], ISO_MATRIX[1][2],
+			ISO_MATRIX[2][0], ISO_MATRIX[2][1], ISO_MATRIX[2][2],
+			});
+	}
 	
 }
 
@@ -341,7 +356,7 @@ void	autoscale(t_map	*map)
 			range[3] = cur->y;
 		i++;
 	}
-	scale_x = (WIDTH / 2 - 30) / fmaxf(abs(range[1]), abs(range[0]));
-	scale_y = (HEIGHT / 2 - 30) / fmaxf(abs(range[3]), abs(range[2]));
+	scale_x = (WIDTH / 2 - 50) / fmaxf(abs(range[1]), abs(range[0]));
+	scale_y = (HEIGHT / 2 - 50) / fmaxf(abs(range[3]), abs(range[2]));
 	zoom(map, fminf(scale_x, scale_y));
 }

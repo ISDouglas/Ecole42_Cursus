@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 09:00:58 by layang            #+#    #+#             */
-/*   Updated: 2025/03/02 13:14:08 by layang           ###   ########.fr       */
+/*   Updated: 2025/03/02 14:07:34 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,6 +172,10 @@ int color_and_save_05(t_vars *all)
 		*(all->orig_map->grid + i) = *cur;
 		i++;
 	}
+	all->map->mat_b = { 1, 0, 0,
+	0, 1, 0,
+	0, 0, 1
+	}
 	return (0);
 }
 
@@ -202,6 +206,12 @@ t_map	*fill_map_02(t_vars *all, char *file)
 	}
 	close(fd);
 	return (map);
+}
+
+void	projection_scale_07(t_map	*map)
+{
+	
+	
 }
 
 int main(int argc, char **argv)

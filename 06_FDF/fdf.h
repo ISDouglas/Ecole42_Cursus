@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 12:42:58 by layang            #+#    #+#             */
-/*   Updated: 2025/03/02 18:29:46 by layang           ###   ########.fr       */
+/*   Updated: 2025/03/03 09:05:13 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,13 @@ typedef struct s_point
 typedef	struct s_mat
 {
 	float_t	x1y1;
-	float_t x1y2;
-	float_t x1y3;
 	float_t x2y1;
-	float_t x2y2;
-	float_t x2y3;
 	float_t x3y1;
+	float_t x1y2;
+	float_t x2y2;
 	float_t x3y2;
+	float_t x1y3;
+	float_t x2y3;
 	float_t x3y3;
 }	t_mat;
 

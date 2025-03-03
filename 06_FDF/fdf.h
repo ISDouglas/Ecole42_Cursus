@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 12:42:58 by layang            #+#    #+#             */
-/*   Updated: 2025/03/03 12:11:38 by layang           ###   ########.fr       */
+/*   Updated: 2025/03/03 20:58:15 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,6 @@
 # define GROUND_COLOR	WHITE
 # define HIGH_COLOR		PURPLE
 # define LOW_COLOR		BLUE
-
-/* # define ISO_MATRIX ((float_t[3][3]){          \
-	{sqrt(3) / 3, -sqrt(6) / 6, -sqrt(6) / 6}, \
-	{sqrt(3) / 3,  sqrt(6) / 6,  sqrt(6) / 6}, \
-	{sqrt(3) / 3,  sqrt(3) / 3, -sqrt(3) / 3}}) */
-
 #define ISO_RADIAN 0.6154797
 
 typedef struct s_vars
@@ -54,7 +48,7 @@ typedef struct s_img
 {
 	void	*mlx_img;
 	void	*addr;
-	int		bits_per_pixel;
+	int		bits_pix;
 	int		line_len;
 	int		endian;
 }	t_img;
@@ -95,5 +89,9 @@ typedef struct	s_map
 	t_point k;
 	t_point locate;
 }	t_map;
+
+t_point	multi_mat(t_point p, t_mat mat);
+t_point	vec_add(t_point p1, t_point p2);
+t_point vec_sub(t_point p1, t_point p2);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 09:00:58 by layang            #+#    #+#             */
-/*   Updated: 2025/03/03 12:52:26 by layang           ###   ########.fr       */
+/*   Updated: 2025/03/03 20:34:17 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,74 +72,34 @@ int	read_file_01(t_vars	*all, char	*file)
 	return (cols);
 }
 
-void gradient_color_07(float_t r, int *rgb[3], int s, int e)
-{
-	rgb[0] = (int)roundf((1 - r) * ((s >> 16) & 0xFF) + r * ((e >> 16) & 0xFF));
-	rgb[1] = (int)roundf((1 - r) * ((s >> 8) & 0xFF) + r * ((e >> 8) & 0xFF));
-	rgb[2] = (int)roundf((1 - r) * (s & 0xFF) + r * (e & 0xFF));
-}
 
-
-t_point	multi_mat(t_point	p, t_mat	mat)
-{
-	p.x = mat.x1y1 * p.x + mat.x2y1 * p.y + mat.x3y1 * p.z;
-	p.y = mat.x1y2 * p.x + mat.x2y2 * p.y + mat.x3y2 * p.z;
-	p.z = mat.x1y3 * p.x + mat.x2y3 * p.y + mat.x3y3 * p.z;
-	return (p);
-}
-
-void rotate_x(t_map *map, float_t angle)
-{
-	t_mat	rot_mat;
-
-	rot_mat = (t_mat){1, 0, 0,
-					  0, cos(angle), -sin(angle),
-					  0, sin(angle), cos(angle)};
-	fdf_transform(map, rot_mat);
-}
-
-t_map	*fdf_transform(t_map	*map, t_mat	rot_mat)
-{
-	int	i;
-	t_point	*cur;
-
-	i = 0;
-	while (i < map->dim_x * map->dim_y)
-	{
-		cur = map->grid + i;
-		*cur = multi_mat(*cur, rot_mat);
-		i++;
-	}
-	map->i = multi_mat(map->i, rot_mat);
-	map->j = multi_mat(map->j, rot_mat);
-	map->k = multi_mat(map->k, rot_mat);
-	return (map);
-}
-
-void	rotate_y(t_map *map, float_t	angle)
-{
-	t_mat	rot_mat;
-	
-	rot_mat = (t_mat){cos(angle), 0, sin(angle),
-					0, 1, 0,
-					-sin(angle), 0, cos(angle)};
-	fdf_transform(map, rot_mat);
-}
-
-void rotate_z(t_map *map, float_t angle)
-{
-	t_mat rot_mat;
-
-	rot_mat = (t_mat){cos(angle), -sin(angle), 0,
-					  sin(angle), cos(angle), 0,
-					  0, 0, 1};
-	fdf_transform(map, rot_mat);
-}
 
 void	projection_scale_08(t_map	*map)
 {
-	rotate_y(map, M_PI_4);
-	rotate_x(map, ISO_RADIAN);
+	rotate_y(map, -M_PI_4);
+	rotate_x(map, -ISO_RADIAN);
+	autoscale(map);	
+}
+
+int	start_win_img(t_vars	*all)
+{
+	all->mlx = mlx_init();
+	if (all->mlx == NULL)
+	{
+		ft_putstr_fd("Failed to set up X server", 2);
+		return (-1);
+	}
+	all->win = mlx_new_window(all->mlx, WIDTH, HEIGHT, "Hello FDF!");
+	if (all->win == NULL)
+	{
+		ft_putstr_fd("Failed to build a window", 2);
+		return (-1);
+	}
+	all->img.mlx_img = 	mlx_new_image(all->mlx, WIDTH, HEIGHT);
+	all->img.addr = mlx_get_data_addr(all->img.mlx_img, &all->img.bits_pix,
+		&all->img.line_len, &all->img.endian);
+	
+	return (0);
 }
 
 int main(int argc, char **argv)
@@ -165,61 +125,7 @@ int main(int argc, char **argv)
 }
 
 
-int	draw_low_line(t_img	*img, t_point s, t_point e)
-{
-	double	err;
-	double	slope;
-	double	step;
-	t_point	cur;
-	
-	slope = (double)(e.y - s.y) / (e.x - s.x);
-	err = -0.5;
-	step = fabs(slope);
-	cur = s;
-	while (cur.x < e.x)
-	{
-		put_pixel(img, cur);
-		err += step;
-		if (err >= 0)
-		{
-			if (slope > 0)
-				cur.y++;
-			else
-				cur.y--;
-			err--;
-		}
-		cur.color = get_pix_color(cur, s, e);
-		cur.x++;
-	}
-}
 
-int	draw_high_line(t_img	*img, t_point	s, t_point	e)
-{
-	double	err;
-	double	slope;
-	double	step;
-	t_point	cur;
-
-	slope = (double)(e.y - s.y) / (e.x - s.x);
-	err = -0.5;
-	step = fabs(slope);
-	cur = s;
-	while (cur.y < e.y)
-	{
-		put_pixel(img, cur);
-		err += step;
-		if (err >= 0)
-		{
-			if (slope > 0)
-				cur.x++;
-			else
-				cur.x--;
-			err--;
-		}
-		cur.color = get_pix_color(cur, s, e);
-		cur.y++;
-	}
-}
 
 /*
 	all.mlx = mlx_init();
@@ -246,30 +152,4 @@ int	draw_high_line(t_img	*img, t_point	s, t_point	e)
 	// hook and bonus(extra projection, zoom, translate and rotate)
  */
 
-void	autoscale(t_map	*map)
-{
-	float_t scale_x;
-	float_t scale_y;
-	t_point	*cur;
-	int		range[4];
-	int		i;
 
-	ft_memset(range, 0, sizeof(range));
-	i = 0;
-	while (i < map->dim_x * map->dim_y)
-	{
-		cur = map->grid + i;
-		if (cur->x < range[0])
-			range[0] = cur->x;
-		if (cur->x > range[1])
-			range[1] = cur->x;
-		if (cur->y < range[2])
-			range[2] = cur->y;
-		if (cur->y > range[3])
-			range[3] = cur->y;
-		i++;
-	}
-	scale_x = (WIDTH / 2 - 50) / fmaxf(abs(range[1]), abs(range[0]));
-	scale_y = (HEIGHT / 2 - 50) / fmaxf(abs(range[3]), abs(range[2]));
-	zoom(map, fminf(scale_x, scale_y));
-}

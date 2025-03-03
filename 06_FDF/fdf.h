@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 12:42:58 by layang            #+#    #+#             */
-/*   Updated: 2025/03/03 09:05:13 by layang           ###   ########.fr       */
+/*   Updated: 2025/03/03 12:11:38 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,12 @@
 # define HIGH_COLOR		PURPLE
 # define LOW_COLOR		BLUE
 
-# define ISO_MATRIX ((float_t[3][3]){          \
+/* # define ISO_MATRIX ((float_t[3][3]){          \
 	{sqrt(3) / 3, -sqrt(6) / 6, -sqrt(6) / 6}, \
 	{sqrt(3) / 3,  sqrt(6) / 6,  sqrt(6) / 6}, \
-	{sqrt(3) / 3,  sqrt(3) / 3, -sqrt(3) / 3}})
+	{sqrt(3) / 3,  sqrt(3) / 3, -sqrt(3) / 3}}) */
+
+#define ISO_RADIAN 0.6154797
 
 typedef struct s_vars
 {
@@ -88,7 +90,10 @@ typedef struct	s_map
 	int		max_z;
 	int		min_z;
 	int		with_color;
-	t_mat	b_mat;
+	t_point	i;
+	t_point j;
+	t_point k;
+	t_point locate;
 }	t_map;
 
 #endif

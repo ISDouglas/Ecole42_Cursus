@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 09:00:58 by layang            #+#    #+#             */
-/*   Updated: 2025/03/03 10:53:53 by layang           ###   ########.fr       */
+/*   Updated: 2025/03/03 12:52:26 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,42 +72,6 @@ int	read_file_01(t_vars	*all, char	*file)
 	return (cols);
 }
 
-void	renew_range_z_04(t_map	*map, t_point	*cur)
-{
-	if (cur->z < map->min_z)
-		map->min_z = cur->z;
-	if (cur->z > map->max_z)
-		map->max_z = cur->z;
-}
-
-void	fill_row_03(t_map	*map, char	**row, int	*j)
-{
-	t_point	*cur;
-	t_point	p;
-	int		col;
-	
-	p.x = -map->cell_size * map->dim_x / 2;
-	p.y = map->cell_size * map->dim_y / 2 + map->cell_size * (*j);
-	if (*j == 0 && ft_strchr(*row, ','))
-		map->with_color = 1;
-	col = 0;
-	while (col < map->dim_x)
-	{
-		cur = map->grid + col + map->dim_x * (*j);
-		*cur = p;
-		cur->z = ft_atoi(row[col]);
-		renew_range_z_04(map, cur);
-		if (map->with_color == 1)
-			cur->color = ft_atoi_base((ft_strchr(row[col], 'x') 
-				+ 1), "0123456789abcdef");
-		else
-			cur->color = GROUND_COLOR;
-		p.x += map->cell_size;
-		col++;
-	}
-	*j++;
-}
-
 void gradient_color_07(float_t r, int *rgb[3], int s, int e)
 {
 	rgb[0] = (int)roundf((1 - r) * ((s >> 16) & 0xFF) + r * ((e >> 16) & 0xFF));
@@ -115,109 +79,67 @@ void gradient_color_07(float_t r, int *rgb[3], int s, int e)
 	rgb[2] = (int)roundf((1 - r) * (s & 0xFF) + r * (e & 0xFF));
 }
 
-void color_points_06(t_map *map)
+
+t_point	multi_mat(t_point	p, t_mat	mat)
 {
-	float_t ratio;
-	int		rgb[3];
-	int		i;
+	p.x = mat.x1y1 * p.x + mat.x2y1 * p.y + mat.x3y1 * p.z;
+	p.y = mat.x1y2 * p.x + mat.x2y2 * p.y + mat.x3y2 * p.z;
+	p.z = mat.x1y3 * p.x + mat.x2y3 * p.y + mat.x3y3 * p.z;
+	return (p);
+}
+
+void rotate_x(t_map *map, float_t angle)
+{
+	t_mat	rot_mat;
+
+	rot_mat = (t_mat){1, 0, 0,
+					  0, cos(angle), -sin(angle),
+					  0, sin(angle), cos(angle)};
+	fdf_transform(map, rot_mat);
+}
+
+t_map	*fdf_transform(t_map	*map, t_mat	rot_mat)
+{
+	int	i;
 	t_point	*cur;
 
 	i = 0;
 	while (i < map->dim_x * map->dim_y)
 	{
 		cur = map->grid + i;
-		if (cur->z > 0)
-		{
-			ratio = cur->z / map->max_z;
-			gradient_color_07(ratio, &rgb, GROUND_COLOR, HIGH_COLOR);
-			cur->color = rgb[0] << 16 | rgb[1] << 8 | rgb[2];
-		}
-		if (cur->z < 0)
-		{
-			ratio = (map->min_z - cur->z) / map->min_z;
-			gradient_color_07(ratio, &rgb, LOW_COLOR, GROUND_COLOR);
-			cur->color = rgb[0] << 16 | rgb[1] << 8 | rgb[2];
-		}
+		*cur = multi_mat(*cur, rot_mat);
 		i++;
 	}
-}
-
-/* 		if (cur->z != 0)
-		{
-			if (cur->z > 0)
-				gradient_color_07(ratio, &rgb, GROUND_COLOR, HIGH_COLOR);
-			else
-				gradient_color_07(ratio, &rgb, LOW_COLOR, GROUND_COLOR);
-			cur->color = rgb[0] << 16 | rgb[1] << 8 | rgb[2];
-		} */
-
-int color_and_save_05(t_vars *all)
-{
-	int		i;
-	t_point	*cur;
-	
-	if (all->map->max_z != 0 && all->map->with_color == 0)
-		color_points_06(all->map);
-	all->orig_map = malloc(sizeof(t_map));
-	if (all->orig_map == NULL)
-		return (-1);
-	all->orig_map->grid = malloc(all->map->dim_x 
-		* all->map->dim_y * sizeof(t_point));
-	if (all->orig_map->grid == NULL)
-		return (-1);
-	i = 0;
-	while (i < all->map->dim_x * all->map->dim_y)
-	{
-		cur = all->map->grid + i;
-		*(all->orig_map->grid + i) = *cur;
-		i++;
-	}
-	all->map->b_mat = (t_mat){1, 0, 0, 0, 1, 0, 0, 0, 1};
-	return (0);
-}
-
-t_map	*fill_map_02(t_vars *all, char *file)
-{
-	int		fd;
-	char	*line;
-	char	**row;
-	t_map	*map;
-	int		j;
-
-	fd = open(file, O_RDONLY);
-	map = all->map;
-	map->cell_size = (WIDTH / map->dim_x + HEIGHT / map->dim_y) / 4;
-	map->grid = malloc(map->dim_x * map->dim_y * sizeof(t_point));
-	if (map->grid == NULL)
-		return (NULL);
-	map->min_z = 0;
-	map->max_z = 0;
-	map->with_color = 0;
-	j = 0;
-	while ((line = get_next_line(fd, 0)) != NULL)
-	{
-		row = ft_split(line, ' ');
-		fill_row_03(map, row, &j);
-		free(row);
-		free(line);
-	}
-	close(fd);
+	map->i = multi_mat(map->i, rot_mat);
+	map->j = multi_mat(map->j, rot_mat);
+	map->k = multi_mat(map->k, rot_mat);
 	return (map);
 }
 
-t_point	multip_mat_08(t_point	p, t_mat	mat)
+void	rotate_y(t_map *map, float_t	angle)
 {
+	t_mat	rot_mat;
 	
+	rot_mat = (t_mat){cos(angle), 0, sin(angle),
+					0, 1, 0,
+					-sin(angle), 0, cos(angle)};
+	fdf_transform(map, rot_mat);
 }
 
-/* 
-Top view to 
- */
-void	projection_scale_07(t_map	*map)
+void rotate_z(t_map *map, float_t angle)
 {
-	rot_around_x(map, M_PI);
-	rot_around_y(map, M_PI);
-	rot_around_z(map, M_PI);
+	t_mat rot_mat;
+
+	rot_mat = (t_mat){cos(angle), -sin(angle), 0,
+					  sin(angle), cos(angle), 0,
+					  0, 0, 1};
+	fdf_transform(map, rot_mat);
+}
+
+void	projection_scale_08(t_map	*map)
+{
+	rotate_y(map, M_PI_4);
+	rotate_x(map, ISO_RADIAN);
 }
 
 int main(int argc, char **argv)
@@ -234,9 +156,9 @@ int main(int argc, char **argv)
 	fill_map_02(&all, argv[1]);
 	if (color_and_save_05(&all) == -1)
 		return (-1);
-	projection_scale_07(all.map);
+	projection_scale_08(all.map);
 	all.animate = 0;
-	if (start_win_img_(&all) == -1)
+	if (start_win_img(&all) == -1)
 		return (-1);
 	return (0);
 	//bresenham_line_();

@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 16:39:02 by layang            #+#    #+#             */
-/*   Updated: 2025/03/03 20:57:32 by layang           ###   ########.fr       */
+/*   Updated: 2025/03/04 18:59:07 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,30 +42,3 @@ t_point	multi_mat(t_point p, t_mat mat)
 	return (p);
 }
 
-void autoscale(t_map *map)
-{
-	float_t scale_x;
-	float_t scale_y;
-	t_point *cur;
-	int range[4];
-	int i;
-
-	ft_memset(range, 0, sizeof(range));
-	i = 0;
-	while (i < map->dim_x * map->dim_y)
-	{
-		cur = map->grid + i;
-		if (cur->x < range[0])
-			range[0] = cur->x;
-		if (cur->x > range[1])
-			range[1] = cur->x;
-		if (cur->y < range[2])
-			range[2] = cur->y;
-		if (cur->y > range[3])
-			range[3] = cur->y;
-		i++;
-	}
-	scale_x = (WIDTH / 2 - 50) / fmaxf(abs(range[1]), abs(range[0]));
-	scale_y = (HEIGHT / 2 - 50) / fmaxf(abs(range[3]), abs(range[2]));
-	zoom(map, fminf(scale_x, scale_y));
-}

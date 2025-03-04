@@ -6,11 +6,46 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 16:45:51 by layang            #+#    #+#             */
-/*   Updated: 2025/03/03 20:34:52 by layang           ###   ########.fr       */
+/*   Updated: 2025/03/04 19:39:39 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../fdf.h"
+
+static void renew_range_z_04(t_map *map, t_point *cur)
+{
+	if (cur->z < map->min_z)
+		map->min_z = cur->z;
+	if (cur->z > map->max_z)
+		map->max_z = cur->z;
+}
+
+static void fill_row_03(t_map *map, char **row, int *j)
+{
+	t_point *cur;
+	t_point p;
+	int col;
+
+	p.x = -map->cell_size * map->dim_x / 2;
+	p.y = map->cell_size * map->dim_y / 2 + map->cell_size * (*j);
+	if (*j == 0 && ft_strchr(*row, ','))
+		map->with_color = 1;
+	col = 0;
+	while (col < map->dim_x)
+	{
+		cur = map->grid + col + map->dim_x * (*j);
+		*cur = p;
+		cur->z = ft_atoi(row[col]);
+		renew_range_z_04(map, cur);
+		if (map->with_color == 1)
+			cur->color = ft_atoi_base((ft_strchr(row[col], 'x') + 1), "0123456789abcdef");
+		else
+			cur->color = GROUND_COLOR;
+		p.x += map->cell_size;
+		col++;
+	}
+	(*j)++;
+}
 
 t_map *fill_map_02(t_vars *all, char *file)
 {
@@ -41,39 +76,31 @@ t_map *fill_map_02(t_vars *all, char *file)
 	return (map);
 }
 
-void fill_row_03(t_map *map, char **row, int *j)
+static void color_points_06(t_map *map)
 {
+	float_t ratio;
+	int rgb[3];
+	int i;
 	t_point *cur;
-	t_point p;
-	int col;
 
-	p.x = -map->cell_size * map->dim_x / 2;
-	p.y = map->cell_size * map->dim_y / 2 + map->cell_size * (*j);
-	if (*j == 0 && ft_strchr(*row, ','))
-		map->with_color = 1;
-	col = 0;
-	while (col < map->dim_x)
+	i = 0;
+	while (i < map->dim_x * map->dim_y)
 	{
-		cur = map->grid + col + map->dim_x * (*j);
-		*cur = p;
-		cur->z = ft_atoi(row[col]);
-		renew_range_z_04(map, cur);
-		if (map->with_color == 1)
-			cur->color = ft_atoi_base((ft_strchr(row[col], 'x') + 1), "0123456789abcdef");
-		else
-			cur->color = GROUND_COLOR;
-		p.x += map->cell_size;
-		col++;
+		cur = map->grid + i;
+		if (cur->z > 0)
+		{
+			ratio = cur->z / map->max_z;
+			gradient_color(ratio, rgb, GROUND_COLOR, HIGH_COLOR);
+			cur->color = rgb[0] << 16 | rgb[1] << 8 | rgb[2];
+		}
+		if (cur->z < 0)
+		{
+			ratio = (map->min_z - cur->z) / map->min_z;
+			gradient_color(ratio, rgb, LOW_COLOR, GROUND_COLOR);
+			cur->color = rgb[0] << 16 | rgb[1] << 8 | rgb[2];
+		}
+		i++;
 	}
-	*j++;
-}
-
-void renew_range_z_04(t_map *map, t_point *cur)
-{
-	if (cur->z < map->min_z)
-		map->min_z = cur->z;
-	if (cur->z > map->max_z)
-		map->max_z = cur->z;
 }
 
 int color_and_save_05(t_vars *all)
@@ -103,29 +130,4 @@ int color_and_save_05(t_vars *all)
 	return (0);
 }
 
-void color_points_06(t_map *map)
-{
-	float_t ratio;
-	int rgb[3];
-	int i;
-	t_point *cur;
 
-	i = 0;
-	while (i < map->dim_x * map->dim_y)
-	{
-		cur = map->grid + i;
-		if (cur->z > 0)
-		{
-			ratio = cur->z / map->max_z;
-			gradient_color_07(ratio, &rgb, GROUND_COLOR, HIGH_COLOR);
-			cur->color = rgb[0] << 16 | rgb[1] << 8 | rgb[2];
-		}
-		if (cur->z < 0)
-		{
-			ratio = (map->min_z - cur->z) / map->min_z;
-			gradient_color_07(ratio, &rgb, LOW_COLOR, GROUND_COLOR);
-			cur->color = rgb[0] << 16 | rgb[1] << 8 | rgb[2];
-		}
-		i++;
-	}
-}

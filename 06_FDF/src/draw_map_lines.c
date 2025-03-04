@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 16:45:39 by layang            #+#    #+#             */
-/*   Updated: 2025/03/03 20:53:25 by layang           ###   ########.fr       */
+/*   Updated: 2025/03/04 19:23:14 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,19 @@ See:
 https://www.markwrobel.dk/post/amiga-machine-code-letter12-linedraw/
 */
 
-void	put_pixel()
+void	put_pixel(t_pic	*img, t_point	pt)
 {
+	char	*dst;
+	int		x;
+	int		y;
 	
+	x = round(pt.x);
+	y = round(pt.y);
+	dst = img->addr + (y * img->line_len + x * (img->bits_pix / 8));
+	*(unsigned int *)dst = pt.color;
 }
 
-int draw_low_line(t_img *img, t_point s, t_point e)
+static int draw_low_line(t_pic *img, t_point s, t_point e)
 {
 	double err;
 	double slope;
@@ -49,9 +56,10 @@ int draw_low_line(t_img *img, t_point s, t_point e)
 		cur.color = get_pix_color(cur, s, e);
 		cur.x++;
 	}
+	return (0);
 }
 
-int draw_high_line(t_img *img, t_point s, t_point e)
+static int draw_high_line(t_pic *img, t_point s, t_point e)
 {
 	double err;
 	double tr_slope;
@@ -77,4 +85,18 @@ int draw_high_line(t_img *img, t_point s, t_point e)
 		cur.color = get_pix_color(cur, s, e);
 		cur.y++;
 	}
+	return (0);
+}
+
+int draw_bresenham_line(t_pic *img, t_point start, t_point end)
+{
+	if (fabs(end.y -start.y) < fabs(end.x - start.x))
+	{
+		if (end.x < start.x)
+			return(draw_low_line(img, end, start));
+		return (draw_low_line(img, start, end));
+	}
+	if (end.y < start.y)
+		return (draw_high_line(img, end, start));
+	return (draw_high_line(img, start, end));
 }

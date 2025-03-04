@@ -6,7 +6,7 @@
 #    By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/23 11:25:10 by layang            #+#    #+#              #
-#    Updated: 2025/02/23 11:59:27 by layang           ###   ########.fr        #
+#    Updated: 2025/03/04 19:44:58 by layang           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,12 +20,19 @@ DEBUG = -g
 RM = rm -rf
 
 SRC_F = ./src/
-SRC_C = pipex.c\
-		pipex_utils.c
+SRC_C = draw_map_img.c\
+        fdf.c\
+        utils_color.c\
+        draw_map_lines.c\
+        hook_events.c\
+        utils_math.c\
+        draw_map_points.c\
+        transforms.c\
+        utils_transform.c
 
 SRCS = $(addprefix $(SRC_F), $(SRC_C))
 
-SRCS_BONUS = pipex_bonus.c\
+#SRCS_BONUS = pipex_bonus.c\
 			pipex_utils.c\
 			pipex_utils_bonus.c
 
@@ -37,7 +44,7 @@ OBJS = $(SRCS:.c=.o)
 CYAN = \033[0;36m
 RESET = \033[0m
 
-$(NAME) : $(OBJS) $(LIBC) $(LINKS)
+$(NAME) : $(OBJS)
 	@echo ""
 	@echo "${CYAN}Compiling libft and minilibx-linux...${RESET}"
 	$(MAKE) bonus -C libft
@@ -62,8 +69,8 @@ clean :
 
 re : fclean all
 
-bonus :
-	$(MAKE) bonus -C libft
-	$(CC) $(CFLAGS) $(SRCS_BONUS) -o $(NAME) -Llibft -lft
+#bonus :
+#	$(MAKE) bonus -C libft
+#	$(CC) $(CFLAGS) $(SRCS_BONUS) -o $(NAME) -Llibft -lft
 
 .PHONY: all bonus clean fclean re

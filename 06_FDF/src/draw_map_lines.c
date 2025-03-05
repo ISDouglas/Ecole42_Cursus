@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_map_lines.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 16:45:39 by layang            #+#    #+#             */
-/*   Updated: 2025/03/04 19:23:14 by layang           ###   ########.fr       */
+/*   Updated: 2025/03/05 12:59:05 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,5 +98,8 @@ int draw_bresenham_line(t_pic *img, t_point start, t_point end)
 	}
 	if (end.y < start.y)
 		return (draw_high_line(img, end, start));
+	if (end.y = start.y)
+		return (draw_low_line(img, end, start));
 	return (draw_high_line(img, start, end));
 }
+

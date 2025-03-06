@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_map_img.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 14:57:54 by layang            #+#    #+#             */
-/*   Updated: 2025/03/04 19:21:43 by layang           ###   ########.fr       */
+/*   Updated: 2025/03/06 14:54:03 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void render_background(t_pic	*img, int	color)
 		i++;
 	}
 }
+
 
 void map_to_img(t_pic	*img, t_map	*map, t_point	offset)
 {

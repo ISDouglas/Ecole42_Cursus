@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_transform.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 20:41:04 by layang            #+#    #+#             */
-/*   Updated: 2025/03/06 05:49:41 by layang           ###   ########.fr       */
+/*   Updated: 2025/03/06 18:08:20 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ t_map *fdf_transform(t_map *map, t_mat rot_mat)
 {
 	int i;
 	t_point *cur;
+	//t_mat	rot_m;
 
 	i = 0;
 	while (i < map->dim_x * map->dim_y)

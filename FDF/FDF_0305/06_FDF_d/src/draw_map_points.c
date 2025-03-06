@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_map_points.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 16:45:51 by layang            #+#    #+#             */
-/*   Updated: 2025/03/06 04:16:17 by layang           ###   ########.fr       */
+/*   Updated: 2025/03/06 18:26:36 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ static void fill_row_03(t_map *map, char **row, int *j)
 	p.y = -map->cell_size * map->dim_y / 2 + map->cell_size * (*j);
 	if (*j == 0 && ft_strchr(*row, ','))
 		map->with_color = 1;
-	map->zscale = 1;
 	col = 0;
 	while (col < map->dim_x)
 	{

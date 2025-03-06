@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 09:00:58 by layang            #+#    #+#             */
-/*   Updated: 2025/03/06 06:12:47 by layang           ###   ########.fr       */
+/*   Updated: 2025/03/06 18:17:41 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,18 +41,31 @@ static int	read_file_01(t_vars	*all, char	*file)
 	return (cols);
 }
 
+/* void	iso(t_point *p)
+
+{
+	t_point	tmp;
+
+	tmp = *p;
+	p->x = (tmp.x - tmp.y) * cos(30 * (M_PI / 180));
+	p->y = (tmp.x + tmp.y) * sin(30 * (M_PI / 180)) - tmp.z;
+} */
+
+
 void projection_scale_07(t_map *map)
 {	
-	if ((abs(map->min_z) + abs(map->max_z)) < map->cell_size)
-		fdf_transform(map, (t_mat){1, 0, 0, 0, 1, 0, 0, 0, 10});
-	rotate_z(map, M_PI_4);
-	rotate_x(map, ISO_RADIAN);
+	t_mat	iso;
+
+	iso = (t_mat){cos(M_PI / 6), -cos(M_PI / 6), 0,
+    sin(M_PI / 6), sin(M_PI / 6), -1,
+    0, 0, 1};
+	fdf_transform(map, iso);
 	autoscale(map);
-	printf("Autoscale.\n");
 }
 
 /* void projection_scale_07(t_map *map)
 {
+	
 	rotate_x(map, -M_PI_2);
 	rotate_y(map, M_PI_4);
 	rotate_x(map, ISO_RADIAN);
@@ -97,8 +110,8 @@ static int	start_win_img(t_vars	*all, char	*name)
 	img_data = (t_img *)all->img.mlx_img;
 	printf("img_mlx width: %d\n", img_data->width);
 	printf("img_mlx height: %d\n", img_data->height);
-	printf("my width: %d\n", WIDTH);
-	printf("my height: %d\n", HEIGHT);
+	printf("my width 1: %d\n", WIDTH);
+	printf("my height 1: %d\n", HEIGHT);
 	if (!all->img.mlx_img)
 	{
 		ft_putstr_fd("FDF: Error initializing image.\n", 2);
@@ -125,6 +138,10 @@ int main(int argc, char **argv)
 	all.map = malloc(sizeof(t_map));
 	if (all.map == NULL)
 		return (-1);
+	if (ft_strnstr(argv[1], "42.fdf", ft_strlen(argv[1])))
+		all.map->fdf42 = 1;
+	else
+		all.map->fdf42 = 0;
 	if (read_file_01(&all, argv[1]) == 0)
 		return (-1);
 	fill_map_02(&all, argv[1]);

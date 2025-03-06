@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_math.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 16:39:02 by layang            #+#    #+#             */
-/*   Updated: 2025/03/05 23:50:00 by layang           ###   ########.fr       */
+/*   Updated: 2025/03/06 17:17:05 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,11 @@ t_point vec_sub(t_point p1, t_point p2)
 
 t_point	multi_mat(t_mat mat, t_point p)
 {
-	p.x = mat.x1y1 * p.x + mat.x2y1 * p.y + mat.x3y1 * p.z;
-	p.y = mat.x1y2 * p.x + mat.x2y2 * p.y + mat.x3y2 * p.z;
-	p.z = mat.x1y3 * p.x + mat.x2y3 * p.y + mat.x3y3 * p.z;
-	return (p);
+	t_point	res;
+	
+	res.x = mat.x1y1 * p.x + mat.x2y1 * p.y + mat.x3y1 * p.z;
+	res.y = mat.x1y2 * p.x + mat.x2y2 * p.y + mat.x3y2 * p.z;
+	res.z = mat.x1y3 * p.x + mat.x2y3 * p.y + mat.x3y3 * p.z;
+	res.color = p.color;
+	return (res);
 }

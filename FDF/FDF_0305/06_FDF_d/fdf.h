@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 12:42:58 by layang            #+#    #+#             */
-/*   Updated: 2025/03/06 05:50:09 by layang           ###   ########.fr       */
+/*   Updated: 2025/03/06 18:12:39 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@
 # include <math.h>
 
 
-# define WIDTH 1280
-# define HEIGHT 720
+# define WIDTH 1920
+# define HEIGHT 1080
 
 # define WHITE	0x00FFFFFF
 //# define PURPLE	0x00B491C8
@@ -31,7 +31,11 @@
 # define GROUND_COLOR	WHITE
 # define HIGH_COLOR		PURPLE
 # define LOW_COLOR		BLUE
-# define ISO_RADIAN 0.6154797
+//# define ISO_RADIAN 0.6154797
+# define ISO_RADIAN 0.6154
+# define COS_30 0.86602540378
+# define SIN_30 0.5
+
 
 typedef struct s_pic
 {
@@ -76,7 +80,7 @@ typedef struct s_map
 	t_point j;
 	t_point k;
 	t_point locate;
-	float_t	zscale;
+	int	fdf42;
 }	t_map;
 
 typedef struct s_vars
@@ -105,6 +109,8 @@ void projection_scale_07(t_map *map);
 t_map *fdf_transform(t_map *map, t_mat rot_mat);
 void reset_map(t_vars *all);
 void re_translate(t_map *map);
+
+void	iso(t_point *p);
 
 // grid and image drawing
 t_map *fill_map_02(t_vars *all, char *file);

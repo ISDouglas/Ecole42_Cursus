@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
+/*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 09:00:58 by layang            #+#    #+#             */
-/*   Updated: 2025/03/05 19:20:33 by layang           ###   ########.fr       */
+/*   Updated: 2025/03/06 06:12:47 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	read_file_01(t_vars	*all, char	*file)
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
 	{
-		ft_putstr_fd("FDF: open file failed", 2);
+		ft_putstr_fd("FDF: open file faile.m\n", 2);
 		return (0);
 	}
 	all->map->dim_y = 0;
@@ -42,11 +42,22 @@ static int	read_file_01(t_vars	*all, char	*file)
 }
 
 void projection_scale_07(t_map *map)
-{
+{	
+	if ((abs(map->min_z) + abs(map->max_z)) < map->cell_size)
+		fdf_transform(map, (t_mat){1, 0, 0, 0, 1, 0, 0, 0, 10});
 	rotate_z(map, M_PI_4);
 	rotate_x(map, ISO_RADIAN);
 	autoscale(map);
+	printf("Autoscale.\n");
 }
+
+/* void projection_scale_07(t_map *map)
+{
+	rotate_x(map, -M_PI_2);
+	rotate_y(map, M_PI_4);
+	rotate_x(map, ISO_RADIAN);
+	autoscale(map);
+} */
 
 static int	loop_img(t_vars	*all)
 {
@@ -66,29 +77,31 @@ static int	loop_img(t_vars	*all)
 	return (0);
 }
 
-static int	start_win_img(t_vars	*all)
+static int	start_win_img(t_vars	*all, char	*name)
 {
 	t_img	*img_data;
 	
 	all->mlx = mlx_init();
 	if (all->mlx == NULL)
 	{
-		ft_putstr_fd("FDF: Failed to set up X server", 2);
+		ft_putstr_fd("FDF: Failed to set up X server.\n", 2);
 		return (-1);
 	}
-	all->win = mlx_new_window(all->mlx, WIDTH, HEIGHT, "Hello FDF!");
+	all->win = mlx_new_window(all->mlx, WIDTH, HEIGHT, name);
 	if (all->win == NULL)
 	{
-		ft_putstr_fd("FDF: Failed to build a window", 2);
+		ft_putstr_fd("FDF: Failed to build a window.\n", 2);
 		return (-1);
 	}
 	all->img.mlx_img = 	mlx_new_image(all->mlx, WIDTH, HEIGHT);
 	img_data = (t_img *)all->img.mlx_img;
 	printf("img_mlx width: %d\n", img_data->width);
 	printf("img_mlx height: %d\n", img_data->height);
+	printf("my width: %d\n", WIDTH);
+	printf("my height: %d\n", HEIGHT);
 	if (!all->img.mlx_img)
 	{
-		ft_putstr_fd("FDF: Error initializing image", 2);
+		ft_putstr_fd("FDF: Error initializing image.\n", 2);
 		return (-1);
 	}
 	all->img.addr = mlx_get_data_addr(all->img.mlx_img, &all->img.bits_pix,
@@ -106,7 +119,7 @@ int main(int argc, char **argv)
 	
 	if (argc != 2)
 	{
-		ft_putstr_fd("FDF: ./fdf file.fdf", 2);
+		ft_putstr_fd("FDF: ./fdf file.fdf\n", 2);
 		return (-1);
 	}
 	all.map = malloc(sizeof(t_map));
@@ -119,7 +132,7 @@ int main(int argc, char **argv)
 		return (-1);
 	projection_scale_07(all.map);
 	all.animate = 0;
-	if (start_win_img(&all) == -1)
+	if (start_win_img(&all, argv[1]) == -1)
 		return (-1);
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_color.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
+/*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 20:33:13 by layang            #+#    #+#             */
-/*   Updated: 2025/03/05 13:20:24 by layang           ###   ########.fr       */
+/*   Updated: 2025/03/06 04:53:02 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,36 @@ int	get_pix_color(t_point	cur, t_point start, t_point end)
 		return (start.color);
 	delta =  vec_sub(cur, start);
 	pos = sqrt(delta.x * delta.x + delta.y * delta.y);
-	ratio = pos / len;
+	ratio = (float_t)pos / (float_t)len;
 	gradient_color(ratio, rgb, start.color, end.color);
 	return ((rgb[0] << 16) | (rgb[1] << 8) | rgb[2]);
+}
+
+void	change_42fdf_color(t_map	*map)
+{
+	int	i;
+	t_point	*cur;
+	
+	i = 0;
+	while (i < map->dim_x * map->dim_y)
+	{
+		cur = map->grid + i;
+		if (cur->z == 0)
+		{
+			if ((i % map->dim_x != map->dim_x - 1) && (cur + 1)->z > 0)
+				cur->color = YELLOW;
+			if ((i < map->dim_x * map->dim_y - map->dim_x) 
+				&& (cur + map->dim_x)->z > 0)
+				cur->color = YELLOW;
+		}
+/* 		if (cur->z > 0)
+		{
+			if ((i % map->dim_x != map->dim_x - 1) && (cur + 1)->z == 0)
+				(cur + 1)->color = YELLOW;
+			if ((i < map->dim_x * map->dim_y - map->dim_x) 
+				&& (cur + map->dim_x)->z == 0)
+				(cur + 1)->color = YELLOW;
+		} */
+		i++;
+	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_transform.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
+/*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 20:41:04 by layang            #+#    #+#             */
-/*   Updated: 2025/03/05 14:58:36 by layang           ###   ########.fr       */
+/*   Updated: 2025/03/06 05:49:41 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ void autoscale(t_map *map)
 	float_t scale_x;
 	float_t scale_y;
 	t_point *cur;
-	int range[4];
 	int i;
+	int	range[4];
 
 	ft_memset(range, 0, sizeof(range));
 	i = 0;
@@ -82,8 +82,12 @@ void autoscale(t_map *map)
 			range[3] = cur->y;
 		i++;
 	}
-	scale_x = (WIDTH / 2 - 30) / fmaxf(abs(range[1]), abs(range[0]));
-	scale_y = (HEIGHT / 2 - 30) / fmaxf(abs(range[3]), abs(range[2]));
+	printf("min_x: %d, max_x: %d, min_y: %d, max_y: %d\n"
+		, range[0], range[1], range[2], range[3]);
+	scale_x = (WIDTH / 2 - 150) / fmaxf(abs(range[1]), abs(range[0]));
+	scale_y = (HEIGHT / 2 - 150) / fmaxf(abs(range[3]), abs(range[2]));
+	printf("scale x: %f, scale y: %f\n", scale_x, scale_y);
+	printf("min_z: %d, max_z: %d\n", map->min_z, map->max_z);
 	zoom(map, fminf(scale_x, scale_y));
 }
 

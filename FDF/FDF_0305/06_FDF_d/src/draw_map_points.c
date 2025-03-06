@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_map_points.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
+/*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 16:45:51 by layang            #+#    #+#             */
-/*   Updated: 2025/03/05 16:06:25 by layang           ###   ########.fr       */
+/*   Updated: 2025/03/06 04:16:17 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ static void fill_row_03(t_map *map, char **row, int *j)
 	p.y = -map->cell_size * map->dim_y / 2 + map->cell_size * (*j);
 	if (*j == 0 && ft_strchr(*row, ','))
 		map->with_color = 1;
+	map->zscale = 1;
 	col = 0;
 	while (col < map->dim_x)
 	{
@@ -84,7 +85,8 @@ t_map *fill_map_02(t_vars *all, char *file)
 
 	fd = open(file, O_RDONLY);
 	map = all->map;
-	map->cell_size = (WIDTH / map->dim_x + HEIGHT / map->dim_y) / 4;
+	//map->cell_size = (WIDTH / map->dim_x + HEIGHT / map->dim_y) / 4;
+	map->cell_size = 10;
 	map->grid = malloc(map->dim_x * map->dim_y * sizeof(t_point));
 	if (map->grid == NULL)
 		return (NULL);
@@ -128,6 +130,7 @@ static void color_points_06(t_map *map)
 		}
 		i++;
 	}
+	change_42fdf_color(map);
 }
 
 int color_and_save_05(t_vars *all)

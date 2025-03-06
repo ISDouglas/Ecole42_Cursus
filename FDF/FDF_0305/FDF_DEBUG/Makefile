@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME = fdfD
+NAME = fdf
 CC = cc
 CFLAGS = -Werror -Wall -Wextra
 DEBUG = -g

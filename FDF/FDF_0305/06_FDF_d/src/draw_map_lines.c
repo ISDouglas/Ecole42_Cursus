@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_map_lines.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
+/*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 16:45:39 by layang            #+#    #+#             */
-/*   Updated: 2025/03/05 18:35:32 by layang           ###   ########.fr       */
+/*   Updated: 2025/03/05 21:29:12 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,9 @@ void	put_pixel(t_pic	*img, t_point	pt)
 	
 	x = round(pt.x);
 	y = round(pt.y);
-/* 	if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT)
-		return ; */
+	//printf("x: %d, y: %d\n", x, y);
+	if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT)
+		return ;
 	dst = img->addr + (y * img->line_len + x * (img->bits_pix / 8));
 	*(unsigned int *)dst = pt.color;
 }

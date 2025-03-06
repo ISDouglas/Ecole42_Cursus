@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
+/*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 12:42:58 by layang            #+#    #+#             */
-/*   Updated: 2025/03/05 18:33:05 by layang           ###   ########.fr       */
+/*   Updated: 2025/03/06 05:50:09 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,15 @@
 # include <math.h>
 
 
-# define WIDTH 720
-# define HEIGHT 500
+# define WIDTH 1280
+# define HEIGHT 720
 
 # define WHITE	0x00FFFFFF
-# define PURPLE	0x00B491C8
+//# define PURPLE	0x00B491C8
+# define PURPLE	0x009400D3
 # define BLUE	0x00000066
 # define BLACK	0x00000000
+# define YELLOW 0x00FFB699
 # define GROUND_COLOR	WHITE
 # define HIGH_COLOR		PURPLE
 # define LOW_COLOR		BLUE
@@ -74,6 +76,7 @@ typedef struct s_map
 	t_point j;
 	t_point k;
 	t_point locate;
+	float_t	zscale;
 }	t_map;
 
 typedef struct s_vars
@@ -112,6 +115,7 @@ void gradient_color(float_t r, int rgb[3], int s, int e);
 int get_pix_color(t_point cur, t_point start, t_point end);
 void put_pixel(t_pic *img, t_point pt);
 int draw_bresenham_line(t_pic *img, t_point start, t_point end);
+void	change_42fdf_color(t_map	*map);
 
 // hook controls
 void hook_control(t_vars *all);

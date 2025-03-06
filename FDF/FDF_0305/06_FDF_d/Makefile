@@ -6,7 +6,7 @@
 #    By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/23 11:25:10 by layang            #+#    #+#              #
-#    Updated: 2025/03/04 19:44:58 by layang           ###   ########.fr        #
+#    Updated: 2025/03/05 20:26:57 by layang           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,7 +64,7 @@ fclean : clean
 	$(MAKE) fclean -C libft
 
 clean :
-	$(RM) $(NAME)
+	$(RM) $(NAME) $(OBJS)
 	$(MAKE) clean -C libft
 
 re : fclean all

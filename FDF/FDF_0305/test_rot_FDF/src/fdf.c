@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 09:00:58 by layang            #+#    #+#             */
-/*   Updated: 2025/03/07 15:11:33 by layang           ###   ########.fr       */
+/*   Updated: 2025/03/07 15:21:10 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static int	read_file_01(t_vars	*all, char	*file)
 } */
 
 
-void projection_scale_07(t_map *map)
+/* void projection_scale_07(t_map *map)
 {	
 	t_mat	iso;
 
@@ -61,7 +61,7 @@ void projection_scale_07(t_map *map)
     0, 0, 1};
 	fdf_transform(map, iso);
 	autoscale(map);
-}
+} */
 
 /* void projection_scale_07(t_map *map)
 {
@@ -70,14 +70,14 @@ void projection_scale_07(t_map *map)
     autoscale(map);
 } */
 
-/* void projection_scale_07(t_map *map)
+void projection_scale_07(t_map *map)
 {
 	
 	rotate_x(map, -M_PI_2);
 	rotate_y(map, M_PI_4);
 	rotate_x(map, ISO_RADIAN);
 	autoscale(map);
-} */
+}
 
 static int	loop_img(t_vars	*all)
 {

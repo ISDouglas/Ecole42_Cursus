@@ -1,4 +1,0 @@
-No symbol table loaded.  Use the "file" command.
-No executable file now.
-No symbol file now.
-Undefined set logging command: "main.c log.txt".  Try "help set logging".

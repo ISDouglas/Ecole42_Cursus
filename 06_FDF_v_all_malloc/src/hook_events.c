@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   hook_events.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 12:47:50 by layang            #+#    #+#             */
-/*   Updated: 2025/03/09 17:19:12 by layang           ###   ########.fr       */
+/*   Updated: 2025/03/10 11:17:39 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../fdf.h"
 
-static int	close_fdf(t_vars	*all)
+int	close_fdf(t_vars	*all)
 {
 	mlx_destroy_window(all->mlx, all->win);
 	all->win = NULL;
@@ -26,7 +26,8 @@ static int	close_fdf(t_vars	*all)
 	exit(0);
 	return (0);
 }
-void	free_fdf(int	flag, ...)
+
+/* void	free_fdf(int flag, ...)
 {
 	va_list	a_list;
 	void	*ptr;
@@ -38,9 +39,26 @@ void	free_fdf(int	flag, ...)
 	{
 		free(ptr);
 		ptr = NULL;
-	}	
+	}
 	va_end(a_list);
-} 
+} */
+
+void	free_fdf(int flag, ...)
+{
+	va_list	a_list;
+	void	*ptr;
+
+	va_start(a_list, flag);
+	if (flag == -1)
+		get_next_line(-1, 0);
+	ptr = va_arg(a_list, void *);
+	while (ptr != NULL)
+	{
+		free(ptr);
+		ptr = va_arg(a_list, void *);
+	}
+	va_end(a_list);
+}
 
 /* t_win_list				*new_win
 t_img	*img
@@ -77,7 +95,6 @@ void free_fdf(int flag, ...)
     }
     va_end(args);
 } */
-
 
 static int	key_hooks_esc(int keycode, t_vars	*all)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 12:42:58 by layang            #+#    #+#             */
-/*   Updated: 2025/03/09 18:24:33 by layang           ###   ########.fr       */
+/*   Updated: 2025/03/10 11:11:29 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # include "minilibx-linux/mlx_int.h"
 # include <math.h>
 # include <stdarg.h>
-# include <stdio.h>
 
 # define WIDTH			1920
 # define HEIGHT			1080
@@ -35,6 +34,7 @@
 
 //# define malloc(size) NULL
 //# define malloc(size) (size == sizeof(t_map) ? NULL : malloc(size))
+//valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes
 
 typedef struct s_pic
 {
@@ -116,12 +116,12 @@ void	change_42fdf_color(t_map	*map);
 
 // hook controls
 void	hook_control(t_vars	*all);
+int		close_fdf(t_vars	*all);
 
 //bonus
 void	reset_map(t_vars	*all);
 void	rotate_x(t_map	*map, float_t	angle);
 void	rotate_y(t_map	*map, float_t	angle);
-//void	rotate_z(t_map	*map, float_t	angle);
 void	scale_z(t_vars	*all, float_t	factor);
 void	translate(t_map	*map, t_point	offset);
 void	re_translate(t_map	*map);

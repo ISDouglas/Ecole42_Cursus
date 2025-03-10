@@ -6,7 +6,7 @@
 #    By: layang <layang@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/23 11:25:10 by layang            #+#    #+#              #
-#    Updated: 2025/03/07 19:48:36 by layang           ###   ########.fr        #
+#    Updated: 2025/03/10 10:19:18 by layang           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,7 @@ SRC_B = draw_map_img.c\
 		fdf_bonus.c\
 		utils_color.c\
 		draw_map_lines.c\
+		hook_events.c\
 		hook_events_bonus.c\
 		utils_math.c\
 		draw_map_points.c\

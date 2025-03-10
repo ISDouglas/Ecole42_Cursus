@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_map_points.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 16:45:51 by layang            #+#    #+#             */
-/*   Updated: 2025/03/09 18:38:00 by layang           ###   ########.fr       */
+/*   Updated: 2025/03/10 11:03:10 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ t_map	*fill_map_02(t_vars	*all, char	*file)
 	map->grid = malloc(map->dim_x * map->dim_y * sizeof(t_point));
 	if (map->grid == NULL)
 		return (NULL);
-	map->with_color = 0;
 	j = 0;
 	line = get_next_line(fd, 0);
 	while (line != NULL)
@@ -129,6 +128,5 @@ int	color_and_save_05(t_vars	*all)
 	all->map->i = (t_point){1, 0, 0, 0x0};
 	all->map->j = (t_point){0, 1, 0, 0x0};
 	all->map->k = (t_point){0, 0, 1, 0x0};
-	//all->map->locate = (t_point){0, 0, 0, 0x0};
 	return (0);
 }

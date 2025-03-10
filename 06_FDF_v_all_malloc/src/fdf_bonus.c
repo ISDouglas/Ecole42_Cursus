@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 09:00:58 by layang            #+#    #+#             */
-/*   Updated: 2025/03/07 20:34:21 by layang           ###   ########.fr       */
+/*   Updated: 2025/03/10 11:13:27 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,8 @@ static int	read_file_01(t_vars	*all, char	*file)
 
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
-		ft_putstr_fd("FDF: open file failed.\n", 2);
-	if (fd == -1)
-		return (free(all->map), 0);
-	all->map->dim_y = 0;
+		return (ft_putstr_fd("FDF: open file failed.\n", 2), -1);
+	cols = 0;
 	line = get_next_line(fd, 0);
 	while (line != NULL)
 	{
@@ -31,7 +29,7 @@ static int	read_file_01(t_vars	*all, char	*file)
 		if (all->map->dim_y != 0 && all->map->dim_x != cols)
 			ft_putstr_fd("FDF: file error: Found wrong line length.\n", 2);
 		if (all->map->dim_y != 0 && all->map->dim_x != cols)
-			return (free(all->map), free(line), get_next_line(-1, 0), 0);
+			return (free_fdf(-1, line, NULL), close(fd), -2);
 		all->map->dim_x = cols;
 		free(line);
 		all->map->dim_y += 1;
@@ -101,25 +99,24 @@ static int	start_win_img(t_vars	*all, char	*name)
 int	main(int argc, char **argv)
 {
 	t_vars	all;
+	int		read;
 
 	if (argc != 2)
-		ft_putstr_fd("FDF: ./fdf file.fdf\n", 2);
-	if (argc != 2)
-		return (-1);
+		return (ft_putstr_fd("FDF: ./fdf file.fdf\n", 2), -1);
 	all.map = malloc(sizeof(t_map));
 	if (all.map == NULL)
-		return (-1);
+		return (ft_putstr_fd("FDF: failed to build map.\n", 2), -1);
+	ft_memset(all.map, 0, sizeof(t_map));
 	if (ft_strnstr(argv[1], "42.fdf", ft_strlen(argv[1])))
 		all.map->fdf42 = 1;
-	else
-		all.map->fdf42 = 0;
-	if (read_file_01(&all, argv[1]) == 0)
-		return (-1);
-	all.map->min_z = 0;
-	all.map->max_z = 0;
+	read = read_file_01(&all, argv[1]);
+	if (read == 0)
+		return (ft_putstr_fd("FDF: empty file.\n", 2), free(all.map), -1);
+	else if (read == -1 || read == -2)
+		return (free(all.map), -1);
 	fill_map_02(&all, argv[1]);
 	if (color_and_save_05(&all) == -1)
-		return (-1);
+		return (ft_putstr_fd("FDF: save orig map failed.\n", 2), -1);
 	projection_scale_07(all.map);
 	all.animate = 0;
 	if (start_win_img(&all, argv[1]) == -1)

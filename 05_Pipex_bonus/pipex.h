@@ -6,10 +6,13 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 16:48:42 by layang            #+#    #+#             */
-/*   Updated: 2025/02/13 09:49:19 by layang           ###   ########.fr       */
+/*   Updated: 2025/03/31 15:09:53 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/* 
+modified get_path after passing to project minishell
+ */
 #ifndef PIPEX_H
 # define PIPEX_H
 

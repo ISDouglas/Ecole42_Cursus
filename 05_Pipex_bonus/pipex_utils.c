@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 12:21:50 by layang            #+#    #+#             */
-/*   Updated: 2025/02/21 15:31:28 by layang           ###   ########.fr       */
+/*   Updated: 2025/03/31 15:10:35 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,14 @@ char	*get_path(char	*cmd, char	**env)
 		path = ft_strjoin(path_f, cmd);
 		free(path_f);
 		if (access(path, F_OK | X_OK) == 0)
+		{
+			ft_free_array(paths);
 			return (path);
+		}			
 		free(path);
 	}
 	ft_free_array(paths);
-	return (0);
+	return (NULL);
 }
 
 void	execute(char	*cmd, char	**env)

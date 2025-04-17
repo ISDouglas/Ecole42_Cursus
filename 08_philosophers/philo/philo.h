@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 16:59:56 by layang            #+#    #+#             */
-/*   Updated: 2025/04/15 18:23:42 by layang           ###   ########.fr       */
+/*   Updated: 2025/04/17 16:07:53 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,36 @@
 # include <pthread.h>
 # include <stdio.h>
 # include <unistd.h>
+#include <stdlib.h>
+#include <sys/time.h>
+
+typedef struct s_schedule
+{
+	int		nb_phi;
+	long	t_die;
+	long	t_eat;
+	long	t_sleep;
+	int		nb_eat;
+}	t_schedule;
 
 typedef struct s_philo
 {
-    int nb_phi;
-    int t_die;
-    int t_eat;
-    int t_sleep;
-    int must_eat;
+	int			id;
+	long		t_die;
+	pthread_t	thread;
+	int			nb_eatp;
 }   t_philo;
+
+typedef struct s_table
+{
+	pthread_mutex_t *forks;
+	pthread_mutex_t	log;
+	t_philo			*philos;
+	int				dead;
+	int				nb_eat;
+	long			start_time;
+}	t_table;
+
+int	ft_atoi(const char *str);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 16:59:56 by layang            #+#    #+#             */
-/*   Updated: 2025/04/17 16:07:53 by layang           ###   ########.fr       */
+/*   Updated: 2025/05/09 10:35:14 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,6 @@
 #include <stdlib.h>
 #include <sys/time.h>
 
-typedef struct s_schedule
-{
-	int		nb_phi;
-	long	t_die;
-	long	t_eat;
-	long	t_sleep;
-	int		nb_eat;
-}	t_schedule;
-
 typedef struct s_philo
 {
 	int			id;
@@ -38,11 +29,15 @@ typedef struct s_philo
 
 typedef struct s_table
 {
+	int		nb_phi;
+	long	t_die;
+	long	t_eat;
+	long	t_sleep;
+	int		nb_eat;
 	pthread_mutex_t *forks;
 	pthread_mutex_t	log;
 	t_philo			*philos;
 	int				dead;
-	int				nb_eat;
 	long			start_time;
 }	t_table;
 

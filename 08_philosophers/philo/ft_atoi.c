@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:21:10 by layang            #+#    #+#             */
-/*   Updated: 2025/04/17 15:56:04 by layang           ###   ########.fr       */
+/*   Updated: 2025/05/11 13:04:23 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	ft_atoi(const char *str)
 		num = num * 10 + (str[i] - '0');
 		i++;
 	}
-	return (num * sign);
+	return ((int)(num * sign));
 }
 
 /* int	main(int ac, char	**av)

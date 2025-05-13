@@ -6,7 +6,7 @@
 #    By: layang <layang@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/15 13:37:24 by layang            #+#    #+#              #
-#    Updated: 2025/04/15 16:58:33 by layang           ###   ########.fr        #
+#    Updated: 2025/05/13 12:27:46 by layang           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,21 +15,15 @@ NAME_B = philo_bonus
 CC = cc
 CFLAGS = -Werror -Wall -Wextra -g
 
-#CFLAGS_B = -Werror -Wall -Wextra -fsanitize=address -fPIC
+#CFLAGS_D = -Werror -Wall -Wextra -fsanitize=address -fPIC
 
 RM = rm -rf
 
 SRC_F = ./philo/
 B_SRC_F = ./philo_bonus/
-SRC_C = draw_map_img.c\
-		fdf.c\
-		utils_color.c\
-		draw_map_lines.c\
-		hook_events.c\
-		utils_math.c\
-		draw_map_points.c\
-		transforms.c\
-		utils_transform.c
+SRC_C = utils.c \
+		init.c \
+		free_philo.c
 		
 SRC_B = draw_map_img.c\
 		fdf_bonus.c\

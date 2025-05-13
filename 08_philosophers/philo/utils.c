@@ -1,17 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   utils.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:21:10 by layang            #+#    #+#             */
-/*   Updated: 2025/05/11 13:04:23 by layang           ###   ########.fr       */
+/*   Updated: 2025/05/13 12:24:23 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/* #include <stdlib.h>
-#include <stdio.h> */
 #include "philo.h"
 /* Description: Converts the initial portion of the string pointed to by str  */
 /* to int.                                                                    */
@@ -41,20 +39,3 @@ int	ft_atoi(const char *str)
 	}
 	return ((int)(num * sign));
 }
-
-/* int	main(int ac, char	**av)
-{
-	int	n1;
-	int	n2;
-
-	if (ac < 2)
-	{
-		printf("Put your number.");
-		return (0);
-	}	
-	n1 = ft_atoi(av[1]);
-	n2 = atoi(av[1]);
-	printf("ft_atoi: %d\n", n1);
-	printf("atoi: %d\n", n2);
-	return (0);
-} */

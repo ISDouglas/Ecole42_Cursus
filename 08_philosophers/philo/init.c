@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:16:08 by layang            #+#    #+#             */
-/*   Updated: 2025/05/14 13:16:13 by layang           ###   ########.fr       */
+/*   Updated: 2025/05/14 17:04:58 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ static int	init_philos(t_table	*tab)
 		tab->philos[i]->t_die = tab->t_die;
 		tab->philos[i]->nb_eatp = 0;
 		assign_forks(tab->philos[i], tab->nb_phi);
+		tab->philos[i]->tab = tab;
 		i++;
 	}
 	return (0);

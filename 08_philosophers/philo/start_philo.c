@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 11:50:06 by layang            #+#    #+#             */
-/*   Updated: 2025/05/14 13:44:54 by layang           ###   ########.fr       */
+/*   Updated: 2025/05/14 17:46:17 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	philosopher(void	*data)
 	t_philo	*philo;
 
 	philo = (t_philo *)data;
+	if (philo->tab->nb_phi == 1)
+		return (only_one_philo());
 	
 }
 
@@ -29,11 +31,11 @@ int ft_start_philo(t_table  *tab)
 	while (i < tab->nb_phi)
 	{
 		if (pthread_create(&tab->philos[i]->thread, NULL,
-				&philosopher, tab->philos[i]) != 0)  //add table in philo
-			return (ft_free_philo(tab, 7), 1);
+				&philosopher, tab->philos[i]) != 0)
+			return (perror("create philo thread"), ft_free_philo(tab, 7), 1);
 		i++;
 	}
-	if (tab->nb_phi == 1)
-		return (only_one_philo());
+	if (pthread_create(&tab->end_thread, NULL, &check_end, tab) != 0)
+		return (perror("create end thread"), ft_free_philo(tab, 7), 1);
 	return (0);
 }

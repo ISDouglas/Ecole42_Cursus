@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 16:59:56 by layang            #+#    #+#             */
-/*   Updated: 2025/05/13 12:25:22 by layang           ###   ########.fr       */
+/*   Updated: 2025/05/14 17:24:17 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct s_philo
 	unsigned int	fork[2];
 	pthread_mutex_t	meal_lock;
 	int				nb_eatp;
+	t_table			*tab;
 }   t_philo ;
 
 typedef struct s_table
@@ -45,7 +46,8 @@ typedef struct s_table
 	pthread_mutex_t	log_lock;
 	t_philo			**philos;
 	bool			stop;
-	pthread_mutex_t	stop_lock;	
+	pthread_mutex_t	stop_lock;
+	pthread_t		end_thread;	
 	long			start_time;
 }	t_table ;
 

@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:17:10 by layang            #+#    #+#             */
-/*   Updated: 2025/05/14 13:37:12 by layang           ###   ########.fr       */
+/*   Updated: 2025/05/14 17:18:02 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,15 @@ int	wrong_input_check(t_table	*tab, char	*av5)
 {
 	if (av5)
 	{
-		if (ft_atoi(av5) <= 0)
-			return (printf("nb of eat times must be positive.\n"), -1);
+		if (ft_atoi(av5) < 0)
+			return (printf("nb of times must eat should be positive.\n"), -1);
 		else
 			tab->nb_eat = ft_atoi(av5);			
 	}
 	else
 		tab->nb_eat = -1;
 	if (tab->nb_eat == 0)
-		return (printf("number of eating is 0.\n"), -1);
+		return (printf("number of times must eat is 0.\n"), -1);
 	if (tab->nb_phi <= 0)
 		return (printf("number of philo must be 1-250.\n"), -1);
 	if (tab->t_die < 0 || tab->t_eat < 0 || tab->t_sleep < 0)

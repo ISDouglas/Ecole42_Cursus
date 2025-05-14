@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:16:08 by layang            #+#    #+#             */
-/*   Updated: 2025/05/14 11:59:53 by layang           ###   ########.fr       */
+/*   Updated: 2025/05/14 13:16:13 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,27 +81,30 @@ static int	init_forks(t_table	*tab)
 	return (0);
 }
 
-int	init_table(t_table	*tab, char	**av)
+int	init_table(t_table	**tab, char	**av)
 {
 	int	start_forks;
 	int	start_philos;
 	
-	tab->nb_phi = ft_atoi(av[1]);
-	tab->t_die = ft_atoi(av[2]);
-	tab->t_eat = ft_atoi(av[3]);
-	tab->t_sleep = ft_atoi(av[4]);
-	if (wrong_input_check(tab, av[5]))
+	*tab = malloc(sizeof(t_table));
+	if (!*tab)
+		return (perror("malloc table"), -1);
+	(*tab)->nb_phi = ft_atoi(av[1]);
+	(*tab)->t_die = ft_atoi(av[2]);
+	(*tab)->t_eat = ft_atoi(av[3]);
+	(*tab)->t_sleep = ft_atoi(av[4]);
+	if (wrong_input_check(*tab, av[5]))
 		return (-1);
-	start_forks = init_forks(tab);
+	start_forks = init_forks(*tab);
 	if (start_forks)
 		return (start_forks);
-	start_philos = init_philos(tab);
+	start_philos = init_philos(*tab);
 	if (start_philos)
 		return (start_philos);
-	if (pthread_mutex_init(&tab->log_lock, NULL) != 0)
+	if (pthread_mutex_init(&(*tab)->log_lock, NULL) != 0)
 		return (perror("pthread mutex log lock"), 5);
 	tab->stop =  false;
-	if (pthread_mutex_init(&tab->stop_lock, NULL) != 0)
+	if (pthread_mutex_init(&(*tab)->stop_lock, NULL) != 0)
 		return (perror("pthread mutex stop lock"), 6);
 	return (0);
 }

@@ -1,32 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   start_philo.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/16 13:54:32 by layang            #+#    #+#             */
-/*   Updated: 2025/05/14 11:52:34 by layang           ###   ########.fr       */
+/*   Created: 2025/05/14 11:50:06 by layang            #+#    #+#             */
+/*   Updated: 2025/05/14 12:01:16 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-// ctr on not more than 200 philos and not less than 60ms.
-int	main(int	ac, char	**av)
+int ft_start_philo(t_table  *tab)
 {
-	t_table		tab;
-	int			init;
+    unsigned int    i;
 
-	if (ac != 5 && ac != 6)
-		return(printf("nb_philo, t_die, t_eat, t_sleep, nb_eat(option)\n"), 0);
-    init = init_table(&tab, av);
-	if (init < 0)
-		return (0);
-	if (init)
-		return (ft_free_philo(&tab, init), 0);
-	if(ft_start_philo(&tab))
-		return (1);
-	ft_free_philo(&tab, 7);
-	return (0);
+    tab->start_time = ft_get_time() + tab->nb_phi * 20;
+    i = 0;
+    
+    return (0);
 }

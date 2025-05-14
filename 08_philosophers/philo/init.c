@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:16:08 by layang            #+#    #+#             */
-/*   Updated: 2025/05/13 12:22:12 by layang           ###   ########.fr       */
+/*   Updated: 2025/05/14 11:59:53 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,5 @@ int	init_table(t_table	*tab, char	**av)
 	tab->stop =  false;
 	if (pthread_mutex_init(&tab->stop_lock, NULL) != 0)
 		return (perror("pthread mutex stop lock"), 6);
-	tab->start_time = ft_get_time() + tab->nb_phi * 20;
 	return (0);
 }

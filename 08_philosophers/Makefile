@@ -6,7 +6,7 @@
 #    By: layang <layang@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/15 13:37:24 by layang            #+#    #+#              #
-#    Updated: 2025/05/13 12:27:46 by layang           ###   ########.fr        #
+#    Updated: 2025/05/14 12:02:12 by layang           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,8 @@ RM = rm -rf
 
 SRC_F = ./philo/
 B_SRC_F = ./philo_bonus/
-SRC_C = utils.c \
+SRC_C = main.c \
+		utils.c \
 		init.c \
 		free_philo.c
 		

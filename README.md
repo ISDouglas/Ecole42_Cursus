@@ -14,4 +14,4 @@ List of projects finished:
 
 06_FDF (finished with 125/125)
 
-07-Minishell (working on it now)
+07-Minishell (finished with 125/125)

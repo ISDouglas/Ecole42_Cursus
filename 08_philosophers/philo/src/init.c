@@ -6,19 +6,11 @@
 /*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:16:08 by layang            #+#    #+#             */
-/*   Updated: 2025/05/14 17:04:58 by layang           ###   ########.fr       */
+/*   Updated: 2025/05/15 19:15:57 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-long	ft_get_time(void)
-{
-	struct timeval	tv;
-	
-	gettimeofday(&tv, NULL);
-	return (tv.tv_sec * 1000L + tv.tv_usec / 1000);
-}
 
 static void	assign_forks(t_philo	*philo, int nb)
 {
@@ -48,11 +40,10 @@ static int	init_philos(t_table	*tab)
 		if (!tab->philos[i])
 			return (perror("malloc each philo"),
 				destory_mutex_inphilos(tab->philos, i), 4);
-		if (pthread_mutex_init(&tab->philos[i]->meal_lock, 0) != 0)
-			return (perror("pthread mutex meal lock "), free(tab->philos[i]),
+		if (pthread_mutex_init(&tab->philos[i]->philo_lock, 0) != 0)
+			return (perror("pthread mutex philo lock "), free(tab->philos[i]),
 				destory_mutex_inphilos(tab->philos, i), 4);
 		tab->philos[i]->id = i;
-		tab->philos[i]->t_die = tab->t_die;
 		tab->philos[i]->nb_eatp = 0;
 		assign_forks(tab->philos[i], tab->nb_phi);
 		tab->philos[i]->tab = tab;
@@ -104,7 +95,7 @@ int	init_table(t_table	**tab, char	**av)
 		return (start_philos);
 	if (pthread_mutex_init(&(*tab)->log_lock, NULL) != 0)
 		return (perror("pthread mutex log lock"), 5);
-	tab->stop =  false;
+	(*tab)->stop = false;
 	if (pthread_mutex_init(&(*tab)->stop_lock, NULL) != 0)
 		return (perror("pthread mutex stop lock"), 6);
 	return (0);

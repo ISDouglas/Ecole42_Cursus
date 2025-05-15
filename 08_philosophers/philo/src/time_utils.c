@@ -1,32 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   time_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/16 13:54:32 by layang            #+#    #+#             */
-/*   Updated: 2025/05/14 13:15:04 by layang           ###   ########.fr       */
+/*   Created: 2025/05/15 10:26:08 by layang            #+#    #+#             */
+/*   Updated: 2025/05/15 15:50:25 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-// ctr on not more than 200 philos and not less than 60ms.
-int	main(int	ac, char	**av)
+long	ft_get_time(void)
 {
-	t_table		*tab;
-	int			init;
+	struct timeval	tv;
+	
+	gettimeofday(&tv, NULL);
+	return (tv.tv_sec * 1000L + tv.tv_usec / 1000);
+}
 
-	if (ac != 5 && ac != 6)
-		return(printf("nb_philo, t_die, t_eat, t_sleep, nb_eat(option)\n"), 0);
-    init = init_table(&tab, av);
-	if (init < 0)
-		return (0);
-	if (init)
-		return (ft_free_philo(&tab, init), 0);
-	if(ft_start_philo(tab))
-		return (1);
-	ft_free_philo(tab, 7);
-	return (0);
+void	aligned_time(time_t	now)
+{
+	while (ft_get_time() < now)
+		continue ;
+}
+
+void	philo_pass_time(t_table	*tab, time_t	delay)
+{
+	time_t	wait_until;
+
+	wait_until = ft_get_time() + delay;
+	while (ft_get_time() < wait_until)
+	{
+		if (stop_arrived(tab))
+			break ;
+		usleep(100);
+	}
 }

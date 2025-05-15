@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:17:10 by layang            #+#    #+#             */
-/*   Updated: 2025/05/14 17:18:02 by layang           ###   ########.fr       */
+/*   Updated: 2025/05/15 19:16:25 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	destory_mutex_inphilos(t_philo	**philos, int size)
 	i = 0;
 	while (i < size)
 	{
-		pthread_mutex_destroy(&philos[i]->meal_lock);
+		pthread_mutex_destroy(&philos[i]->philo_lock);
 		free(philos[i]);
 		philos[i] = NULL;
 		i++;
@@ -60,7 +60,7 @@ void	destory_mutex(pthread_mutex_t	*mutxs, int size)
 
 void	ft_free_philo(t_table	*tab, int sign)
 {
-	if (sign >= 6)
+	if (sign >= 6 && tab->nb_phi > 1)
 		pthread_mutex_destroy(&tab->stop_lock);
 	if (sign >= 5)
 		pthread_mutex_destroy(&tab->log_lock);
@@ -77,4 +77,24 @@ void	ft_free_philo(t_table	*tab, int sign)
 		tab->forks_locks = NULL;
 	}
 	free(tab);
+}
+
+void	wait_and_free(t_table	*tab, int sign)
+{
+	int	i;
+	int	real_nb;
+
+	i = 0;
+	if (sign >= 9)
+		real_nb = sign - 9;
+	else
+		real_nb = tab->nb_phi;
+	while (i < real_nb)
+	{
+		pthread_join(tab->philos[i]->thread, NULL);
+		i++;
+	}
+	if (tab->nb_phi > 1 && sign < 8)
+		pthread_join(tab->end_thread, NULL);
+	ft_free_philo(tab, sign);
 }

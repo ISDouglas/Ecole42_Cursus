@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:17:10 by layang            #+#    #+#             */
-/*   Updated: 2025/05/16 13:32:02 by layang           ###   ########.fr       */
+/*   Updated: 2025/05/16 17:24:07 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,17 +60,17 @@ void	destory_mutex(pthread_mutex_t	*mutxs, int size)
 
 void	ft_free_philo(t_table	*tab, int sign)
 {
-	if (sign >= 6 && tab->nb_phi > 1)
+	if (sign > 6 && tab->nb_phi > 1)
 		pthread_mutex_destroy(&tab->stop_lock);
-	if (sign >= 5)
+	if (sign > 5)
 		pthread_mutex_destroy(&tab->log_lock);
-	if (sign >= 4 && tab->philos)
+	if (sign > 4 && tab->philos)
 	{
 		destory_mutex_inphilos(tab->philos, tab->nb_phi);
 		free(tab->philos);
 		tab->philos = NULL;
 	}
-	if (sign >= 2 && tab->forks_locks)
+	if (sign > 2 && tab->forks_locks)
 	{
 		destory_mutex(tab->forks_locks, tab->nb_phi);
 		free(tab->forks_locks);

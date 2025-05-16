@@ -6,7 +6,7 @@
 #    By: layang <layang@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/15 13:37:24 by layang            #+#    #+#              #
-#    Updated: 2025/05/15 19:07:10 by layang           ###   ########.fr        #
+#    Updated: 2025/05/16 13:05:17 by layang           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ CC = cc
 CFLAGS = -Werror -Wall -Wextra -g -pthread
 
 #CFLAGS_D = -Werror -Wall -Wextra -fsanitize=address -fPIC -fsanitize=thread -g
+#valgrind --tool=helgrind
 SRC_PATH = src/
 OBJ_PATH = obj/
 

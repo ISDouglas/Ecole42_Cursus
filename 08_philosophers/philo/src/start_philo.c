@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 11:50:06 by layang            #+#    #+#             */
-/*   Updated: 2025/05/15 19:17:41 by layang           ###   ########.fr       */
+/*   Updated: 2025/05/16 12:49:23 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 static void	think_routine(t_philo	*philo, int delay)
 {
-	time_t think_time;
+	time_t	think_time;
 
 	pthread_mutex_lock(&philo->philo_lock);
 	think_time = (philo->tab->t_die - (ft_get_time()
-			- philo->last_meal) - philo->tab->t_eat) / 2;
+				- philo->last_meal) - philo->tab->t_eat) / 2;
 	pthread_mutex_unlock(&philo->philo_lock);
 	if (think_time < 0)
 		think_time = 0;

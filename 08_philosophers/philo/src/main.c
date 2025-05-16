@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:54:32 by layang            #+#    #+#             */
-/*   Updated: 2025/05/15 19:14:29 by layang           ###   ########.fr       */
+/*   Updated: 2025/05/16 12:50:40 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,19 +34,19 @@ static int	ft_start_philo(t_table	*tab)
 }
 
 // ctr on not more than 200 philos and not less than 60ms.
-int	main(int	ac, char	**av)
+int	main(int ac, char	**av)
 {
 	t_table		*tab;
 	int			init;
 
 	if (ac != 5 && ac != 6)
-		return(printf("nb_philo, t_die, t_eat, t_sleep, nb_eat(option)\n"), 0);
-    init = init_table(&tab, av);
+		return (printf("nb_phi, t_die, t_eat, t_sleep, nb_eat(option)\n"), 0);
+	init = init_table(&tab, av);
 	if (init < 0)
 		return (0);
 	if (init)
 		return (ft_free_philo(tab, init), 0);
-	if(ft_start_philo(tab))
+	if (ft_start_philo(tab))
 		return (1);
 	wait_and_free(tab, 7);
 	return (0);

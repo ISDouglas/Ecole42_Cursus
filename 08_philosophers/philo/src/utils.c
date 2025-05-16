@@ -43,13 +43,13 @@ int	ft_atoi(const char *str)
 void	set_stop_flag(t_table	*tab, bool stat)
 {
 	pthread_mutex_lock(&tab->stop_lock);
-		tab->stop = stat;
+	tab->stop = stat;
 	pthread_mutex_unlock(&tab->stop_lock);
 }
 
 int	stop_arrived(t_table	*table)
 {
-	int stop;
+	int	stop;
 
 	stop = 0;
 	pthread_mutex_lock(&table->stop_lock);

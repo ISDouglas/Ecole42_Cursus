@@ -6,16 +6,16 @@
 /*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 15:16:13 by layang            #+#    #+#             */
-/*   Updated: 2025/05/15 19:18:54 by layang           ###   ########.fr       */
+/*   Updated: 2025/05/16 12:50:59 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static int  found_dead(t_philo	*philo)
+static int	found_dead(t_philo	*philo)
 {
-    time_t	now;
-	
+	time_t	now;
+
 	now = ft_get_time();
 	if ((now - philo->last_meal) >= philo->tab->t_die)
 	{

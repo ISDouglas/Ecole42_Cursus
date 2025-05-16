@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:16:08 by layang            #+#    #+#             */
-/*   Updated: 2025/05/15 19:15:57 by layang           ###   ########.fr       */
+/*   Updated: 2025/05/16 12:48:46 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,15 @@ static void	assign_forks(t_philo	*philo, int nb)
 	else
 	{
 		philo->fork[0] = philo->id;
-		philo->fork[1] = (philo->id + 1) % nb;		
-	}	
+		philo->fork[1] = (philo->id + 1) % nb;
+	}
 }
 
 static int	init_philos(t_table	*tab)
 {
 	int	i;
 
-	tab->philos = malloc(sizeof(t_philo	*) * tab->nb_phi);
+	tab->philos = malloc(sizeof(t_philo *) * tab->nb_phi);
 	if (!tab->philos)
 		return (perror("malloc philos"), 3);
 	i = 0;
@@ -77,7 +77,7 @@ int	init_table(t_table	**tab, char	**av)
 {
 	int	start_forks;
 	int	start_philos;
-	
+
 	*tab = malloc(sizeof(t_table));
 	if (!*tab)
 		return (perror("malloc table"), -1);

@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 12:17:10 by layang            #+#    #+#             */
-/*   Updated: 2025/05/15 19:16:25 by layang           ###   ########.fr       */
+/*   Updated: 2025/05/16 13:32:02 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	wrong_input_check(t_table	*tab, char	*av5)
 		if (ft_atoi(av5) < 0)
 			return (printf("nb of times must eat should be positive.\n"), -1);
 		else
-			tab->nb_eat = ft_atoi(av5);			
+			tab->nb_eat = ft_atoi(av5);
 	}
 	else
 		tab->nb_eat = -1;

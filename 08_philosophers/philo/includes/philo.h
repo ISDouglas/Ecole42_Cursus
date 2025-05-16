@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 16:59:56 by layang            #+#    #+#             */
-/*   Updated: 2025/05/15 19:19:42 by layang           ###   ########.fr       */
+/*   Updated: 2025/05/16 12:57:44 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,25 +33,25 @@ typedef struct s_table
 	long			t_eat;
 	long			t_sleep;
 	int				nb_eat;
-	pthread_mutex_t	*forks_locks; //for forks
-	pthread_mutex_t	log_lock; //for printf
+	pthread_mutex_t	*forks_locks;
+	pthread_mutex_t	log_lock;
 	t_philo			**philos;
 	bool			stop;
-	pthread_mutex_t	stop_lock; //for bool stop
-	pthread_t		end_thread;	//for bool stop
+	pthread_mutex_t	stop_lock;
+	pthread_t		end_thread;
 	long			start_time;
-}	t_table ;
+}	t_table;
 
 typedef struct s_philo
 {
 	unsigned int	id;
 	pthread_t		thread;
 	unsigned int	fork[2];
-	pthread_mutex_t	philo_lock;  //for last_meal, nb_eatp, time to think
+	pthread_mutex_t	philo_lock;
 	int				nb_eatp;
 	time_t			last_meal;
 	t_table			*tab;
-}   t_philo ;
+}	t_philo;
 
 typedef enum e_status
 {
@@ -60,8 +60,8 @@ typedef enum e_status
 	EATING = 2,
 	SLEEPING = 3,
 	THINKING = 4,
-	DIED = 5
-}	t_status ;
+	DIED = 5,
+}	t_status;
 
 /* utils.c  5 */
 int		ft_atoi(const char *str);

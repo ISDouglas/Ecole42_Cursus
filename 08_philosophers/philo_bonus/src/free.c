@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 19:12:14 by layang            #+#    #+#             */
-/*   Updated: 2025/05/16 19:43:25 by layang           ###   ########.fr       */
+/*   Updated: 2025/05/17 14:24:50 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,33 @@ void	ft_free_philo(t_table	*tab, int sign)
 			sem_close(tab->sem_forks);
 		if (tab->s_print != SEM_FAILED)
 			sem_close(tab->s_print);
-		if (tab->eat_counter != SEM_FAILED)
+		if (tab->nb_eat > 0 && tab->eat_counter != SEM_FAILED)
+		{
 			sem_close(tab->eat_counter);
+			sem_unlink("/eat_counter");
+		}
 		sem_unlink("/sem_forks");
 		sem_unlink("/s_print");
-		sem_unlink("/eat_counter");
 	}
 	free(tab);
 }
-    
+
+void	wait_some_philos(t_table *tab, pid_t *pids, int nb_created)
+{
+	int	j;
+
+	j = 0;
+	while (j < nb_created)
+	{
+		kill(pids[j], SIGTERM);
+		j++;
+	}
+	j = 0;
+	while (j < nb_created)
+	{
+		waitpid(pids[j], NULL, 0);
+		j++;
+	}
+	ft_free_philo(tab, 7);
+	free(pids);
+}

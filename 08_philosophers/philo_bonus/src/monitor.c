@@ -6,14 +6,14 @@
 /*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:24:25 by layang            #+#    #+#             */
-/*   Updated: 2025/05/16 19:49:20 by layang           ###   ########.fr       */
+/*   Updated: 2025/05/17 16:24:17 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
 // 在主进程
-void	monitor_death(t_data *data)
+int	monitor_death(t_table	*tab, pid_t	*pids)
 {
 	int	status;
 	pid_t	pid;
@@ -24,16 +24,19 @@ void	monitor_death(t_data *data)
 		kill_all_philos(data);
 	}
 }
-
-void	monitor_eat(t_data *data)
+int	monitor_eat(t_table	*tab)
 {
-	int	i = 0;
-	while (i < data->nb_philo)
+	int	i;
+    
+    i = 0;
+	while (i < tab->nb_eat * tab->nb_phi && tab->nodead)
 	{
-		sem_wait(data->eat_counter);
+		sem_wait(tab->eat_counter);
 		i++;
+		if (i == tab->nb_eat)
+			free_all(tab);
 	}
-	kill_all_philos(data);
+    return (NULL);
 }
 
 void philosopher(int id)
@@ -63,7 +66,8 @@ void philosopher(int id)
         sem_post(print_lock);
 
         sleep(1);
-    }
+	}
+	kill_all_philos(data);
 }
 
 /* int main()
@@ -105,3 +109,15 @@ void philosopher(int id)
     return 0;
 }
  */
+
+ int    fork_eat_monitor(t_table    *tab)
+ {
+	pid_t	monitor;
+
+	monitor = fork();
+	if (monitor == 0)
+	{
+		if (monitor_eat(tab))
+			exit(0);
+	}
+}

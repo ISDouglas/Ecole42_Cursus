@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:29:26 by layang            #+#    #+#             */
-/*   Updated: 2025/05/16 19:31:12 by layang           ###   ########.fr       */
+/*   Updated: 2025/05/17 14:23:53 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,13 @@ static int	init_sems(t_table	*tab)
 		return (perror("sem_open sem_forks failed"), 1);	
 	tab->s_print = sem_open("/s_print", O_CREAT, 0644, 1);
 	if (tab->s_print == SEM_FAILED)
-		return (perror("sem_open s_print failed"), 2);	
-	tab->eat_counter = sem_open("/eat_counter", O_CREAT, 0644, 0);
-	if (tab->eat_counter == SEM_FAILED)
-		return (perror("sem_open eat_counter failed"), 3);	
+		return (perror("sem_open s_print failed"), 2);
+	if (tab->nb_eat > 0)
+	{	
+		tab->eat_counter = sem_open("/eat_counter", O_CREAT, 0644, 0);
+		if (tab->eat_counter == SEM_FAILED)
+			return (perror("sem_open eat_counter failed"), 3);
+	}
 	return (0);
 }
 

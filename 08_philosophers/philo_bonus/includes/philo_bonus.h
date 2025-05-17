@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 14:19:02 by layang            #+#    #+#             */
-/*   Updated: 2025/05/16 18:50:46 by layang           ###   ########.fr       */
+/*   Updated: 2025/05/17 12:14:40 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ typedef struct s_table
 typedef struct s_philo
 {
 	unsigned int	id;
-	pid_t			pid;
 	int				nb_eatp;
 	time_t			last_meal;
 	t_table			*tab;

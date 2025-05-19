@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
+/*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 14:19:02 by layang            #+#    #+#             */
-/*   Updated: 2025/05/17 12:14:40 by layang           ###   ########.fr       */
+/*   Updated: 2025/05/19 08:05:07 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,21 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <semaphore.h>
+# include <pthread.h>
 # include <sys/wait.h>
 # include <sys/time.h>
+# include <fcntl.h>
+# include <signal.h>
 
 typedef struct s_philo	t_philo;
+
+typedef struct s_sems
+{
+	sem_t			*sem_forks;
+	sem_t			*s_print;
+	sem_t			*s_dead;
+	sem_t			*eat_counter;
+}	t_sems;
 
 typedef struct s_table
 {
@@ -29,9 +40,8 @@ typedef struct s_table
 	long			t_eat;
 	long			t_sleep;
 	int				nb_eat;
-	sem_t			*sem_forks;
-	sem_t			s_print;
-	sem_t			eat_counter;
+	pid_t			*pids;
+	t_sems			*sems;
 	t_philo			**philos;
 	long			start_time;
 }	t_table;
@@ -41,6 +51,8 @@ typedef struct s_philo
 	unsigned int	id;
 	int				nb_eatp;
 	time_t			last_meal;
+	char			*s_name;
+	sem_t			*s_phi;
 	t_table			*tab;
 }	t_philo;
 
@@ -53,5 +65,22 @@ typedef enum e_status
 	THINKING = 4,
 	DIED = 5,
 }	t_status;
+
+/* init.c  4*/
+int		wrong_input_check(t_table	*tab, char	*av5);
+int		init_table(t_table	**tab, char	**av);
+/* free.c  3*/
+void	free_philos(t_table	*tab, int size);
+void	ft_free_philo(t_table	*tab, int sign);
+void	wait_some_philos(t_table *tab, int nb_created);
+/* utils.c */
+long	ft_get_time(void);
+void	philo_pass_time(t_table	*tab, time_t	delay);
+/* monitor.c  2*/
+void	*monitor_eat(void	*ptr);
+void	*monitor_death(void	*ptr);
+/* philosopher.c */
+
+
 
 #endif

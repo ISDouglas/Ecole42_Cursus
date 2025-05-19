@@ -3,43 +3,57 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
+/*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 14:31:37 by layang            #+#    #+#             */
-/*   Updated: 2025/05/17 15:14:59 by layang           ###   ########.fr       */
+/*   Updated: 2025/05/18 21:59:47 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-/* static int	ft_start_philo(t_table	*tab)
+void	run_child_philo(t_table	*tab, int i)
 {
-	int		i;
-	pid_t	*pids;
+	pthread_t	tid_dead;
 
-	tab->start_time = ft_get_time() + tab->nb_phi * 20;
-	pids = malloc(sizeof(pid_t) * tab->nb_phi);
-	if (!pids)
-		return (perror("malloc pids"), ft_free_philo(tab, 6), -1);	
-		i = fork_philos(tab, &pids);
-	if (i == tab->nb_phi)
-		monitor_death(tab, pids);
-	else
-		kill_philos(tab, pids, i);
-	free(pids);
-	pids = NULL;
-} */
+	if (pthread_create(&tid_dead, NULL, &monitor_death, tab->philos[i]) != 0)
+		failed_thread("create monitor eat thread", 1, tab);
+	if (pthread_detach(tid_dead) != 0)
+	{
+		pthread_join(tid_dead, NULL),
+		failed_thread("detach monitor eat thread", 1, tab);
+	}
+	tab->philos[i]->last_meal = tab->start_time;
+	philo->times.born_time = get_current_time();
+	philo->times.last_meal = get_current_time();
+}
 
 static int	ft_start_philo(t_table	*tab)
 {
-	int		i;
-
+	int			i;
+	pthread_t	tid_meal;
+	
+	tab->start_time = ft_get_time() + tab->nb_phi * 20;
+	if (tab->nb_eat > 0)
+	{
+		if (pthread_create(&tid_meal, NULL, &monitor_eat, tab) != 0)
+			return (failed_thread("create monitor eat thread", 0, tab), 1);
+		if (pthread_detach(tid_meal) != 0)
+			return (pthread_join(tid_meal, NULL),
+					failed_thread("detach monitor eat thread", 0, tab), 1);
+	}
 	i = 0;
 	while (i < tab->nb_phi)
 	{
-		if ()
+		tab->pids[i] = fork();
+		if (tab->philos[i] < 0)
+			return (wait_some_philos(tab, i), 1);
+		if (tab->pids[i] == 0)
+			run_child_philo(tab, i);
 		i++;
 	}
+	waitpid(-1, NULL, 0);
+	return (0);
 }
 
 int main(int ac, char	**av)
@@ -50,12 +64,10 @@ int main(int ac, char	**av)
 	if (ac != 5 && ac != 6)
 		return (printf("nb_phi, t_die, t_eat, t_sleep, nb_eat(option)\n"), 0);
 	init = init_table(&tab, av); 
-	if (init < 0)
-		return (0);
 	if (init)
 		return (ft_free_philo(tab, init), 0);
 	if (ft_start_philo(tab))
 		return (1);
-	ft_free_philo(tab, 6);
+	ft_free_philo(tab, 8);
 	return (0);
 }

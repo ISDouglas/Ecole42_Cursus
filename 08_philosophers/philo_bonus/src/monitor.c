@@ -3,38 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
+/*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:24:25 by layang            #+#    #+#             */
-/*   Updated: 2025/05/17 16:24:17 by layang           ###   ########.fr       */
+/*   Updated: 2025/05/18 21:36:25 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-// 在主进程
-int	monitor_death(t_table	*tab, pid_t	*pids)
+// in each philo process, need exit
+void	*monitor_death(void	*ptr)
 {
-	int	status;
-	pid_t	pid;
+	t_philo	*philo;
 
-	pid = waitpid(-1, &status, 0);
-	if (WIFEXITED(status) && WEXITSTATUS(status) == 1)
+	philo = (t_philo	*)ptr;
+	if ()
 	{
-		kill_all_philos(data);
+		
 	}
 }
-int	monitor_eat(t_table	*tab)
+
+// in parent process
+void	*minitor_eat(void	*ptr)
 {
-	int	i;
-    
-    i = 0;
-	while (i < tab->nb_eat * tab->nb_phi && tab->nodead)
+	int		i;
+	t_table	*tab;
+
+	tab = (t_table	*)ptr;
+	i = 0;
+	while (1)
 	{
-		sem_wait(tab->eat_counter);
+		sem_wait(tab->sems->eat_counter);
 		i++;
-		if (i == tab->nb_eat)
-			free_all(tab);
+		if (i >= tab->nb_phi)
+		{
+			wait_some_philos(tab, tab->nb_phi);
+			exit(0);
+		}
 	}
     return (NULL);
 }

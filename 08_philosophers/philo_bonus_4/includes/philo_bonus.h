@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 14:19:02 by layang            #+#    #+#             */
-/*   Updated: 2025/05/19 20:48:18 by layang           ###   ########.fr       */
+/*   Updated: 2025/05/19 20:06:31 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,6 @@ typedef struct s_table
 	long			t_sleep;
 	int				nb_eat;
 	int				stop_flag;
-	pthread_t		tid_death;
-	pthread_t		tid_meal;	
 	pid_t			*pids;
 	t_sems			*sems;
 	t_philo			**philos;

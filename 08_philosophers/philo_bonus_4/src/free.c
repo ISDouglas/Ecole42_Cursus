@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 19:12:14 by layang            #+#    #+#             */
-/*   Updated: 2025/05/19 20:51:05 by layang           ###   ########.fr       */
+/*   Updated: 2025/05/19 20:11:51 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,9 +96,6 @@ void	wait_some_philos(t_table *tab, int nb_created, pid_t dead_pid)
 			waitpid(tab->pids[j], NULL, 0);
 		j++;
 	}
-	pthread_join(tab->tid_death, NULL);
-	if (tab->nb_eat > 0)
-		pthread_join(tab->tid_meal, NULL);
 	ft_free_philo(tab, 8);
 }
 

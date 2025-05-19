@@ -3,79 +3,64 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 18:53:20 by layang            #+#    #+#             */
-/*   Updated: 2025/05/19 08:32:51 by layang           ###   ########.fr       */
+/*   Updated: 2025/05/19 14:46:20 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-long	ft_get_time(void)
+size_t	ft_strlen(const char *s)
 {
-	struct timeval	tv;
+	int	i;
 
-	gettimeofday(&tv, NULL);
-	return (tv.tv_sec * 1000L + tv.tv_usec / 1000);
+	i = 0;
+	while (s[i] != '\0')
+		i++;
+	return (i);
 }
 
-void	philo_pass_time(t_table	*tab, time_t	delay)
+int	ft_atoi(const char	*nptr)
 {
-	time_t	wait_until;
+	int	sign;
+	int	i;
+	int	res;
 
-	wait_until = ft_get_time() + delay;
-	while (ft_get_time() < wait_until)
+	i = 0;
+	sign = 1;
+	res = 0;
+	while (nptr[i] == ' ' || nptr[i] == '\n' || nptr[i] == '\t'
+		|| nptr[i] == '\v' || nptr[i] == '\f' || nptr[i] == '\r')
+		i++;
+	if (nptr[i] == '-' || nptr[i] == '+')
 	{
-		if (stop_arrived(tab))
-			break ;
-		usleep(100);
+		if (nptr[i] == '-')
+			sign = -sign;
+		i++;
 	}
+	while (nptr[i] >= '0' && nptr[i] <= '9')
+	{
+		res = res * 10 + (nptr[i] - 48);
+		i++;
+	}
+	return (res * sign);
 }
 
-void	print_action(t_philo *philo, char *message)
-{
-	char	buffer[128];
-	char	*time_str;
-	int		len;
-
-	sem_wait(philo->sems->print_sem);
-	time_str = ft_ltoa(get_timestamp()); // 把 long 转成字符串
-	ft_strcpy(buffer, "[");
-	ft_strcat(buffer, time_str);
-	ft_strcat(buffer, "] ");
-	ft_strcat(buffer, ft_itoa(philo->id));
-	ft_strcat(buffer, " ");
-	ft_strcat(buffer, message);
-	ft_strcat(buffer, "\n");
-	len = ft_strlen(buffer);
-	write(1, buffer, len);
-	free(time_str);
-	sem_post(philo->sems->print_sem);
-}
-
-void print_action(t_philo *philo, char *message)
-{
-	long	timestamp;
-
-	timestamp = get_time_since_start(); // 例如毫秒数
-	sem_wait(philo->sems->print_sem);
-	printf("[%ld] %d %s\n", timestamp, philo->id, message);
-	sem_post(philo->sems->print_sem);
-}
-
-char	*ft_strdup(const char *s)
+static char	*ft_strdup(const char *s)
 {
 	int		i;
 	int		len;
 	char	*dest;
 
-	i = 0;
 	len = 0;
-	len = ft_strlen(s);
+	while (s[len])
+		len++;
 	dest = malloc(sizeof(char) * (len + 1));
 	if (dest == NULL)
 		return (NULL);
+	i = 0;
 	while (s[i] != '\0')
 	{
 		dest[i] = s[i];
@@ -109,27 +94,6 @@ char	*ft_utoa(unsigned int n)
 		res[j++] = tmp[i];
 	return (res);
 }
-/* 
-void	set_sem_name(char *dest, const char *prefix, unsigned int id)
-{
-	unsigned int	i;
-	char			id_str[12]; // 足够容纳32位无符号整型的字符串
-
-	i = 0;
-	while (prefix[i])
-	{
-		dest[i] = prefix[i];
-		i++;
-	}
-	dest[i] = '\0';
-	ft_utoa_into(id, id_str); // 你需要实现这个函数，把id转成字符串存进id_str
-	ft_strcat(dest, id_str);
-} */
-
-/* 
-
-set_sem_name(name, "/die_sem_", id);
-sem_t *sem = sem_open(name, O_CREAT, 0644, 1); */
 
 char	*strjoin_free(char const *s1, char const *s2)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:29:26 by layang            #+#    #+#             */
-/*   Updated: 2025/05/19 08:57:28 by layang           ###   ########.fr       */
+/*   Updated: 2025/05/19 14:37:12 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	init_philos(t_table	*tab)
 		phi = tab->philos[i];
 		phi->id = i;
 		phi->nb_eatp = 0;
-		phi->s_name = strjoin_free("/sem_phi_", ft_itoa(i));
+		phi->s_name = strjoin_free("/sem_phi_", ft_utoa(i));
 		phi->s_phi = sem_open(phi->s_name, O_CREAT, 0644, 1);
 		if (phi->s_phi == SEM_FAILED)
 			return (perror("sem phi"), free_philos(tab, i), 7);
@@ -51,7 +51,7 @@ static int	init_sems(t_table	*tab)
 		return (perror("malloc tab sems"), 1);
 	tab->sems->sem_forks = sem_open("/sem_forks", O_CREAT, 0644, tab->nb_phi);
 	if (tab->sems->sem_forks == SEM_FAILED)
-		return (perror("sem_open sem_forks"), 1);	
+		return (perror("sem_open sem_forks"), 1);
 	tab->sems->s_print = sem_open("/s_print", O_CREAT, 0644, 1);
 	if (tab->sems->s_print == SEM_FAILED)
 		return (perror("sem_open s_print"), 2);
@@ -63,11 +63,11 @@ static int	init_sems(t_table	*tab)
 		return (perror("sem_open eat_counter"), 4);
 	if (sem_unlink("/sem_forks") || sem_unlink("/s_print")
 		|| sem_unlink("/s_dead") || sem_unlink("/eat_counter"))
-			return (perror("unlink in free"), 5);
+		return (perror("unlink in free"), 5);
 	return (0);
 }
 
-int	wrong_input_check(t_table	*tab, char	*av5)
+static int	wrong_input_check(t_table	*tab, char	*av5)
 {
 	if (av5)
 	{
@@ -112,36 +112,3 @@ int	init_table(t_table	**tab, char	**av)
 		return (start_philos);
 	return (0);
 }
-
-/* 
-t_table *init_table(int argc, char **argv)
-{
-	t_table *table = malloc(sizeof(t_table));
-	table->nb_philo = ft_atoi(argv[1]);
-	table->time_to_die = ft_atoi(argv[2]);
-	table->time_to_eat = ft_atoi(argv[3]);
-	table->time_to_sleep = ft_atoi(argv[4]);
-	table->nb_must_eat = (argc == 6) ? ft_atoi(argv[5]) : -1;
-
-	// 初始化信号量
-	sem_unlink("/forks");
-	sem_unlink("/print_lock");
-	sem_unlink("/eat_counter");
-
-	table->forks = sem_open("/forks", O_CREAT, 0644, table->nb_philo);
-	table->print_lock = sem_open("/print_lock", O_CREAT, 0644, 1);
-	table->eat_counter = sem_open("/eat_counter", O_CREAT, 0644, 0);
-
-	// 分配哲学家数组
-	table->philos = malloc(sizeof(t_philo) * table->nb_philo);
-
-	for (int i = 0; i < table->nb_philo; i++)
-	{
-		table->philos[i].id = i + 1;
-		table->philos[i].eat_count = 0;
-		table->philos[i].table = table;
-		table->philos[i].last_meal = current_timestamp_ms();
-	}
-	table->start_time = current_timestamp_ms();
-	return table;
-} */

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 14:19:02 by layang            #+#    #+#             */
-/*   Updated: 2025/05/19 08:05:07 by layang           ###   ########.fr       */
+/*   Updated: 2025/05/19 14:46:54 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,21 +66,26 @@ typedef enum e_status
 	DIED = 5,
 }	t_status;
 
+/* main.c  4*/
 /* init.c  4*/
-int		wrong_input_check(t_table	*tab, char	*av5);
 int		init_table(t_table	**tab, char	**av);
-/* free.c  3*/
-void	free_philos(t_table	*tab, int size);
-void	ft_free_philo(t_table	*tab, int sign);
-void	wait_some_philos(t_table *tab, int nb_created);
-/* utils.c */
-long	ft_get_time(void);
-void	philo_pass_time(t_table	*tab, time_t	delay);
 /* monitor.c  2*/
 void	*monitor_eat(void	*ptr);
 void	*monitor_death(void	*ptr);
-/* philosopher.c */
-
-
+/* free.c  5*/
+void	free_philos(t_table	*tab, int size);
+void	ft_free_philo(t_table	*tab, int sign);
+void	wait_some_philos(t_table *tab, int nb_created, pid_t dead_pid);
+void	failed_thread(char	*err, int sign, t_table	*tab);
+/* utils.c  5*/
+size_t	ft_strlen(const char *s);
+int		ft_atoi(const char	*nptr);
+char	*ft_utoa(unsigned int n);
+char	*strjoin_free(char const *s1, char const *s2);
+/* time_utils.c  4*/
+long	ft_get_time(void);
+void	aligned_time(time_t	now);
+void	philo_pass_time(time_t	delay);
+void	print_status(t_status status, t_philo	*philo);
 
 #endif

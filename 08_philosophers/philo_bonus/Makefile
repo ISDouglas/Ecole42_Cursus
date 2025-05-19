@@ -6,7 +6,7 @@
 #    By: layang <layang@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/15 13:37:24 by layang            #+#    #+#              #
-#    Updated: 2025/05/16 14:18:36 by layang           ###   ########.fr        #
+#    Updated: 2025/05/19 14:28:05 by layang           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,12 +20,11 @@ SRC_PATH = src/
 OBJ_PATH = obj/
 
 SRC	=	main.c \
-		utils.c \
 		init.c \
-		free_philo.c \
-		time_utils.c \
-		start_philo.c \
-		end_check.c
+		monitor.c \
+		free.c \
+		utils.c \
+		time_utils.c
 
 SRCS	= $(addprefix $(SRC_PATH), $(SRC))
 OBJ		= $(SRC:.c=.o)

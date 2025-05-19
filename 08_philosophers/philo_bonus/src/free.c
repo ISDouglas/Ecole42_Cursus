@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 19:12:14 by layang            #+#    #+#             */
-/*   Updated: 2025/05/19 08:54:55 by layang           ###   ########.fr       */
+/*   Updated: 2025/05/19 14:35:01 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,63 +14,79 @@
 
 void	free_philos(t_table	*tab, int size)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < size)
 	{
-		free(tab->philos[i]->s_name);
-		if (tab->philos[i]->s_phi != SEM_FAILED)
-			sem_close(tab->philos[i]->s_phi);
-		free(tab->philos[i]);
-		tab->philos[i] = NULL;
+		if (tab->philos[i])
+		{
+			free(tab->philos[i]->s_name);
+			if (tab->philos[i]->s_phi != SEM_FAILED)
+				sem_close(tab->philos[i]->s_phi);
+			free(tab->philos[i]);
+			tab->philos[i] = NULL;
+		}
 		i++;
 	}
+}
+
+static void	close_sem_table(t_table	*tab)
+{
+	if (tab->sems->sem_forks != SEM_FAILED)
+		sem_close(tab->sems->sem_forks);
+	if (tab->sems->s_print != SEM_FAILED)
+		sem_close(tab->sems->s_print);
+	if (tab->sems->s_dead != SEM_FAILED)
+		sem_close(tab->sems->s_dead);
+	if (tab->sems->eat_counter != SEM_FAILED)
+		sem_close(tab->sems->eat_counter);
+	if (tab->sems)
+		free(tab->sems);
+	tab->sems = NULL;
 }
 
 void	ft_free_philo(t_table	*tab, int sign)
 {
 	if (sign > 7 && tab->philos)
 		free_philos(tab, tab->nb_phi);
-	if (sign > 6)
+	if (sign > 6 && tab->philos)
 	{
 		free(tab->philos);
 		tab->philos = NULL;
 	}
 	if (sign >= 1)
 	{
-		if (tab->sems->sem_forks != SEM_FAILED)
-			sem_close(tab->sems->sem_forks);
-		if (tab->sems->s_print != SEM_FAILED)
-			sem_close(tab->sems->s_print);
-		if (tab->sems->s_dead != SEM_FAILED)
-			sem_close(tab->sems->s_dead);
-		if (tab->sems->eat_counter != SEM_FAILED)
-			sem_close(tab->sems->eat_counter);
-		if (tab->sems)
-			free(tab->sems);
-		tab->sems = NULL;
-		free(tab->pids);
+		close_sem_table(tab);
+		if (tab->pids)
+		{
+			free(tab->pids);
+			tab->pids = NULL;
+		}
 	}
 	if (tab)
+	{
 		free(tab);
-	tab = NULL;
+		tab = NULL;
+	}
 }
 
-void	wait_some_philos(t_table *tab, int nb_created)
+void	wait_some_philos(t_table *tab, int nb_created, pid_t dead_pid)
 {
 	int	j;
 
 	j = 0;
 	while (j < nb_created)
 	{
-		kill(tab->pids[j], SIGKILL);
+		if (dead_pid <= 0 || tab->pids[j] != dead_pid)
+			kill(tab->pids[j], SIGKILL);
 		j++;
 	}
 	j = 0;
 	while (j < nb_created)
 	{
-		waitpid(tab->pids[j], NULL, 0);
+		if (dead_pid <= 0 || tab->pids[j] != dead_pid)
+			waitpid(tab->pids[j], NULL, 0);
 		j++;
 	}
 	ft_free_philo(tab, 8);

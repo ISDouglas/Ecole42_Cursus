@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:24:25 by layang            #+#    #+#             */
-/*   Updated: 2025/05/18 21:36:25 by layang           ###   ########.fr       */
+/*   Updated: 2025/05/19 14:34:12 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,29 @@ void	*monitor_death(void	*ptr)
 {
 	t_philo	*philo;
 
-	philo = (t_philo	*)ptr;
-	if ()
+	philo = (t_philo *)ptr;
+	while (1)
 	{
-		
+		sem_wait(philo->s_phi);
+		if (ft_get_time() - philo->last_meal >= philo->tab->t_die)
+		{
+			print_status(DIED, philo);
+			sem_post(philo->s_phi);
+			ft_free_philo(philo->tab, 8);
+			exit(1);
+		}
+		sem_post(philo->s_phi);
 	}
+	return (NULL);
 }
 
 // in parent process
-void	*minitor_eat(void	*ptr)
+void	*monitor_eat(void	*ptr)
 {
 	int		i;
 	t_table	*tab;
 
-	tab = (t_table	*)ptr;
+	tab = (t_table *)ptr;
 	i = 0;
 	while (1)
 	{
@@ -38,92 +47,9 @@ void	*minitor_eat(void	*ptr)
 		i++;
 		if (i >= tab->nb_phi)
 		{
-			wait_some_philos(tab, tab->nb_phi);
+			wait_some_philos(tab, tab->nb_phi, -1);
 			exit(0);
 		}
 	}
-    return (NULL);
-}
-
-void philosopher(int id)
-{
-    while (1)
-    {
-        sem_wait(print_lock);
-        printf("哲学家 %d 正在思考\n", id);
-        sem_post(print_lock);
-
-        sleep(1);
-
-        sem_wait(forks);
-        sem_wait(forks);
-
-        sem_wait(print_lock);
-        printf("哲学家 %d 正在吃饭\n", id);
-        sem_post(print_lock);
-
-        sleep(2);
-
-        sem_post(forks);
-        sem_post(forks);
-
-        sem_wait(print_lock);
-        printf("哲学家 %d 放下叉子\n", id);
-        sem_post(print_lock);
-
-        sleep(1);
-	}
-	kill_all_philos(data);
-}
-
-/* int main()
-{
-    pid_t pids[PHI_NUM];
-    int i;
-
-    // 创建/打开命名信号量
-    forks = sem_open("/forks_sema", O_CREAT, 0644, PHI_NUM);
-    print_lock = sem_open("/print_sema", O_CREAT, 0644, 1);
-
-    if (forks == SEM_FAILED || print_lock == SEM_FAILED)
-    {
-        perror("sem_open 失败");
-        exit(1);
-    }
-
-    // 创建哲学家进程
-    for (i = 0; i < PHI_NUM; i++)
-    {
-        pids[i] = fork();
-        if (pids[i] == 0)
-        {
-            philosopher(i + 1);
-            exit(0);
-        }
-    }
-
-    // 等待所有哲学家进程结束（这里没有主动退出逻辑，示例中按 Ctrl+C 退出）
-    for (i = 0; i < PHI_NUM; i++)
-        wait(NULL);
-
-    // 关闭并删除信号量
-    sem_close(forks);
-    sem_unlink("/forks_sema");
-    sem_close(print_lock);
-    sem_unlink("/print_sema");
-
-    return 0;
-}
- */
-
- int    fork_eat_monitor(t_table    *tab)
- {
-	pid_t	monitor;
-
-	monitor = fork();
-	if (monitor == 0)
-	{
-		if (monitor_eat(tab))
-			exit(0);
-	}
+	return (NULL);
 }

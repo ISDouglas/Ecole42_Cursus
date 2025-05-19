@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 14:31:37 by layang            #+#    #+#             */
-/*   Updated: 2025/05/19 14:33:59 by layang           ###   ########.fr       */
+/*   Updated: 2025/05/19 18:31:57 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,23 +53,27 @@ static void	run_child_philo(t_table	*tab, int i)
 		failed_thread("detach monitor eat thread", 1, tab);
 	}
 	while (1)
+	{
+		if (philo->id % 2)
+			philo_pass_time(philo->tab->t_eat / 2);
 		eat_sleep_think(philo);
+	}
 }
 
 static int	ft_start_philo(t_table	*tab)
 {
 	int			i;
 	pthread_t	tid_meal;
-	pid_t		pid_dead;
+	pid_t		pid_d;
 
 	tab->start_time = ft_get_time() + tab->nb_phi * 20;
 	if (tab->nb_eat > 0)
 	{
 		if (pthread_create(&tid_meal, NULL, &monitor_eat, tab) != 0)
 			return (failed_thread("create monitor eat thread", 0, tab), 1);
-		if (pthread_detach(tid_meal) != 0)
-			return (pthread_join(tid_meal, NULL),
-				failed_thread("detach monitor eat thread", 0, tab), 1);
+		//if (pthread_detach(tid_meal) != 0)
+			//return (pthread_join(tid_meal, NULL),
+				//failed_thread("detach monitor eat thread", 0, tab), 1);
 	}
 	i = 0;
 	while (i < tab->nb_phi)
@@ -81,8 +85,12 @@ static int	ft_start_philo(t_table	*tab)
 			run_child_philo(tab, i);
 		i++;
 	}
-	pid_dead = waitpid(-1, NULL, 0);
-	return (wait_some_philos(tab, i, pid_dead), 1);
+	pid_d = waitpid(-1, NULL, 0);
+	//return (wait_some_philos(tab, i, pid_d), 1);
+	if (tab->nb_eat > 0)
+		pthread_join(tid_meal, NULL);
+	wait_some_philos(tab, tab->nb_phi, pid_d);
+	return (1);
 }
 
 int	main(int ac, char	**av)

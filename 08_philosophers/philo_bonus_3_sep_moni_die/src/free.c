@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
+/*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 19:12:14 by layang            #+#    #+#             */
-/*   Updated: 2025/05/19 20:51:05 by layang           ###   ########.fr       */
+/*   Updated: 2025/05/20 12:15:40 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,10 @@ void	wait_some_philos(t_table *tab, int nb_created, pid_t dead_pid)
 	while (j < nb_created)
 	{
 		if (dead_pid <= 0 || tab->pids[j] != dead_pid)
+		{
+			printf("kill philo [%d]\n", j + 1);
 			kill(tab->pids[j], SIGKILL);
+		}
 		j++;
 	}
 	j = 0;
@@ -96,9 +99,13 @@ void	wait_some_philos(t_table *tab, int nb_created, pid_t dead_pid)
 			waitpid(tab->pids[j], NULL, 0);
 		j++;
 	}
+	printf("kill thread tid_death\n");
 	pthread_join(tab->tid_death, NULL);
 	if (tab->nb_eat > 0)
+	{
+		printf("kill thread tid_meal\n");
 		pthread_join(tab->tid_meal, NULL);
+	}
 	ft_free_philo(tab, 8);
 }
 

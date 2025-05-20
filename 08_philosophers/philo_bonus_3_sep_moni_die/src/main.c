@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
+/*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 14:31:37 by layang            #+#    #+#             */
-/*   Updated: 2025/05/19 20:56:16 by layang           ###   ########.fr       */
+/*   Updated: 2025/05/20 11:16:09 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ int	main(int ac, char	**av)
 		sem_post(tab->sems->s_stop_flag);	
 		if (stop)
 		{
+			printf("main loop check stop_flag = %d\n", stop);
 			wait_some_philos(tab, tab->nb_phi, -1);
 			break;
 		}

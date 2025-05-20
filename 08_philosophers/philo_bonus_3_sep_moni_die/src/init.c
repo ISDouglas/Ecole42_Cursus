@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
+/*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:29:26 by layang            #+#    #+#             */
-/*   Updated: 2025/05/19 20:10:32 by layang           ###   ########.fr       */
+/*   Updated: 2025/05/20 10:49:55 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,11 @@ static int	init_philos(t_table	*tab)
 	*/
 static int	init_sems(t_table	*tab)
 {
+	sem_unlink("/sem_forks");
+	sem_unlink("/s_print");
+	sem_unlink("/s_dead");
+	sem_unlink("/eat_counter");
+	sem_unlink("/sem_stop_flag");
 	tab->sems = (t_sems *)malloc(sizeof(t_sems));
 	if (!tab->sems)
 		return (perror("malloc tab sems"), 1);

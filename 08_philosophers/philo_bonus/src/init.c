@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:29:26 by layang            #+#    #+#             */
-/*   Updated: 2025/05/20 15:09:00 by layang           ###   ########.fr       */
+/*   Updated: 2025/05/20 19:19:59 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,6 @@ static int	init_philos(t_table	*tab)
 	return (0);
 }
 
-/* 	sem_unlink("/sem_forks");
-	sem_unlink("/s_print");
-	sem_unlink("/eat_counter"); 
-	//if (sem_unlink("/sem_forks") || sem_unlink("/s_print")
-	//|| sem_unlink("/s_dead") || sem_unlink("/eat_counter"))
-	//return (perror("unlink in free"), 5);
-	*/
 static int	init_sems(t_table	*tab)
 {
 	sem_unlink("/sem_forks");

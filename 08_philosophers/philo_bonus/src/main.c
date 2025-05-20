@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 14:31:37 by layang            #+#    #+#             */
-/*   Updated: 2025/05/20 15:03:10 by layang           ###   ########.fr       */
+/*   Updated: 2025/05/20 19:54:06 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,12 +103,11 @@ int	main(int ac, char	**av)
 		stop = 0;
 		sem_wait(tab->sems->s_stop_flag);
 		stop = tab->stop_flag;
-		sem_post(tab->sems->s_stop_flag);	
+		sem_post(tab->sems->s_stop_flag);
 		if (stop)
 		{
-			write(1, "main loop get stop_flag\n", 25);
 			wait_some_philos(tab, tab->nb_phi, -1);
-			break;
+			break ;
 		}
 		usleep(1000);
 	}

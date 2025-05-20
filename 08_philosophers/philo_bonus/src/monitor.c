@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:24:25 by layang            #+#    #+#             */
-/*   Updated: 2025/05/20 15:42:38 by layang           ###   ########.fr       */
+/*   Updated: 2025/05/20 20:54:29 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ static void	sem_post_once(t_table	*tab)
 	sem_wait(tab->sems->s_stop_flag);
 	if (!flag)
 	{
-		write(1, "==> setting stop_flag and posting stop semaphore\n", 50);
+		if (DEBUG_FORMATTING == 1)
+			write(1, "==> setting stop_flag and posting stop sem\n", 44);
 		tab->stop_flag = 1;
 		sem_post(tab->sems->s_stop_flag);
 		sem_post(tab->sems->s_stop_flag);
@@ -29,22 +30,12 @@ static void	sem_post_once(t_table	*tab)
 		sem_post(tab->sems->s_stop_flag);
 }
 
-/* void	*monitor_death_main(void	*ptr)
-{
-	t_table	*tab;
-
-	tab = (t_table	*)ptr;
-	sem_wait(tab->sems->s_dead);
-	sem_post_once(tab);
-	return (NULL);
-} */
-
 void	*monitor_death_main(void	*ptr)
 {
 	t_table	*tab;
 	int		i;
 
-	tab = (t_table	*)ptr;
+	tab = (t_table *)ptr;
 	sem_wait(tab->sems->s_dead);
 	sem_post_once(tab);
 	i = 0;
@@ -69,36 +60,15 @@ void	*monitor_eat(void	*ptr)
 		i++;
 		if (i >= tab->nb_phi)
 		{
-			write(1, "==> all philosophers have eaten enough times\n", 46);
+			if (DEBUG_FORMATTING == 1)
+				write(1, "=> have eaten enough times / =>has death\n", 46);
 			sem_post_once(tab);
-			sem_post(tab->sems->s_dead);	
+			sem_post(tab->sems->s_dead);
 			return (NULL);
 		}
 	}
 	return (NULL);
 }
-
-/* void	*monitor_eat(void	*ptr)
-{
-	int		i;
-	t_table	*tab;
-
-	tab = (t_table *)ptr;
-	i = 0;
-	while (1)
-	{
-		sem_wait(tab->sems->eat_counter);
-		i++;
-		if (i >= tab->nb_phi)
-		{
-			write(1, "==> all philosophers have eaten enough times\n", 46);
-			sem_post_once(tab);
-			sem_post(tab->sems->s_dead);	
-			return (NULL);
-		}
-	}
-	return (NULL);
-} */
 
 // in each philo process, need exit
 void	*monitor_death(void	*ptr)
@@ -113,7 +83,6 @@ void	*monitor_death(void	*ptr)
 		{
 			print_status(DIED, philo);
 			sem_post(philo->s_phi);
-			//ft_free_philo(philo->tab, 8);
 			sem_post(philo->tab->sems->s_dead);
 			free(philo->s_name);
 			sem_close(philo->s_phi);
@@ -126,23 +95,3 @@ void	*monitor_death(void	*ptr)
 	}
 	return (NULL);
 }
-
-/* void	*monitor_death_main(void	*ptr)
-{
-	t_table	*tab;
-	int		i;
-
-	tab = (t_table	*)ptr;
-	i = 0;
-	while (1)
-	{
-		sem_wait(tab->sems->s_dead);
-		i++;
-		if (i == 2)
-			break ;
-	}
-	sem_wait(tab->sems->s_stop_flag);
-	tab->stop_flag = 1;
-	sem_post(tab->sems->s_stop_flag);	
-	return (NULL);
-} */

@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 19:12:14 by layang            #+#    #+#             */
-/*   Updated: 2025/05/20 19:11:03 by layang           ###   ########.fr       */
+/*   Updated: 2025/05/20 20:00:08 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,11 +86,7 @@ void	wait_some_philos(t_table *tab, int nb_created, pid_t dead_pid)
 	while (j < nb_created)
 	{
 		if (dead_pid <= 0 || tab->pids[j] != dead_pid)
-		{
-			if (DEBUG_FORMATTING == 1)
-				write(1, "kill philo\n", 12);
 			kill(tab->pids[j], SIGKILL);
-		}
 		j++;
 	}
 	j = 0;
@@ -104,11 +100,7 @@ void	wait_some_philos(t_table *tab, int nb_created, pid_t dead_pid)
 		write(1, "kill thread tid_death\n", 23);
 	pthread_join(tab->tid_death, NULL);
 	if (tab->nb_eat > 0)
-	{
-		if (DEBUG_FORMATTING == 1)
-			write(1, "kill thread tid_meal\n", 22);
 		pthread_join(tab->tid_meal, NULL);
-	}
 	ft_free_philo(tab, 8);
 }
 

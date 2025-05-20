@@ -6,7 +6,7 @@
 #    By: layang <layang@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/15 13:37:24 by layang            #+#    #+#              #
-#    Updated: 2025/05/16 13:05:17 by layang           ###   ########.fr        #
+#    Updated: 2025/05/20 20:15:17 by layang           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,10 @@ NAME = philo
 CC = cc
 CFLAGS = -Werror -Wall -Wextra -g -pthread
 
+# MODE=debug
+ifeq ($(MODE), debug)
+	CFLAGS	+= -D DEBUG_FORMATTING=1 -fsanitize=thread -g
+endif
 #CFLAGS_D = -Werror -Wall -Wextra -fsanitize=address -fPIC -fsanitize=thread -g
 #valgrind --tool=helgrind
 SRC_PATH = src/

@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 14:31:37 by layang            #+#    #+#             */
-/*   Updated: 2025/05/20 19:54:06 by layang           ###   ########.fr       */
+/*   Updated: 2025/05/20 23:28:11 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	eat_sleep_think(t_philo	*philo)
 	philo_pass_time(philo->tab->t_sleep);
 	print_status(THINKING, philo);
 }
-
+// use free_philos(tab, size, 9) to free all in child philo
 static void	run_child_philo(t_table	*tab, int i)
 {
 	pthread_t	tid_dead;

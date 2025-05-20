@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 14:19:02 by layang            #+#    #+#             */
-/*   Updated: 2025/05/20 19:07:01 by layang           ###   ########.fr       */
+/*   Updated: 2025/05/20 23:26:46 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	*monitor_death_main(void	*ptr);
 void	*monitor_eat(void	*ptr);
 void	*monitor_death(void	*ptr);
 /* free.c  5*/
-void	free_philos(t_table	*tab, int size);
+void	free_philos(t_table	*tab, int size, int sign);
 void	ft_free_philo(t_table	*tab, int sign);
 void	wait_some_philos(t_table *tab, int nb_created, pid_t dead_pid);
 void	failed_thread(char	*err, int sign, t_table	*tab);

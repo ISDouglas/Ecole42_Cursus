@@ -6,13 +6,13 @@
 /*   By: layang <layang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 19:12:14 by layang            #+#    #+#             */
-/*   Updated: 2025/05/20 20:00:08 by layang           ###   ########.fr       */
+/*   Updated: 2025/05/20 23:26:15 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-void	free_philos(t_table	*tab, int size)
+void	free_philos(t_table	*tab, int size, int sign)
 {
 	int	i;
 
@@ -21,9 +21,11 @@ void	free_philos(t_table	*tab, int size)
 	{
 		if (tab->philos[i])
 		{
-			free(tab->philos[i]->s_name);
 			if (tab->philos[i]->s_phi != SEM_FAILED)
 				sem_close(tab->philos[i]->s_phi);
+			if (sign != 9)
+				sem_unlink(tab->philos[i]->s_name);
+			free(tab->philos[i]->s_name);
 			free(tab->philos[i]);
 			tab->philos[i] = NULL;
 		}
@@ -31,7 +33,7 @@ void	free_philos(t_table	*tab, int size)
 	}
 }
 
-static void	close_sem_table(t_table	*tab)
+static void	close_sem_table(t_table	*tab, int sign)
 {
 	if (tab->sems->sem_forks != SEM_FAILED)
 		sem_close(tab->sems->sem_forks);
@@ -43,11 +45,14 @@ static void	close_sem_table(t_table	*tab)
 		sem_close(tab->sems->eat_counter);
 	if (tab->sems->s_stop_flag != SEM_FAILED)
 		sem_close(tab->sems->s_stop_flag);
-	sem_unlink("/sem_forks");
-	sem_unlink("/s_print");
-	sem_unlink("/s_dead");
-	sem_unlink("/eat_counter");
-	sem_unlink("/sem_stop_flag");
+	if (sign == 1)
+	{
+		sem_unlink("/sem_forks");
+		sem_unlink("/s_print");
+		sem_unlink("/s_dead");
+		sem_unlink("/eat_counter");
+		sem_unlink("/sem_stop_flag");
+	}
 	if (tab->sems)
 		free(tab->sems);
 	tab->sems = NULL;
@@ -56,7 +61,7 @@ static void	close_sem_table(t_table	*tab)
 void	ft_free_philo(t_table	*tab, int sign)
 {
 	if (sign > 7 && tab->philos)
-		free_philos(tab, tab->nb_phi);
+		free_philos(tab, tab->nb_phi, sign);
 	if (sign > 6 && tab->philos)
 	{
 		free(tab->philos);
@@ -64,7 +69,10 @@ void	ft_free_philo(t_table	*tab, int sign)
 	}
 	if (sign >= 1)
 	{
-		close_sem_table(tab);
+		if (sign == 9)
+			close_sem_table(tab, 0);
+		else
+			close_sem_table(tab, 1);
 		if (tab->pids)
 		{
 			free(tab->pids);

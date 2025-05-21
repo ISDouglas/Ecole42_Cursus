@@ -6,7 +6,7 @@
 /*   By: layang <layang@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 14:31:37 by layang            #+#    #+#             */
-/*   Updated: 2025/05/21 07:03:47 by layang           ###   ########.fr       */
+/*   Updated: 2025/05/21 07:56:03 by layang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,14 @@ static void	eat_sleep_think(t_philo	*philo)
 	philo_pass_time(philo->tab->t_sleep);
 	print_status(THINKING, philo);
 }
-// use free_philos(tab, size, 9) to free all in child philo
+
 static void	run_child_philo(t_table	*tab, int i)
 {
 	pthread_t	tid_dead;
 	t_philo		*philo;
 
 	philo = tab->philos[i];
+	open_sems_inchild(philo);
 	sem_wait(philo->s_phi);
 	philo->last_meal = philo->tab->start_time;
 	sem_post(philo->s_phi);
@@ -52,10 +53,12 @@ static void	run_child_philo(t_table	*tab, int i)
 		pthread_join(tid_dead, NULL),
 		failed_thread("detach monitor eat thread", 1, tab);
 	}
-	if (philo->id % 2)
-		philo_pass_time(philo->tab->t_eat / 2);
 	while (1)
+	{
+		if (philo->id % 2)
+			philo_pass_time(philo->tab->t_eat / 2);
 		eat_sleep_think(philo);
+	}
 }
 
 static int	ft_start_philo(t_table	*tab)
@@ -63,13 +66,6 @@ static int	ft_start_philo(t_table	*tab)
 	int			i;
 
 	tab->start_time = ft_get_time() + tab->nb_phi * 20;
-	if (pthread_create(&tab->tid_death, NULL, &monitor_death_main, tab) != 0)
-		return (failed_thread("create monitor death thread", 0, tab), 1);
-	if (tab->nb_eat > 0)
-	{
-		if (pthread_create(&tab->tid_meal, NULL, &monitor_eat, tab) != 0)
-			return (failed_thread("create monitor eat thread", 0, tab), 1);
-	}
 	i = 0;
 	while (i < tab->nb_phi)
 	{
@@ -79,6 +75,13 @@ static int	ft_start_philo(t_table	*tab)
 		if (tab->pids[i] == 0)
 			run_child_philo(tab, i);
 		i++;
+	}
+	if (pthread_create(&tab->tid_death, NULL, &monitor_death_main, tab) != 0)
+		return (failed_thread("create monitor death thread", 0, tab), 1);
+	if (tab->nb_eat > 0)
+	{
+		if (pthread_create(&tab->tid_meal, NULL, &monitor_eat, tab) != 0)
+			return (failed_thread("create monitor eat thread", 0, tab), 1);
 	}
 	return (0);
 }

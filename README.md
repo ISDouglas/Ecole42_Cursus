@@ -15,3 +15,5 @@ List of projects finished:
 06_FDF (finished with 125/125)
 
 07_Minishell (finished with 125/125)
+
+08_philosophers (finished with 116/125)

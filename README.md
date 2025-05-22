@@ -7,6 +7,7 @@ List of projects finished:
 02_get_next_line (finished with 125/125)
 
 03-Born2beroot (finished with 125/125)
+--It's not on Git because it's a project running on a virtual machine.
 
 04_push_swap (finished with 125/125)
 
